@@ -1,22 +1,32 @@
 <script setup>
-const { data } = await useAsyncData('hello', () =>
-  queryContent('/hello').findOne(),
-)
+import http from '/utils/http'
+const reqstatus = ref('1')
+const pending = ref(true)
+// useLazyrequest('/testport', 'get', (data) => {
+//   reqstatus.value = data
+//   pending.value = false
+// }, { page: 1 })
+
+const testdata = await http.get('/testport', {
+  page: 1,
+  size: 10,
+})
+reqstatus.value = testdata.data
+pending.value = false
+
+onMounted(() => {
+})
 </script>
 
 <template>
-  <div class="mt-8 text-red-900">
+  <div v-if="pending">
+    Loading ...
+  </div>
+  <div v-else class="mt-8 text-red-900">
     开始使用nuxt
     <!-- <ContentDoc /> -->
     <h1>首页</h1>
-    <!-- <NuxtLink to="/color-mode">
-      color-mode插件
-    </NuxtLink>
-    <NuxtLink to="/content">
-      content插件
-    </NuxtLink> -->
-    <a href="https://nuxtjs.org">其他应用里的链接</a>
-    <ContentRenderer :value="data" />
+    <div>Page visits: {{ reqstatus }}</div>
   </div>
 </template>
 

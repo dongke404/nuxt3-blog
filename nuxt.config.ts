@@ -9,7 +9,10 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     // npm install -D @nuxt/image-edge
     '@nuxt/image-edge',
+    // npm install @nuxtjs/i18n@next --save
+    '@nuxtjs/i18n-edge',
   ],
+
   content: {
     highlight: {
       theme: 'github-light',
@@ -17,5 +20,40 @@ export default defineNuxtConfig({
   },
   image: {
     // Options
+  },
+  i18n: {
+    /* module options */
+    // add `vueI18n` option to `@nuxtjs/i18n` module options
+    vueI18n: {
+      legacy: false,
+      locale: 'en',
+      messages: {
+        en: {
+          nav: {
+            home: 'Home',
+          },
+        },
+        zh: {
+          nav: {
+            home: '首页',
+          },
+        },
+      },
+    },
+  },
+  css: [
+  ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // 配置全局css
+          additionalData: '@import "assets/styles/app.scss";',
+        },
+      },
+    },
+  },
+  typescript: {
+    strict: true,
   },
 })

@@ -1,22 +1,39 @@
 <script setup>
-const { data } = await useAsyncData('hello', () =>
-  queryContent('/hello').findOne(),
-)
+const route = useRoute()
+function enableCustomLayout() {
+  route.meta.layout = 'mobile'
+}
+</script>
+
+<script>
+definePageMeta({
+  layout: 'default',
+})
 </script>
 
 <template>
-  <div class="mt-8 text-red-900 flex flex-col ">
-    开始使用nuxt app.vue
-    <!-- <ContentDoc /> -->
+  <button @click="enableCustomLayout">
+    Update layout
+  </button>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+  <!-- <div class="mt-8 text-red-900 flex flex-col ">
+    导航
+    <div>
+      {{ foo }}
+    </div>
+    <NuxtLink to="/">
+      首页
+    </NuxtLink>
     <NuxtLink to="/color-mode">
       color-mode插件
     </NuxtLink>
     <NuxtLink to="/content">
       content插件
     </NuxtLink>
-    <!-- <a href="https://nuxtjs.org">其他应用里的链接</a> -->
   </div>
-  <NuxtPage />
+  <NuxtPage /> -->
 </template>
 
 <style>

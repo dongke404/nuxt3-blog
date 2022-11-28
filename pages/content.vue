@@ -6,8 +6,6 @@ const { data } = await useAsyncData('hello', () =>
 
 <template>
   <div class="mt-8 text-red-900">
-    开始使用nuxt
-    <!-- <ContentDoc /> -->
     <ContentRenderer :value="data" />
   </div>
 </template>
