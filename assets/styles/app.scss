@@ -1,4 +1,5 @@
-
+// tailwind.css
+@import "tailwind.css";
 
 // variables
 @import "variables.scss";
@@ -6,14 +7,24 @@
 // mixins
 @import "mixins.scss";
 
-// theme
-@import "theme.scss";
+//右侧滚动条
+::-webkit-scrollbar {
+    width: $sm-gap;
+    height: $sm-gap;
+    background: hsla(0, 0%, 100%, 0.6);
+}
 
-// fonts
-// @import "font.scss";
+::-webkit-scrollbar-track {
+    border-radius: 0;
+}
 
-// bast style
-@import "base.scss";
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: rgba(95, 95, 95, .4);
+    @include background-transition();
 
-// common style
-@import "common.scss";
+    &:hover {
+        background-color: rgba(95, 95, 95, .7);
+    }
+}
+

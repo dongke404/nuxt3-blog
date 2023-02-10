@@ -1,3 +1,4 @@
+import { API_BASEURL, CREDENTIALS } from '~~/config'
 interface Http {
   baseUrl: string
   credentials: string
@@ -8,16 +9,15 @@ const fetchMap: any = {
   0: useFetch,
   1: useLazyFetch,
 }
-
 class Http {
   constructor(baseUrl: any, credentials: any) {
     this.baseUrl = baseUrl
     this.credentials = credentials
   }
 
-  request(url: string, method: string, isLazy: number, params: any) {
+  request(url: string, method: string, isLazy: number, params: any, options?: any) {
     return new Promise((resolve, reject) => {
-      fetchMap[isLazy](this.baseUrl + url, { method, params }).then(({ pending, data, error }: any) => {
+      fetchMap[isLazy](this.baseUrl + url, { method, params, ...options }).then(({ data, pending, error }: any) => {
         if (error.value) {
           // 此处根据状态码进行处理
           reject(error.value)
@@ -35,11 +35,11 @@ class Http {
           else {
             if (data.value) {
               if (data.value.code === 0) {
-                const ret = { pending, data: data.value.data }
+                const ret = { pending, data: ref(data.value.data) }
                 resolve(ret)
               }
               else {
-                // 错误显示
+                // 错误显示, 此处自定义请求出错
                 reject(data.value.msg)
               }
             }
@@ -51,35 +51,37 @@ class Http {
     })
   }
 
-  get(url: string, params?: any, isLazy?: boolean) {
-    if (isLazy)
-      return this.request(url, 'GET', 1, params)
-    else
-      return this.request(url, 'GET', 0, params)
+  get(url: string, params?: any, options?: any) {
+    return this.request(url, 'GET', 0, params, options)
   }
 
-  post(url: string, body?: any, isLazy?: boolean) {
-    if (isLazy)
-      return this.request(url, 'POST', 1, body)
-    else
-      return this.request(url, 'POST', 0, body)
+  getLazy(url: string, params?: any, options?: any) {
+    return this.request(url, 'GET', 1, params, options)
   }
 
-  put(url: string, body?: any, isLazy?: boolean) {
-    if (isLazy)
-      return this.request(url, 'PUT', 1, body)
-    else
-      return this.request(url, 'PUT', 0, body)
+  post(url: string, body?: any, options?: any) {
+    return this.request(url, 'POST', 0, body, options)
   }
 
-  delete(url: string, body?: any, isLazy?: boolean) {
-    if (isLazy)
-      return this.request(url, 'DELETE', 1, body)
-    else
-      return this.request(url, 'DELETE', 0, body)
+  postLazy(url: string, body?: any, options?: any) {
+    return this.request(url, 'POST', 1, body, options)
+  }
+
+  put(url: string, body?: any, options?: any) {
+    return this.request(url, 'PUT', 0, body, options)
+  }
+
+  putLazy(url: string, body?: any, options?: any) {
+    return this.request(url, 'PUT', 1, body, options)
+  }
+
+  delete(url: string, body?: any, options?: any) {
+    return this.request(url, 'DELETE', 0, body, options)
+  }
+
+  deleteLazy(url: string, body?: any, options?: any) {
+    return this.request(url, 'DELETE', 1, body, options)
   }
 }
-
-const http = new Http('http://localhost:5000/api', 'include')
-
+const http = new Http(API_BASEURL, CREDENTIALS)
 export default http

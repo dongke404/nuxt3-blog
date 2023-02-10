@@ -19,11 +19,6 @@
   backdrop-filter: blur($blur-radius);
 }
 
-@mixin module-blur-bg() {
-  background-color: $module-bg;
-  // 全部打开影响性能
-  // @include backdrop-blur();
-}
 
 @mixin box-shadow($alpha: 0.6, $blur-radius: 8px) {
   box-shadow: rgba($black, $alpha) 0px 0px $blur-radius;

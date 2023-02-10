@@ -5,7 +5,7 @@ const { data } = await useAsyncData('hello', () =>
 </script>
 
 <template>
-  <div class="mt-8 text-red-900">
+  <div>
     <ContentRenderer :value="data" />
   </div>
 </template>

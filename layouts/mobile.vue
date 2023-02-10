@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <div class="mt-8 text-red-900">
+  <div>
     手机布局
+    <slot />
   </div>
 </template>
 

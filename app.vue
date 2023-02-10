@@ -1,45 +1,23 @@
 <script setup>
-const route = useRoute()
-function enableCustomLayout() {
-  route.meta.layout = 'mobile'
-}
-</script>
-
-<script>
-definePageMeta({
-  layout: 'default',
-})
+const { isMobile } = useDevice()
+const layout = isMobile ? 'mobile' : 'default'
+// setPageLayout(isMobile ? 'mobile' : 'default')
 </script>
 
 <template>
-  <button @click="enableCustomLayout">
-    Update layout
-  </button>
-  <NuxtLayout>
+  <NuxtLayout :name="layout">
     <NuxtPage />
   </NuxtLayout>
-  <!-- <div class="mt-8 text-red-900 flex flex-col ">
-    导航
-    <div>
-      {{ foo }}
-    </div>
-    <NuxtLink to="/">
-      首页
-    </NuxtLink>
-    <NuxtLink to="/color-mode">
-      color-mode插件
-    </NuxtLink>
-    <NuxtLink to="/content">
-      content插件
-    </NuxtLink>
-  </div>
-  <NuxtPage /> -->
 </template>
 
-<style>
-pre {
-  background-color: #eee;
-  border-radius: 5px;
-  padding: 10px;
+<style lang="postcss">
+.bg-main {
+  @apply bg-white bg-opacity-60 dark:bg-gray-700 dark:bg-opacity-60;
+}
+.bg-hover {
+  @apply hover:bg-opacity-90  dark:hover:bg-opacity-80;
+}
+.color-gray {
+  @apply text-gray-500 dark:text-gray-100;
 }
 </style>

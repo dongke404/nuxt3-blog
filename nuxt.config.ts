@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import en from './config/i18nConfig/en'
+import zh from './config/i18nConfig/zh'
 export default defineNuxtConfig({
+  // ssr: process.env.NODE_ENV !== "development",
   modules: [
     // 安装tailwindcss npm install @nuxtjs/tailwindcss
     '@nuxtjs/tailwindcss',
@@ -11,38 +14,25 @@ export default defineNuxtConfig({
     '@nuxt/image-edge',
     // npm install @nuxtjs/i18n@next --save
     '@nuxtjs/i18n-edge',
+    // https://github.com/nuxt-modules/icon
+    'nuxt-icon',
+    // https://github.com/nuxt-community/device-module
+    '@nuxtjs/device',
+    // https://vuestic.dev/zh-cn/getting-started/nuxt
   ],
-
-  content: {
-    highlight: {
-      theme: 'github-light',
+  app: {
+    head: {
+      title: 'Kirk Dong 的博客',
+      meta: [
+        // <meta name="viewport" content="width=device-width, initial-scale=1">
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      ],
+      script: [],
+      link: [],
+      style: [],
+      noscript: [],
     },
   },
-  image: {
-    // Options
-  },
-  i18n: {
-    /* module options */
-    // add `vueI18n` option to `@nuxtjs/i18n` module options
-    vueI18n: {
-      legacy: false,
-      locale: 'en',
-      messages: {
-        en: {
-          nav: {
-            home: 'Home',
-          },
-        },
-        zh: {
-          nav: {
-            home: '首页',
-          },
-        },
-      },
-    },
-  },
-  css: [
-  ],
   vite: {
     css: {
       preprocessorOptions: {
@@ -56,4 +46,56 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  router: {
+    // 可设置当前路由按钮的class
+    options: {
+      linkActiveClass: 'link-active',
+    },
+
+  },
+  content: {
+    highlight: { theme: 'github-light' },
+  },
+  image: {
+    // Options
+  },
+  css: [],
+  tailwindcss: {
+    // add '~tailwind.config` alias
+    exposeConfig: true,
+  },
+  postcss: {
+    plugins: {
+      // https://tailwindcss.com/docs/using-with-preprocessors#nesting
+      'postcss-import': {},
+      'tailwindcss/nesting': {},
+      'tailwindcss': {},
+      'autoprefixer': {},
+    },
+  },
+  colorMode: {
+    // remove -mode suffix for Tailwind Dark mode support
+    classSuffix: '',
+  },
+  i18n: {
+    /* module options */
+    // add `vueI18n` option to `@nuxtjs/i18n` module options
+    defaultLocale: 'zh',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+    },
+    locales: ['zh', 'en'],
+    strategy: 'no_prefix',
+    vueI18n: {
+      fallbackLocale: 'zh',
+      messages: { en, zh },
+    },
+  },
+  // vuestic: {
+  //   config: {
+  //     // https://vuestic.dev/zh/getting-started/configuration-guide
+  //   },
+  // },
 })
+
