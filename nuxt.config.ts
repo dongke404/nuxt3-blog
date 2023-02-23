@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     // 安装tailwindcss npm install @nuxtjs/tailwindcss
     '@nuxtjs/tailwindcss',
     // npm install --save-dev @nuxt/content https://content.nuxtjs.org/
-    '@nuxt/content',
+    // '@nuxt/content',
     // npm install --save-dev @nuxtjs/color-mode
     '@nuxtjs/color-mode',
     // npm install -D @nuxt/image-edge
@@ -19,7 +19,9 @@ export default defineNuxtConfig({
     // https://github.com/nuxt-community/device-module
     '@nuxtjs/device',
     // https://vuestic.dev/zh-cn/getting-started/nuxt
+    'nuxt-lodash',
   ],
+
   app: {
     head: {
       title: 'Kirk Dong 的博客',
@@ -52,9 +54,6 @@ export default defineNuxtConfig({
       linkActiveClass: 'link-active',
     },
 
-  },
-  content: {
-    highlight: { theme: 'github-light' },
   },
   image: {
     // Options
@@ -92,10 +91,8 @@ export default defineNuxtConfig({
       messages: { en, zh },
     },
   },
-  // vuestic: {
-  //   config: {
-  //     // https://vuestic.dev/zh/getting-started/configuration-guide
-  //   },
-  // },
+  lodash: {
+    prefix: '_',
+  },
 })
 

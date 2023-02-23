@@ -1,3 +1,117 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-2xl font-bold
+  }
+  h2 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.75rem;
+  }
+  h3 {
+    @apply text-xl font-bold 
+  }
+  h4 {
+    @apply text-lg font-bold 
+  }
+  h5 {
+    @apply text-base font-bold 
+  }
+  h6 {
+    @apply text-sm font-bold 
+  }
+}
+
+/* 背景 */
+@layer components {
+  .bg-main {
+    @apply bg-white bg-opacity-70 dark:bg-gray-700 dark:bg-opacity-60;
+  }
+}
+
+@layer components {
+  .bg-hover {
+    @apply hover:bg-opacity-100 dark:hover:bg-opacity-80;
+  }
+}
+
+@layer components {
+  .color-gray {
+    @apply text-gray-500  dark:text-gray-200;
+  }
+}
+
+/* 骨架屏 */
+@layer utilities {
+  .skeleton-dark {
+    background-color: rgba(100,100,100);
+    background-image: linear-gradient(to right,
+        rgba(0, 0, 0, 0.6) 8%,
+        rgb(100,100,100) 18%,
+        rgba(0, 0, 0, 0.6) 33%);
+  }
+}
+
+/* markdown */
+@layer utilities {
+  .global-markdown-html-dark {
+    code {
+      border: 1px solid #2d2d2d;
+      background-color: #141414;
+      color: $link-color;
+    }
+    pre {
+      background-color: #1e1e1e;
+      code {
+        color: #c9d1d9;
+        border-color: transparent;
+      }
+    }
+    pre .code-lines {
+      background-color: #141414;
+    }
+    pre::before {
+      background-color: #2d2d2d;
+    }
+    ol>li:hover {
+      background-color: #141414;
+    }
+    ul>li:hover {
+      background-color: #141414;
+    }
+  }
+}
+
+@layer utilities { 
+  .highlight-white {
+    pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
+  Theme: GitHub
+  Description: Light theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Outdated base version: https://github.com/primer/github-syntax-light
+  Current colors taken from GitHub's CSS
+*/.hljs{color:#24292e;background:#fff}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#d73a49}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#6f42c1}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#005cc5}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#032f62}.hljs-built_in,.hljs-symbol{color:#e36209}.hljs-code,.hljs-comment,.hljs-formula{color:#6a737d}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#22863a}.hljs-subst{color:#24292e}.hljs-section{color:#005cc5;font-weight:700}.hljs-bullet{color:#735c0f}.hljs-emphasis{color:#24292e;font-style:italic}.hljs-strong{color:#24292e;font-weight:700}.hljs-addition{color:#22863a;background-color:#f0fff4}.hljs-deletion{color:#b31d28;background-color:#ffeef0}
+  }
+}
+
+@layer utilities {
+  .highlight-dark { 
+    pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
+    Theme: GitHub Dark
+    Description: Dark theme as seen on github.com
+    Author: github.com
+    Maintainer: @Hirse
+    Updated: 2021-05-15
+  
+    Outdated base version: https://github.com/primer/github-syntax-dark
+    Current colors taken from GitHub's CSS
+  */.hljs{color:#c9d1d9;background:#0d1117}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#ff7b72}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#d2a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#79c0ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#a5d6ff}.hljs-built_in,.hljs-symbol{color:#ffa657}.hljs-code,.hljs-comment,.hljs-formula{color:#8b949e}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#7ee787}.hljs-subst{color:#c9d1d9}.hljs-section{color:#1f6feb;font-weight:700}.hljs-bullet{color:#f2cc60}.hljs-emphasis{color:#c9d1d9;font-style:italic}.hljs-strong{color:#c9d1d9;font-weight:700}.hljs-addition{color:#aff5b4;background-color:#033a16}.hljs-deletion{color:#ffdcd7;background-color:#67060c}
+  }
+}
+

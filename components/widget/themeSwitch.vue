@@ -3,7 +3,7 @@ const colorMode = useColorMode()
 const background = useChangebg()
 const dark = () => {
   colorMode.preference = 'dark'
-  background.value = ''
+  background.value = 'https://kedong.me/static/images/app/background.jpg'
 }
 const light = () => {
   colorMode.preference = 'light'
@@ -17,21 +17,3 @@ const light = () => {
     <Icon v-if="$colorMode.value === 'light'" name="line-md:moon" @click="dark" />
   </div>
 </template>
-
-<style lang="scss">
-body {
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.dark-mode body {
-  background-color: #091a28;
-  color: #ebf4f1;
-}
-
-.sepia-mode body {
-  background-color: #f1e7d0;
-  color: #433422;
-}
-</style>
-

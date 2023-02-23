@@ -16,7 +16,6 @@ const tweets = computed(() => props.data)
 const pending = computed(() => props.loading)
 
 const onSwiper = (swiper) => {
-  // console.log(swiper)
 }
 const next = () => {
   const swiper = document.getElementById('swiper1').swiper
@@ -51,7 +50,7 @@ const prev = () => {
               <Icon name="skill-icons:twitter" class="text-blue-500 absolute bottom-0 right-0" size="1.3rem" />
             </div>
             <Icon class="flex-none text-gray-300 " name="fluent-mdl2:status-triangle" size="1rem" rotate="270deg" />
-            <div class=" text-base h-11 w-11 bg-gray-300  flex-none">
+            <div class=" text-base h-11 w-11 bg-gray-300 dark:bg-slate-500  flex-none">
               <nuxt-link to="https://twitter.com/DongKirk11" target="_blank" rel="noopener noreferrer">
                 <div class="  text-center font-semibold">
                   {{ tweets.length }}

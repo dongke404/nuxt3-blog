@@ -34,41 +34,34 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="skeleton base" :style="style" />
+  <div class="skeleton base dark:skeleton-dark" :style="style" />
 </template>
 
-<style lang="scss" scoped>
-  @import 'assets/styles/variables.scss';
-  @import 'assets/styles/mixins.scss';
-
-  $skeleton-background: rgba(#ffffff, 0.6);
-  $skeleton-spinner: rgba(197,197,197, 1);
-
-  @keyframes placeHolderShimmer {
-    0% {
-      background-position: -468px 0;
-    }
-    100% {
-      background-position: 350px 50px;
-    }
+<style lang="scss"  scoped>
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
   }
 
-  .skeleton.base {
-    width: 100%;
-    height: 100%;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
-    background-color: $skeleton-spinner;
-    background-image: linear-gradient(
-      to right,
-      $skeleton-background 8%,
-      $skeleton-spinner 18%,
-      $skeleton-background 33%
-    );
-    background-repeat: repeat;
-    background-size: 800px 104px;
+  100% {
+    background-position: 350px 50px;
   }
+}
+
+.skeleton.base {
+  width: 100%;
+  height: 100%;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background-color: rgba(197, 197, 197, 1);
+  background-image: linear-gradient(to right,
+      rgba(#ffffff, 0.6) 8%,
+      rgba(197, 197, 197, 1) 18%,
+      rgba(#ffffff, 0.6) 33%);
+  background-repeat: repeat;
+  background-size: 800px 104px;
+}
 </style>

@@ -3,6 +3,11 @@ import themeSwitch from '@/components/widget/themeSwitch.vue'
 import languageSwitchVue from '@/components/widget/languageSwitch.vue'
 const active = ref(false)
 const keyword = ref('')
+const router = useRouter()
+const search = () => {
+  if (keyword.value)
+    router.push(`/search/${keyword.value}`)
+}
 </script>
 
 <template>
@@ -20,7 +25,7 @@ const keyword = ref('')
         <div class="search mr-4" :class="[active ? 'active' : '']">
           <div class="icon" @click="active = !active" />
           <div class="input">
-            <input v-model="keyword" type="text" placeholder="search">
+            <input v-model="keyword" type="text" placeholder="search" @keyup.enter="search">
           </div>
           <span v-if="active" class="clear" @click="keyword = ''" />
         </div>

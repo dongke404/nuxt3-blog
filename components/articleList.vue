@@ -95,18 +95,18 @@ const loadMore = async () => {
           >
             <div class="item-content bg-main p-2 rounded-md bg-hover">
               <div v-if="!isMobile" class="item-thumb">
-                <!-- <nuxt-link :to="`/article/${article.article_id}`"> -->
-                <span class="item-oirigin" :class="originClassMap[article.origin]">
-                  {{ originTextMap[article.origin] }}
-                </span>
-                <img class="item-thumb-img" :src="article.src">
-                <!-- </nuxt-link> -->
+                <nuxt-link :to="`/article/${article.article_id}`">
+                  <span class="item-oirigin" :class="originClassMap[article.origin]">
+                    {{ originTextMap[article.origin] }}
+                  </span>
+                  <img class="item-thumb-img" :src="article.src">
+                </nuxt-link>
               </div>
               <div class="item-body">
                 <div class="item-title">
-                  <!-- <nuxt-link :to="`/article/${article.article_id}`"> -->
-                  {{ article.title }}
-                  <!-- </nuxt-link> -->
+                  <nuxt-link :to="`/article/${article.article_id}`">
+                    {{ article.title }}
+                  </nuxt-link>
                 </div>
 
                 <p class="item-description" style="-webkit-box-orient: vertical" v-html="article.description" />

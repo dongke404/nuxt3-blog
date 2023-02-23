@@ -5,6 +5,13 @@
   white-space: nowrap;
 }
 
+// Text underline
+@mixin text-underline($offset: 0.3em) {
+  text-decoration: underline;
+  text-underline-offset: $offset;
+  text-decoration-thickness: from-font;
+}
+
 @mixin visible() {
   opacity: 1;
   visibility: visible;
@@ -129,4 +136,10 @@
       opacity: 1;
     }
   }
+}
+
+/// Element border radius
+@mixin radius-box($radius-size) {
+  border-radius: $radius-size;
+  overflow: hidden;
 }

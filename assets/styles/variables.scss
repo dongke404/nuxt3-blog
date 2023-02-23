@@ -1,3 +1,4 @@
+@use 'sass:math';
 // url
 $cdn-url: '' !default;
 $source-url: '' !default;
@@ -24,8 +25,32 @@ $white: #ffffff;
 $black: #000000;
 $black-light: #555555;
 
+$theme-black: #000;
+$theme-text: rgba(#000, 0.68);
+$text-color: $theme-text;
+$text-lighter: lighter($theme-text, 20%);
+$text-darker: darken($theme-text, 20%);
+$text-secondary: rgba($theme-text, 0.5);
+$text-disabled: rgba($theme-text, 0.38);
+$text-divider: rgba($theme-text, 0.26);
+
+
+// radius
+$lg-radius: 6px;
+$sm-radius: 4px;
+$xs-radius: 2px;
+$mini-radius: 1px;
+
+// background
+$module-bg-darker-1: #e8e8e8;
+$module-bg-darker-2: #dedede;
+$module-bg-darker-3: #cfcfcf;
+$module-bg-darker-4: #c2c2c2;
+$module-bg-darker-5: #afafaf;
+
 // golden
 $golden-ratio: 0.618;
+
 
 // gap
 $gap: 0.75rem; // ~12px
@@ -39,11 +64,13 @@ $transition-time-normal: .25s;
 $transition-time-slow: .38s;
 
 // Z indexs
+// Z index
+$z-index-progress-bar: 999999;
 $z-index-top: 99999;
 $z-index-header: 999;
 $z-index-toolbox: 9;
 $z-index-normal: 0;
-$z-index-underground: -9;
+$z-index-underground: -1;
 
 
 // PC
@@ -56,8 +83,17 @@ $aside-width: 17rem;
 $block-button-height: 3.4rem;
 $active-content-full-height: calc(100vh - #{$header-height + $lg-gap + $footer-height + $lg-gap});
 
+$full-column-page-banner-height: 28rem;
+
+$full-page-occupied-height: $header-height + $footer-height;
+$full-page-active-content-height: calc(100vh - #{$full-page-occupied-height});
+
+$normal-page-occupied-height: $full-page-occupied-height + $lg-gap * 2;
+$normal-page-active-content-height: calc(100vh - #{$normal-page-occupied-height});
+
 // Mobile
 $mobile-header-height: 5rem;
+$mobile-banner-height: 16rem;
 $mobile-footer-height: $lg-gap * 4;
 $mobile-aside-bg: #34393d;
 $mobile-aisde-transition: all $transition-time-slow ease-out;
@@ -83,7 +119,48 @@ $font-size-h6: $font-size-base * 0.95; // ~13.3px
 $line-height-base: 1.4;
 
 
-
+// others
+$en-primary: rgb(0, 43, 127);
+$zh-primary: #f40002;
+$rss-primary: #f8981d;
+$html5-primary: #d45835;
+$nodejs-primary: #43853d;
+$disqus-primary: #2e9fff;
+$wechat-primary: #55be69;
+$wechat-channel-primary: #fa9d3b;
+$weibo-primary: rgb(230, 22, 45);
+$qzone-primary: rgb(43, 130, 217);
+$opensea-primary: rgb(32 129 226);
+$evernote-primary: rgb(85, 182, 25);
+$facebook-primary: rgb(59, 89, 152);
+$telegram-primary: #54a5dd;
+$douban-primary: #00b51d;
+$bing-primary: #01809e;
+$discord-primary: #5865f2;
+$stackoverflow-primary: #e6863d;
+$leetcode-primary: #fea116;
+$quora-primary: #b92b27;
+$linkedin-primary: #478cc5;
+$spotify-primary: #1db954;
+$music163-primary: #c20c0c;
+$youtube-primary: #ec3323;
+$paypal-primary: #4599d2;
+$paypal-primary-hover: #293a7c;
+$twitter-primary: #1b95e0;
+$twitter-primary-hover: #0c7abf;
+$npm-primary: #bb161b;
+$github-primary: #24282d;
+$github-primary-hover: #000;
+$github-sponsor-primary: #ea4aaa;
+$instagram-primary: #ed4956;
+$instagram-gradient: linear-gradient(
+  45deg,
+  #f09433 0%,
+  #e6683c 25%,
+  #dc2743 50%,
+  #cc2366 75%,
+  #bc1888 100%
+);
 
 
 

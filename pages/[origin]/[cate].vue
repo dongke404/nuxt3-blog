@@ -2,9 +2,16 @@
 const articleList = ref([])
 const totalCount = ref(0)
 const route = useRoute()
-const cate = computed(() => route.params.cate)
+const router = useRouter()
 const params = {}
-params[route.params.origin] = route.params.cate
+if (route.params.origin === 'search')
+  params.keyword = route.params.cate
+else if (route.params.origin === 'tag')
+  params.tag = route.params.cate
+else if (route.params.origin === 'category')
+  params[route.params.origin] = route.params.cate
+else
+  router.push('/404')
 const pending = ref(true)
 useLazyrequest('/article', 'GET', (ndata) => {
   articleList.value = ndata.list
@@ -26,7 +33,7 @@ const loadmore = (v) => {
 
 <template>
   <div>
-    <LazyHeaderImg :cate="cate" />
+    <HeaderImg />
     <LazyArticleList
       :data="articleList"
       :loading="pending"
