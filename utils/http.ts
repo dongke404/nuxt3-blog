@@ -17,7 +17,12 @@ class Http {
 
   request(url: string, method: string, isLazy: number, params: any, options?: any) {
     return new Promise((resolve, reject) => {
-      fetchMap[isLazy](this.baseUrl + url, { method, params, ...options }).then(({ data, pending, error }: any) => {
+      const paramsObj = { method, ...options }
+      if (method === 'GET')
+        paramsObj.params = params
+      else
+        paramsObj.body = params
+      fetchMap[isLazy](this.baseUrl + url, paramsObj).then(({ data, pending, error }: any) => {
         if (error.value) {
           // 此处根据状态码进行处理
           reject(error.value)

@@ -131,7 +131,6 @@ const search = () => {
     left: 0;
     width: 2rem;
     height:2rem;
-    // background: #fff;
     border-radius: 2rem;
     display: flex;
     justify-content: center;

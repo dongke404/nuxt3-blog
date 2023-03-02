@@ -11,7 +11,7 @@ const statistics = useState('statistics')
       <div class="bg-main bg-hover h-20 flex mb-3 rounded-md p-2 justify-around items-center text-center">
         <div>
           <div class="  text-xl font-semibold ">
-            {{ statistics.blog_num }}
+            {{ statistics?.blog_num }}
           </div>
           <div class=" font-bold text-xs">
             全站文章
@@ -20,7 +20,7 @@ const statistics = useState('statistics')
         <div class=" border-r-2 h-5 bg-slate-400 flex-none" />
         <div>
           <div class="  text-xl font-semibold">
-            {{ statistics.view_num_today }}
+            {{ statistics?.view_num_today }}
           </div>
           <div class=" font-bold text-xs">
             今日阅读

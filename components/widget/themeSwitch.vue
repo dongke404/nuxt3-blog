@@ -7,7 +7,7 @@ const dark = () => {
 }
 const light = () => {
   colorMode.preference = 'light'
-  background.value = 'https://kedong.me/static/images/app/background.jpg'
+  background.value = 'https://kedong.me/static/images/app/background.png'
 }
 </script>
 

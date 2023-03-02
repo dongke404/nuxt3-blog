@@ -4,7 +4,7 @@ const backgroundIMG = useChangebg()
 if (colorMode.preference === 'dark')
   backgroundIMG.value = 'https://kedong.me/static/images/app/background.jpg'
 else
-  backgroundIMG.value = 'https://kedong.me/static/images/app/background.jpg'
+  backgroundIMG.value = 'https://kedong.me/static/images/app/background.png'
 </script>
 
 <template>

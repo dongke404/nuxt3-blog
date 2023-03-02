@@ -10,23 +10,23 @@
 
 //右侧滚动条
 ::-webkit-scrollbar {
-    width: $sm-gap;
-    height: $sm-gap;
-    background: hsla(0, 0%, 100%, 0.6);
+  width: $sm-gap;
+  height: $sm-gap;
+  background: hsla(0, 0%, 100%, 0.6);
 }
 
 ::-webkit-scrollbar-track {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 0;
-    background-color: rgba(95, 95, 95, .4);
-    @include background-transition();
+  border-radius: 0;
+  background-color: rgba(95, 95, 95, .4);
+  @include background-transition();
 
-    &:hover {
-        background-color: rgba(95, 95, 95, .7);
-    }
+  &:hover {
+    background-color: rgba(95, 95, 95, .7);
+  }
 }
 
 // popup component
@@ -54,8 +54,8 @@
     @include visible();
   }
 
-  > img,
-  > iframe {
+  >img,
+  >iframe {
     min-width: 10%;
     min-height: 10%;
     background-color: rgba($white, 0.3);
@@ -71,13 +71,79 @@
     }
   }
 
-  > img {
+  >img {
     max-width: 90%;
     max-height: 90%;
   }
 
-  > iframe {
+  >iframe {
     width: 90%;
     height: 90%;
   }
+}
+
+
+
+// 动态效果
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all $transition-time-slow cubic-bezier(0, 1.2, 1, 0.5);
+  opacity: .7;
+  transform: translate3d(0, 4em, 0);
+}
+
+.slide-up-enter,
+.slide-up-leave-active {
+  opacity: .3;
+  transform: translate3d(0, 4em, 0);
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all $transition-time-normal cubic-bezier(0, 1.2, 1, 0.5);
+  opacity: .5;
+  transform: translate3d(2em, 0, 0);
+}
+
+.slide-left-enter,
+.slide-left-leave-active {
+  opacity: .3;
+  transform: translate3d(2em, 0, 0);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $transition-time-normal;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+
+.fade-move {
+  transition: transform $transition-time-normal;
+}
+
+.page-enter-active {
+  transition: opacity $transition-time-slow;
+}
+
+.page-leave-active {
+  transition: opacity 0s;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0
+}
+
+.module-enter-active,
+.module-leave-active {
+  transition: opacity $transition-time-normal;
+}
+
+.module-enter,
+.module-leave-active {
+  opacity: 0
 }

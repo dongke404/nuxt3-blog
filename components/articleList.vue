@@ -181,8 +181,6 @@ const loadMore = async () => {
     height: 8.5rem;
     padding: $gap;
     margin-bottom: $lg-gap;
-    // @include common-bg-module();
-    // @include radius-box($sm-radius);
     &:last-child {
       margin-bottom: 0;
     }

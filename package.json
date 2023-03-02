@@ -27,9 +27,12 @@
     "@nuxtjs/i18n-edge": "^8.0.0-beta.4-27812700.b832f07",
     "@types/marked": "^4.0.8",
     "@vueuse/nuxt": "^9.10.0",
+    "dayjs": "^1.11.7",
+    "gravatar": "^1.8.2",
     "highlight.js": "^11.7.0",
     "lozad": "^1.16.0",
     "marked": "^4.2.12",
-    "swiper": "^9.0.3"
+    "swiper": "^9.0.3",
+    "ua-parser-js": "^1.0.33"
   }
 }

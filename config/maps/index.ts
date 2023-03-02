@@ -52,7 +52,7 @@ const routerMap = {
     icon: 'date',
   },
   guestbook: {
-    backgroundImg: ' /static/images/app/guestbook.jpg',
+    backgroundImg: 'https://kedong.me/static/images/app/guestbook.jpg',
     text: '留言板',
   },
 }
