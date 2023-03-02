@@ -1,4 +1,4 @@
-const API_BASEURL = 'http://localhost:5000/api'
+const API_BASEURL = 'http://127.0.0.1:5000/api'
 const CREDENTIALS = 'include'
 const SITE_URL = 'https://kedong.me'
 

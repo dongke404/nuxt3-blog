@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     // npm install -D @nuxt/image-edge
     '@nuxt/image-edge',
     // npm install @nuxtjs/i18n@next --save
-    '@nuxtjs/i18n-edge',
+    '@nuxtjs/i18n',
     // https://github.com/nuxt-modules/icon
     'nuxt-icon',
     // https://github.com/nuxt-community/device-module

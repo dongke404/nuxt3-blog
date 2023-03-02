@@ -32,7 +32,6 @@ const parent_comment_id = ref(0)
 
 // page=1&page_num=16&sort=1&post_id=0
 useLazyrequest('/comment', 'GET', (ndata) => {
-  console.log(ndata)
   comments.value = ndata.comments
   count.value = ndata.count
   pending.value = false
@@ -159,8 +158,11 @@ const toSomeAnchorById = (id) => {
 const replyComment = (comment, parentComment) => {
   click_cid.value = comment.comment_id
   parent_comment_id.value = comment.comment_id
-  if (parentComment.comment_id)
-    click_rid.value = parentComment.comment_id
+  if (parentComment.comment_id) {
+    click_rid.value = comment.comment_id
+    parent_comment_id.value = parentComment.comment_id
+  }
+
   // markdownInput.value.focus()
 }
 
@@ -198,7 +200,6 @@ const loadComemntList = (params = {}) => {
   //   pending.value = false
   // })
   useLazyrequest('/comment', 'GET', (ndata) => {
-    console.log(ndata)
     comments.value = ndata.comments
     count.value = ndata.count
     pending.value = false
@@ -418,7 +419,7 @@ onMounted(() => {
 
             <template #replys>
               <CommentItem
-                v-for="reply in comments.replys"
+                v-for="reply in comment.replys"
                 :id="`comment-item-${reply.comment_id}`"
                 :key="reply.comment_id"
                 :gravatar="user.gravatar || defaultgravatar"
