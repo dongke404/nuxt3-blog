@@ -28,16 +28,18 @@ const count = ref(0)
 const pageNum = ref(1)
 const click_cid = ref(0)
 const click_rid = ref(0)
+const parent_comment_id = ref(0)
 
 // page=1&page_num=16&sort=1&post_id=0
 useLazyrequest('/comment', 'GET', (ndata) => {
+  console.log(ndata)
   comments.value = ndata.comments
   count.value = ndata.count
   pending.value = false
 }, {
   page: pageNum.value,
   page_num: 16,
-  sort: 1,
+  sort: -1,
   post_id: 0,
 })
 
@@ -154,18 +156,18 @@ const toSomeAnchorById = (id) => {
 
 }
 // 回复评论
-const replyComment = (comment) => {
+const replyComment = (comment, parentComment) => {
   click_cid.value = comment.comment_id
-  click_rid.value = comment.reply_id
+  parent_comment_id.value = comment.comment_id
+  if (parentComment.comment_id)
+    click_rid.value = parentComment.comment_id
   // markdownInput.value.focus()
 }
+
+// 取消回复
 const unreplyComment = () => {
   click_cid.value = 0
-  click_rid.value = 0
-}
-// 取消回复
-const cancelCommentReply = () => {
-
+  parent_comment_id.value = 0
 }
 // 找到回复来源(从全部评论中找父级评论 ,缺点后面的评论显示不了第一页的，建议服务端组合好)
 const findReplyParent = (pid) => {
@@ -182,7 +184,30 @@ const likeComment = (comment) => {
 
 // 获取评论列表
 const loadComemntList = (params = {}) => {
+  // http.get('/comment', {
 
+  //   page: pageNum.value,
+  //   page_num: 16,
+  //   sort: 1,
+  //   post_id: 0,
+
+  // }).then((res) => {
+  //   console.log(res)
+  //   comments.value = res.comments
+  //   count.value = res.count
+  //   pending.value = false
+  // })
+  useLazyrequest('/comment', 'GET', (ndata) => {
+    console.log(ndata)
+    comments.value = ndata.comments
+    count.value = ndata.count
+    pending.value = false
+  }, {
+    page: pageNum.value,
+    page_num: 16,
+    sort: -1,
+    post_id: 0,
+  })
 }
 // 提交评论
 const submitComment = (value, setInputText) => {
@@ -216,13 +241,17 @@ const submitComment = (value, setInputText) => {
   }
   if (click_cid.value) {
     params.comment_id = click_cid.value
-    params.reply_id = click_rid.value
+    params.p_comment_id = parent_comment_id.value
+    params.target_comment_id = click_rid.value
   }
   http.post('/comment', params).then(() => {
     previewMode.value = false
     userCacheMode.value = true
+    click_cid.value = 0
+    parent_comment_id.value = 0
     setInputText('')
     localUser.set(user)
+    loadComemntList()
   }).catch((error) => {
     alert(error.message)
   })
@@ -381,23 +410,33 @@ onMounted(() => {
               <CommentPen
                 ref="markdownInput"
                 :gravatar="user.gravatar"
+                :enabled-preview-mode="previewMode"
+                @toggle-preview-mode="handleTogglePreviewMode"
+                @submit="submitComment"
               />
             </template>
 
             <template #replys>
               <CommentItem
-                v-for="comment1 in comments"
-                :id="`comment-item-${comment1.comment_id}`"
-                :key="comment1.comment_id"
+                v-for="reply in comments.replys"
+                :id="`comment-item-${reply.comment_id}`"
+                :key="reply.comment_id"
                 :gravatar="user.gravatar || defaultgravatar"
-                :comment="comment1"
+                :parent-comment="comment"
+                :comment="reply"
+                :pen-show="reply.comment_id === click_cid"
                 class="comment-item"
+                @reply-comment="replyComment"
+                @unreply-comment="unreplyComment"
               >
-                <template #pen>
+                <template v-if="reply.comment_id === click_cid" #pen>
                   <CommentPen
                     ref="markdownInput"
                     :gravatar="user.gravatar"
                     :is-reply="true"
+                    :enabled-preview-mode="previewMode"
+                    @toggle-preview-mode="handleTogglePreviewMode"
+                    @submit="submitComment"
                   />
                 </template>
               </CommentItem>

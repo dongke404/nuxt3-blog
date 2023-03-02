@@ -8,11 +8,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isChild: {
+    type: Boolean,
+    default: false,
+  },
   gravatar: {
     type: String,
     default: '',
   },
   comment: {
+    type: Object,
+    default: () => ({}),
+  },
+  parentComment: {
     type: Object,
     default: () => ({}),
   },
@@ -31,10 +39,10 @@ const clickUser = (event, user) => {
     event.preventDefault()
 }
 const comment = computed(() => props.comment)
-const replyComment = (comment) => {
-  emit('replyComment', comment)
+const replyComment = () => {
+  emit('replyComment', props.comment, props.parentComment)
 }
-const unreplyComment = (comment) => {
+const unreplyComment = () => {
   emit('unreplyComment')
 }
 const { isMobile } = useDevice()
@@ -90,11 +98,11 @@ const { isMobile } = useDevice()
       </div>
       <div class="cm-footer">
         <span class="create_at">{{ $dayjs(comment.create_time).fromNow() }}</span>
-        <a v-if="!props.penShow" href class="reply" @click.stop.prevent="replyComment(comment)">
+        <a v-if="!props.penShow" href class="reply" @click.stop.prevent="replyComment">
           <Icon name="ri:reply-fill" />
           <span v-text="'回复'" />
         </a>
-        <a v-else href class="reply" @click.stop.prevent="unreplyComment(comment)">
+        <a v-else href class="reply" @click.stop.prevent="unreplyComment">
           <Icon name="material-symbols:cancel" />
           <span v-text="'取消回复'" />
         </a>
