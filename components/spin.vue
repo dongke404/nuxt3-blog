@@ -50,10 +50,7 @@ export default defineComponent({
 </template>
 
   <style lang="scss" scoped>
-    @import 'assets/styles/variables.scss';
-    @import 'assets/styles/mixins.scss';
-
-    .spinner-box {
+.spinner-box {
       position: relative;
       width: 100%;
       min-height: 50px;

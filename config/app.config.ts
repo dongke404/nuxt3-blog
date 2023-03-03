@@ -14,6 +14,8 @@ export const meta = {
   url: 'kedong.me',
   author: 'Kirk Dong',
   defaultgravatar: 'https://kedong.me/static/images/app/defaultgravatar.png',
+  errorGravatar: 'https://kedong.me/static/images/app/errorAvatar.jpg',
+  email: 'dongkirk1992@gmail.com',
 }
 
 // 个人信息
@@ -23,20 +25,5 @@ export const personInfo = {
   mobileAvatar: '/static/images/app/mobileAvatar.png',
   address: '浙江 , 杭州',
   email: 'dongkirk1992@gmail.com',
-}
-
-export const links = {
-  Mysite: '',
-}
-
-export const friendLinks = {
-}
-
-export const fetch = {
-  delay: 800,
-}
-
-export const color = {
-  primary: '#0088f5',
 }
 

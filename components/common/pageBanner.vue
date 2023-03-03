@@ -48,10 +48,7 @@ export default defineComponent({
 </template>
 
   <style lang="scss" scoped>
-    @import 'assets/styles/variables.scss';
-    @import 'assets/styles/mixins.scss';
-
-    .banner {
+.banner {
       position: relative;
       height: $full-column-page-banner-height;
       z-index: $z-index-normal;

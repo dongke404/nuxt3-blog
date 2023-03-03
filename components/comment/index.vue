@@ -257,6 +257,7 @@ const submitComment = (value, setInputText) => {
     alert(error.message)
   })
 }
+
 onMounted(() => {
   init()
 })
@@ -273,14 +274,8 @@ onMounted(() => {
           </div>
         </div>
         <div class="sort">
-          <a
-            href
-            class="sort-btn"
-          >最新</a>
-          <a
-            href
-            class="sort-btn"
-          >最热</a>
+          <a href class="sort-btn">最新</a>
+          <a href class="sort-btn">最热</a>
         </div>
       </div>
     </transition>
@@ -291,35 +286,21 @@ onMounted(() => {
           <div v-if="!userCacheMode || userCacheEditing" key="edit" class="user">
             <div class="name">
               <input
-                v-model="user.name"
-                required
-                type="text"
-                name="name"
-                autocomplete="on"
-                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600"
-                placeholder="name"
+                v-model="user.name" required type="text" name="name" autocomplete="on"
+                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="name"
               >
             </div>
             <div class="email">
               <input
-                v-model="user.email"
-                required
-                type="email"
-                name="email"
-                autocomplete="on"
-                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600"
-                placeholder="email"
+                v-model="user.email" required type="email" name="email" autocomplete="on"
+                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="email"
                 @blur="upadteUserGravatar"
               >
             </div>
             <div class="site">
               <input
-                v-model="user.site"
-                type="url"
-                name="url"
-                autocomplete="on"
-                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600"
-                placeholder="site"
+                v-model="user.site" type="url" name="url" autocomplete="on"
+                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="site"
               >
             </div>
             <div class="save  bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 dark:bg-gray-600 ">
@@ -336,14 +317,8 @@ onMounted(() => {
                 <Icon name="material-symbols:settings" />
                 <span class="account-setting" v-text="'设置账户信息'" />
                 <ul class="user-tool">
-                  <li
-                    @click.stop.prevent="userCacheEditing = true"
-                    v-text="'编辑信息'"
-                  />
-                  <li
-                    @click.stop.prevent="clearUserCache"
-                    v-text="'清空信息'"
-                  />
+                  <li @click.stop.prevent="userCacheEditing = true" v-text="'编辑信息'" />
+                  <li @click.stop.prevent="clearUserCache" v-text="'清空信息'" />
                 </ul>
               </a>
             </div>
@@ -352,37 +327,16 @@ onMounted(() => {
         <div class="postbox">
           <div class="user">
             <div v-if="!isMobile" class="gravatar">
-              <img alt="头像" :src="user.gravatar || defaultgravatar " draggable="false">
+              <img
+                alt="头像" :src="user.gravatar || defaultgravatar" draggable="false"
+                @error="$event.target.src = meta.errorGravatar"
+              >
             </div>
           </div>
           <div class="editor">
-            <transition name="module">
-              <div v-if="!!pid" key="reply" class="will-reply">
-                <div class="reply-user">
-                  <span>
-                    <span v-text="'reply'" />
-                    <span>&nbsp;</span>
-                    <a
-                      href
-                      @click.stop.prevent="toSomeAnchorById(`comment-item-${replyCommentSlef.comment_id}`)"
-                    >
-                      <strong>#{{ replyCommentSlef.comment_id }} @{{ replyCommentSlef.author.name }}：</strong>
-                    </a>
-                  </span>
-                  <a
-                    href
-                    class="cancel iconfont icon-cancel"
-                    @click.stop.prevent="cancelCommentReply"
-                  />
-                </div>
-                <div class="reply-preview" v-html="marked(replyCommentSlef.content)" />
-              </div>
-            </transition>
             <CommentPen
-              ref="markdownInput"
-              :enabled-preview-mode="previewMode"
-              @toggle-preview-mode="handleTogglePreviewMode"
-              @submit="submitComment"
+              ref="markdownInput" :enabled-preview-mode="previewMode"
+              @toggle-preview-mode="handleTogglePreviewMode" @submit="submitComment"
             />
           </div>
         </div>
@@ -390,12 +344,7 @@ onMounted(() => {
     </ClientOnly>
     <transition name="module" mode="out-in">
       <div key="list" ref="listElement" class="list-box">
-        <transition-group
-          name="fade"
-          tag="ul"
-          class="comment-list"
-          @after-enter="addCommentAnimateDone"
-        >
+        <transition-group name="fade" tag="ul" class="comment-list" @after-enter="addCommentAnimateDone">
           <CommentItem
             v-for="comment in comments"
             :id="`comment-item-${comment.comment_id}`"
@@ -410,6 +359,7 @@ onMounted(() => {
             <template v-if="comment.comment_id === click_cid" #pen>
               <CommentPen
                 ref="markdownInput"
+                :is-reply="true"
                 :gravatar="user.gravatar"
                 :enabled-preview-mode="previewMode"
                 @toggle-preview-mode="handleTogglePreviewMode"
@@ -424,8 +374,8 @@ onMounted(() => {
                 :key="reply.comment_id"
                 :gravatar="user.gravatar || defaultgravatar"
                 :parent-comment="comment"
-                :comment="reply"
-                :pen-show="reply.comment_id === click_cid"
+                :comment="reply" :pen-show="reply.comment_id === click_cid"
+                :is-child="true"
                 class="comment-item"
                 @reply-comment="replyComment"
                 @unreply-comment="unreplyComment"
@@ -455,10 +405,7 @@ onMounted(() => {
             </a>
           </li>
           <li v-for="(item, index) in pageNum" :key="index" class="item">
-            <a
-              href
-              class="pagination-btn"
-            >{{ item }}</a>
+            <a href class="pagination-btn">{{ item }}</a>
           </li>
           <li class="item">
             <a href class="pagination-btn next disabled">
@@ -471,548 +418,331 @@ onMounted(() => {
   </div>
 </template>
 
-  <style lang="scss">
-  .cm-content,
-  .reply-preview,
-  .markdown-preview {
-    margin: $sm-gap 0;
-    line-height: 2em;
-    word-wrap: break-word;
-    font-size: $font-size-h6;
+<style lang="scss">
+#comment-box {
+  padding: $gap;
 
-    a {
-      text-decoration: underline;
-    }
+  &.mobile {
+    .post-box {
+      >.user {
+        padding: 0;
+        height: auto;
+        flex-direction: column;
 
-    img {
-      margin: 0.5rem 0;
-      max-width: 100%;
-      border-radius: 2px;
-      cursor: pointer;
-    }
+        >.name,
+        >.email,
+        >.site,
+        >.save {
+          width: 80%;
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: $gap;
+        }
 
-    p {
-      margin: 0;
-    }
-
-    code {
-      color: #bd4147;
-      padding: 0.3em 0.5em;
-      margin: 0 0.5em;
-
-    }
-
-    pre {
-      $code-header-height: 2.8rem;
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap-reverse;
-      position: relative;
-      overflow: hidden;
-      margin-top: 0.6em;
-      margin-bottom: 1em;
-      padding-top: $code-header-height;
-      background-color: rgba(0, 0, 0, 0.8);
-
-      &:before {
-        color: $white;
-        content: attr(data-lang) " CODE";
-        height: $code-header-height;
-        line-height: $code-header-height;
-        font-size: $font-size-h6;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        font-weight: 700;
-        background-color: rgba(68, 68, 68, 0.9);
-        display: block;
-        text-transform: uppercase;
-        text-align: center;
+        >.save {
+          width: 30%;
+          margin-bottom: 0;
+        }
       }
 
-      > .code-lines {
-        display: none;
-      }
-
-      > code {
-        margin: 0;
-        padding: 1rem;
-        float: left;
-        width: 100%;
-        height: 100%;
-        display: block;
-        font-size: $font-size-h6;
-        line-height: 1.8rem;
-        color: rgba(255, 255, 255, 0.87);
-        background-color: transparent;
+      >.postbox {
+        >.user {
+          margin: 0;
+        }
       }
     }
   }
 
-  #comment-box {
-    padding: $gap;
+  >.tools {
+    display: flex;
+    padding-bottom: $gap;
+    align-items: center;
+    justify-content: space-between;
 
-    &.mobile {
-      .list-box {
-        .comment-list {
-          > .comment-item {
-            padding: 0;
-            margin-top: $gap;
+    .count-skeleton,
+    .like-skeleton,
+    .sort-skeleton {
+      height: 2rem;
+    }
 
-            > .cm-body {
-              padding: $sm-gap $gap;
-            }
-          }
-        }
+    .total-skeleton {
+      display: flex;
+      width: 70%;
+
+      .count-skeleton {
+        width: 20%;
+        margin-right: 1rem;
       }
 
-      .post-box {
-        > .user {
-          padding: 0;
-          height: auto;
-          flex-direction: column;
+      .like-skeleton {
+        width: 40%;
+      }
+    }
 
-          > .name,
-          > .email,
-          > .site,
-          > .save {
-            width: 80%;
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom: $gap;
-          }
+    .sort-skeleton {
+      width: 20%;
+    }
 
-          > .save {
-            width: 30%;
-            margin-bottom: 0;
-          }
-        }
+    >.total {
+      display: flex;
 
-        > .postbox {
-          > .user {
-            margin: 0;
+      >.like,
+      >.sponsor,
+      >.count {
+        padding: $xs-gap 0.5em;
+        margin-right: $sm-gap;
+
+      }
+
+      >.like {
+        @include background-transition();
+
+        &.liked {
+          >.iconfont {
+            color: $red;
           }
         }
       }
     }
 
-    > .tools {
+    >.sort {
+      >.sort-btn {
+        margin-left: $gap;
+
+        &.actived {
+          color: $link-hover-color;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  >.list-skeleton {
+    .comment-item {
+      padding-left: 0 !important;
       display: flex;
-      padding-bottom: $gap;
+      justify-content: space-around;
       align-items: center;
-      justify-content: space-between;
 
-      .count-skeleton,
-      .like-skeleton,
-      .sort-skeleton {
-        height: 2rem;
+      .gravatar {
+        width: 4rem;
+        height: 4rem;
       }
 
-      .total-skeleton {
-        display: flex;
-        width: 70%;
-
-        .count-skeleton {
-          width: 20%;
-          margin-right: 1rem;
-        }
-
-        .like-skeleton {
-          width: 40%;
-        }
+      .content {
+        width: calc((100% - 5rem) * 0.9);
       }
+    }
+  }
 
-      .sort-skeleton {
-        width: 20%;
-      }
+  >.empty-box {
+    font-weight: bold;
+    text-align: center;
+    height: 6rem;
+    line-height: 6rem;
+  }
 
-      > .total {
-        display: flex;
+  .list-box {
+    .comment-list {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+  }
 
-        > .like,
-        > .sponsor,
-        > .count {
-          padding: $xs-gap 0.5em;
-          margin-right: $sm-gap;
+  >.pagination-box {
+    margin-bottom: $lg-gap;
 
-        }
+    >.pagination-list {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
 
-        > .like {
+      >.item {
+        margin: 0 0.5em;
+
+        >.pagination-btn {
+          display: inline-block;
+          width: 2rem;
+          height: 2rem;
+          display: inline-block;
+          line-height: 2rem;
+          text-align: center;
           @include background-transition();
 
-          &.liked {
-            > .iconfont {
-              color: $red;
-            }
-          }
-        }
-      }
-
-      > .sort {
-        > .sort-btn {
-          margin-left: $gap;
-
-          &.actived {
-            color: $link-hover-color;
-            font-weight: bold;
-          }
-        }
-      }
-    }
-
-    > .list-skeleton {
-      .comment-item {
-        padding-left: 0 !important;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-
-        .gravatar {
-          width: 4rem;
-          height: 4rem;
-        }
-
-        .content {
-          width: calc((100% - 5rem) * 0.9);
-        }
-      }
-    }
-
-    > .empty-box {
-      font-weight: bold;
-      text-align: center;
-      height: 6rem;
-      line-height: 6rem;
-    }
-
-    .list-box {
-      .comment-list {
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-
-        > .comment-item {
-          position: relative;
-          padding-left: 2rem;
-          margin-top: $lg-gap;
-
-          &:last-child {
-            margin-bottom: $lg-gap;
-          }
-
-          > .cm-avatar {
-            display: block;
-            position: absolute;
-            left: 0;
-            top:1rem;
-
-            > a {
-              display: block;
-              width: 4rem;
-              height: 4rem;
-              > img {
-                width: 100%;
-                height: 100%;
-              }
-            }
-          }
-
-          > .cm-body {
-            display: block;
-            width: 100%;
-            height: 100%;
-            padding: $sm-gap $sm-gap $sm-gap ($lg-gap * 2.8);
-
-            @include background-transition();
-
-            > .cm-header {
-              display: block;
-              position: relative;
-
-              > .user-name {
-                font-weight: bold;
-                margin-right: $gap;
-
-                &:hover {
-                  text-decoration: underline;
-                }
-              }
-
-              .os,
-              .browser,
-              .location {
-                color: $text-disabled;
-                font-size: $font-size-small;
-                margin-right: $gap;
-
-              }
-
-              > .flool {
-                float: right;
-                line-height: 2rem;
-
-                font-size: $font-size-small;
-                font-weight: 900;
-              }
-            }
-
-            > .cm-content {
-              padding-right: $xs-gap;
-
-              > .reply {
-                color: $text-disabled;
-                font-weight: bold;
-
-                > a {
-                  text-decoration: none;
-                }
-              }
-            }
-
-            > .cm-footer {
-              display: flex;
-
-              > .create_at,
-              > .reply,
-              > .like {
-                font-size: $font-size-small;
-                margin-right: $gap;
-              }
-
-              > .create_at {
-                color: $text-disabled;
-              }
-
-              > .like {
-                &:hover {
-                  color: $red;
-                }
-
-                &.liked {
-                  color: $red;
-                  font-weight: bold;
-                }
-
-                &.actived {
-                  font-weight: bold;
-                }
-              }
-
-              > .reply,
-              > .like {
-                opacity: 0.8;
-                transition: visibility $transition-time-fast,
-                  opacity $transition-time-fast, color $transition-time-fast;
-
-                &:hover {
-                  opacity: 1;
-                }
-
-                > .iconfont {
-                  opacity: 0.8;
-
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    > .pagination-box {
-      margin-bottom: $lg-gap;
-
-      > .pagination-list {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        list-style-type: none;
-
-        > .item {
-          margin: 0 0.5em;
-
-          > .pagination-btn {
-            display: inline-block;
-            width: 2rem;
-            height: 2rem;
-            display: inline-block;
-            line-height: 2rem;
-            text-align: center;
-            @include background-transition();
-
-            &.prev,
-            &.next {
-              width: 1em;
-              font-size: $font-size-h6;
-
-              &:hover {
-                background: none;
-              }
-            }
-
-            &.disabled {
-              cursor: no-drop;
-              opacity: 0.5;
-            }
-
-          }
-        }
-      }
-    }
-
-    .post-box {
-      display: block;
-      padding-top: $gap;
-      border-top: 1px dashed ;
-
-      > .user {
-        width: 100%;
-        height: 2em;
-        line-height: 2em;
-        display: flex;
-        margin-bottom: $gap;
-        padding-left: 5.2rem;
-
-        > .edit {
-          flex-grow: 1;
-          text-align: right;
-          line-height: 2em;
-          position: relative;
-
-          > .setting {
+          &.prev,
+          &.next {
+            width: 1em;
             font-size: $font-size-h6;
-            margin-left: $gap;
-            display: inline-block;
-            position: relative;
 
             &:hover {
-              > .user-tool {
-                display: block;
-              }
-            }
-
-            > .iconfont {
-              margin-right: $xs-gap;
-            }
-
-            > .account-setting {
-              text-transform: capitalize;
-            }
-
-            > .user-tool {
-              display: none;
-              position: absolute;
-              right: 0;
-              top: 2em;
-              margin: 0;
-              padding: 0;
-              padding-top: 0.5rem;
-              list-style-type: square;
-              z-index: $z-index-normal + 1;
-
-              > li {
-                padding: 0 $gap;
-                background-color: rgba($accent, 0.5);
-
-                &:hover {
-                  background-color: rgba($accent, 0.8);
-                }
-              }
+              background: none;
             }
           }
-        }
 
-        > .save {
-          width: 10%;
+          &.disabled {
+            cursor: no-drop;
+            opacity: 0.5;
+          }
+
+        }
+      }
+    }
+  }
+
+  .post-box {
+    display: block;
+    padding-top: $gap;
+    border-top: 1px dashed;
+
+    >.user {
+      width: 100%;
+      height: 2em;
+      line-height: 2em;
+      display: flex;
+      margin-bottom: $gap;
+      padding-left: 5.2rem;
+
+      >.edit {
+        flex-grow: 1;
+        text-align: right;
+        line-height: 2em;
+        position: relative;
+
+        >.setting {
+          font-size: $font-size-h6;
           margin-left: $gap;
-          flex-grow: 1;
-          line-height: 2em;
-          text-align: center;
+          display: inline-block;
+          position: relative;
 
-          > button {
-            width: 100%;
-            height: 100%;
-
-            @include background-transition();
-
+          &:hover {
+            >.user-tool {
+              display: block;
+            }
           }
-        }
 
-        > .name,
-        > .email,
-        > .site {
-          flex-grow: 1;
-
-          > input {
-            width: 100%;
-            height: 2em;
-            line-height: 2em;
-            text-indent: 3px;
-            @include background-transition();
+          >.iconfont {
+            margin-right: $xs-gap;
           }
-        }
 
-        > .name,
-        > .email {
-          margin-right: $gap;
+          >.account-setting {
+            text-transform: capitalize;
+          }
+
+          >.user-tool {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 2em;
+            margin: 0;
+            padding: 0;
+            padding-top: 0.5rem;
+            list-style-type: square;
+            z-index: $z-index-normal + 1;
+
+            >li {
+              padding: 0 $gap;
+              background-color: rgba($accent, 0.5);
+
+              &:hover {
+                background-color: rgba($accent, 0.8);
+              }
+            }
+          }
         }
       }
 
-      > .postbox {
-        width: 100%;
-        display: flex;
+      >.save {
+        width: 10%;
+        margin-left: $gap;
+        flex-grow: 1;
+        line-height: 2em;
+        text-align: center;
 
-        > .user {
-          margin-right: 1em;
+        >button {
+          width: 100%;
+          height: 100%;
 
-          > .gravatar {
-            display: block;
-            margin-bottom: 0.5em;
-            width: 4rem;
-            height: 4rem;
+          @include background-transition();
 
-            > img {
-              width: 100%;
-              height: 100%;
-              transition: transform 0.5s ease-out;
-            }
+        }
+      }
+
+      >.name,
+      >.email,
+      >.site {
+        flex-grow: 1;
+
+        >input {
+          width: 100%;
+          height: 2em;
+          line-height: 2em;
+          text-indent: 3px;
+          @include background-transition();
+        }
+      }
+
+      >.name,
+      >.email {
+        margin-right: $gap;
+      }
+    }
+
+    >.postbox {
+      width: 100%;
+      display: flex;
+
+      >.user {
+        margin-right: 1em;
+
+        >.gravatar {
+          display: block;
+          margin-bottom: 0.5em;
+          width: 4rem;
+          height: 4rem;
+
+          >img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-out;
           }
         }
+      }
 
-        > .editor {
-          flex-grow: 1;
-          overflow: hidden;
+      >.editor {
+        flex-grow: 1;
+        overflow: hidden;
 
-          > .will-reply {
-            font-size: $font-size-h6;
-            margin-bottom: 1em;
+        >.will-reply {
+          font-size: $font-size-h6;
+          margin-bottom: 1em;
 
-            > .reply-user {
-              display: flex;
-              justify-content: space-between;
-              margin-bottom: $gap;
-              padding: 0 $gap;
-              height: 2.6em;
-              line-height: 2.6em;
+          >.reply-user {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: $gap;
+            padding: 0 $gap;
+            height: 2.6em;
+            line-height: 2.6em;
 
-              @include background-transition();
+            @include background-transition();
 
-            }
+          }
 
-            > .reply-preview {
-              max-height: 10em;
-              overflow: auto;
-              padding: $gap;
+          >.reply-preview {
+            max-height: 10em;
+            overflow: auto;
+            padding: $gap;
 
-              @include background-transition();
+            @include background-transition();
 
-            }
           }
         }
       }
     }
   }
-  </style>
+}
+</style>
 

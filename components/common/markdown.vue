@@ -58,9 +58,6 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
-@import 'assets/styles/variables.scss';
-@import 'assets/styles/mixins.scss';
-
 .global-markdown-plain {
   p {
     margin: 0;

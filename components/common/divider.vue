@@ -27,10 +27,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-  @import 'assets/styles/variables.scss';
-  @import 'assets/styles/mixins.scss';
-
-  .divider {
+.divider {
     box-sizing: border-box;
     margin: 0;
     padding: 0;

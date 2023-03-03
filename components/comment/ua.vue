@@ -49,6 +49,7 @@ const browserIconName = computed(() => {
     <span class="os">
       <Icon
         :name="osIconName || ''"
+        class="mr-1 pb-1"
       />
       <span>{{ uaResult.result.os.name }}</span>
       <span>{{ uaResult.result.os.version }}</span>
@@ -56,6 +57,7 @@ const browserIconName = computed(() => {
     <span class="browser">
       <Icon
         :name="browserIconName || ''"
+        class="mr-1 pb-1"
       />
       <span>{{ uaResult.result.browser.name }}</span>
       <span>{{ uaResult.result.browser.major }}</span>

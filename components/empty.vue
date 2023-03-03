@@ -27,10 +27,7 @@ export default defineComponent({
 </template>
 
   <style lang="scss" scoped>
-    @import 'assets/styles/variables.scss';
-    @import 'assets/styles/mixins.scss';
-
-    .empty {
+.empty {
       position: relative;
       display: flex;
       width: 100%;

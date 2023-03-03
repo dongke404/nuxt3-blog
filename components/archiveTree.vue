@@ -41,10 +41,7 @@ export default defineComponent({
 </template>
 
   <style lang="scss" scoped>
-    @import 'assets/styles/variables.scss';
-    @import 'assets/styles/mixins.scss';
-
-    .archive-tree {
+.archive-tree {
       .month-list,
       .article-list {
         list-style: none;

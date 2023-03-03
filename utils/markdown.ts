@@ -147,18 +147,18 @@ const getRenderer = (options?: Partial<RendererGetterOption>) => {
 
     return lang
       ? `
-        <pre data-lang="${lang}">
+        <pre data-lang="${lang}" >
           <ul class="code-lines">${lineNumbers}</ul>
           <code
             ${readOnlyAttrs}
-            class="${renderer.options.langPrefix}${encodeURI(lang)}"
-          >${isEscaped ? code : encodeURI(code)}\n</code>
+            class="${renderer.options.langPrefix}${_Escape(lang)}"
+          >${isEscaped ? code : _Escape(code)}\n</code>
         </pre>\n
       `
       : `
         <pre>
           <ul class="code-lines">${lineNumbers}</ul>
-          <code ${readOnlyAttrs}>${isEscaped ? code : encodeURI(code)}\n</code>
+          <code ${readOnlyAttrs} class="hljs">${isEscaped ? code : _Escape(code)}\n</code>
         </pre>
       `
   }

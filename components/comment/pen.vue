@@ -109,7 +109,7 @@ const handleSubmit = (event) => {
 </script>
 
 <template>
-  <div class="pen">
+  <div class="pen" :class="[isReply ? 'ml-10' : '']">
     <div class="absolute -left-16 top-4">
       <div v-if="isReply" class=" w-12 h-12">
         <img alt="头像" :src="gravatar " draggable="false">

@@ -120,10 +120,7 @@ useLazyrequest('/timeline', 'GET', (ndata) => {
 </template>
 
   <style lang="scss" scoped>
-    @import 'assets/styles/variables.scss';
-    @import 'assets/styles/mixins.scss';
-
-    .archive-page {
+.archive-page {
       position: relative;
       .statistic-warpper {
         padding: 2rem 0;
