@@ -6,14 +6,14 @@
 
 // setPageLayout(isMobile ? 'mobile' : 'default')
 
-http.get('/article', { sort: 1, limit: 10 }).then((res) => {
-  useState('rankArticle', () => res.data.value.list)
+http.get('/article', { sort: 1, limit: 10 }).then(({ data }) => {
+  useState('rankArticle', () => data.list)
 })
-http.get('/tag').then((res) => {
-  useState('tags', () => res.data.value)
+http.get('/tag').then(({ data }) => {
+  useState('tags', () => data)
 })
-http.get('/statistics').then((res) => {
-  useState('statistics', () => res.data.value)
+http.get('/statistics').then(({ data }) => {
+  useState('statistics', () => data)
 })
 </script>
 

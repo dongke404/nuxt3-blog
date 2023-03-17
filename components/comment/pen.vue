@@ -106,6 +106,9 @@ const handleSubmit = (event) => {
     emit('submit', value, setInputText)
   })
 }
+onMounted(() => {
+  input.value.focus()
+})
 </script>
 
 <template>
@@ -161,7 +164,14 @@ const handleSubmit = (event) => {
         :disabled="props.disabled"
         @click="handleSubmit"
       >
-        {{ '发布' }}
+        <span v-if="props.isPosting">
+          发布中
+          <Icon name="eos-icons:three-dots-loading" />
+        </span>
+        <span v-else>
+          发布
+          <Icon name="basil:telegram-solid" class="mb-1" />
+        </span>
       </button>
     </div>
   </div>

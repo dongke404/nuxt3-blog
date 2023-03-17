@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useStorage, useThrottleFn } from '@vueuse/core'
 import getGravatarUrlByEmail from '@/utils/gravatar-url'
-import { markdownToHTML } from '@/utils/markdown'
-import { meta } from '@/config/app.config'
+import { meta } from '@/config'
 
 const props = defineProps({
   penShow: {
@@ -26,29 +26,94 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-const emit = defineEmits(['replyComment', 'unreplyComment'])
-// 获取某条评论是否被点赞
-const getCommentLiked = (comment_id) => {
-}
-const marked = (content) => {
-  return markdownToHTML(content)
-}
+const emit = defineEmits(['replyComment', 'unreplyComment', 'flashComments'])
+const localVote = useStorage('localVote', [])
+const localUnvote = useStorage('localUnvote', [])
+const localUser = useStorage('userInfo', {})
+const { isMobile } = useDevice()
+
 const { $dayjs } = useNuxtApp()
 // 点击用户
 const clickUser = (event, user) => {
   if (!user.site)
     event.preventDefault()
 }
-const comment = computed(() => props.comment)
+const comment = computed(() => {
+  // console.log(props.comment)
+  return props.comment
+})
 const replyComment = () => {
   emit('replyComment', props.comment, props.parentComment)
 }
 const unreplyComment = () => {
   emit('unreplyComment')
 }
-const { isMobile } = useDevice()
-const imgError = (e) => {
-  e.target.src = meta.errorGravatar
+const toSomeAnchorById = (id) => {
+  const targetDom = document.getElementById(id)
+  if (targetDom) {
+    scrollTo({
+      top: targetDom.offsetTop,
+      behavior: 'smooth',
+    })
+  }
+}
+
+// 点赞
+const likeComment = useThrottleFn((comment) => {
+  const userInfo = localUser.value
+  const data = {
+    comment_id: comment.comment_id,
+  }
+  if (props.isChild)
+    data.isReply = true
+  if (userInfo)
+    data.user_id = userInfo.user_id
+  voteHander(comment.comment_id, true)
+  http.post('/likeComment', data).then(({ data }) => {
+    emit('flashComments')
+  })
+}, 3000)
+
+// 点踩
+const unlikeComment = (comment) => {
+  const userInfo = localUser.value
+  const data = {
+    comment_id: comment.comment_id,
+  }
+  if (props.isChild)
+    data.isReply = true
+  if (userInfo)
+    data.user_id = userInfo.user_id
+  voteHander(comment.comment_id, false)
+  http.post('/dislikeComment', data).then(({ data }) => {
+    emit('flashComments')
+  })
+}
+
+// 点赞处理
+function voteHander(comment_id, isVote) {
+  if (isVote) {
+    if (localUnvote.value.includes(comment_id))
+      localUnvote.value = localUnvote.value.filter(id => id !== comment_id)
+    if (localVote.value.length > 0) {
+      if (!(localVote.value.includes(comment_id)))
+        localVote.value = [...localVote.value, comment_id]
+    }
+    else {
+      localVote.value = [comment_id]
+    }
+  }
+  else {
+    if (localVote.value.includes(comment_id))
+      localVote.value = localVote.value.filter(id => id !== comment_id)
+    if (localUnvote.value.length > 0) {
+      if (!(localUnvote.value.includes(comment_id)))
+        localUnvote.value = [...localUnvote.value, comment_id]
+    }
+    else {
+      localUnvote.value = [comment_id]
+    }
+  }
 }
 </script>
 
@@ -74,7 +139,7 @@ const imgError = (e) => {
     </div>
     <div class="cm-body bg-inner" :style="{ paddingRight: props.isChild ? 0 : '' }">
       <div class="cm-header">
-        <span v-if="comment.author.email === meta.email" class=" rounded-sm bg-blue-500 text-xs p-[2px] mr-1">博主</span>
+        <span v-if="comment.author.user_id === 1" class=" rounded-sm bg-blue-500 text-xs p-[2px] mr-1">博主</span>
         <a
           class="user-name"
           target="_blank"
@@ -83,59 +148,60 @@ const imgError = (e) => {
           @click.stop="clickUser($event, comment.author)"
         >{{ comment.author.name }}</a>
         <comment-ua v-if="comment.agent" :ua="comment.agent" />
-        <span v-if="comment.ip_location && !isMobile" class="location">
-          <span>{{ comment.ip_location.country }}</span>
-          <span v-if="comment.ip_location.country && comment.ip_location.city">&nbsp;-&nbsp;</span>
-          <span>{{ comment.ip_location.city }}</span>
+        <span v-if="comment.ipInfo && !isMobile" class="location">
+          <span>{{ comment.ipInfo.country }}</span>
+          <span v-if="comment.ipInfo.country && comment.ipInfo.city">&nbsp;-&nbsp;</span>
+          <span>{{ comment.ipInfo.city }}</span>
         </span>
         <span class="flool">#{{ comment.comment_id }}</span>
       </div>
-      <div class="cm-content markdown-html-diy">
+      <div class="cm-content markdown-html-diy mt-1 mb-1">
+        <p v-if="comment.target_comment_id !== comment.p_comment_id" class="reply">
+          <span v-text="'回复'" />
+          <span>&nbsp;</span>
+          <a href @click.stop.prevent="toSomeAnchorById(`comment-item-${comment.p_comment_id}`)">
+            <span>#{{ comment.target_comment_id }}&nbsp;</span>
+            <strong v-if="comment.target_comment_id">@<span v-if="comment.to_author === 1" class=" rounded-sm bg-blue-500 text-xs p-[2px] mr-1">博主</span>{{ comment.to_author_name }}</strong>
+          </a>
+          <span>：</span>
+        </p>
         <CommonMarkdown :html="comment.content" />
       </div>
-      <div class="cm-footer">
+      <div class="cm-footer text-gray-500 dark:text-gray-400">
         <span class="create_at">{{ $dayjs(comment.create_time).fromNow() }}</span>
         <a v-if="!props.penShow" href class="reply" @click.stop.prevent="replyComment">
-          <Icon name="ri:reply-fill" />
-          <span v-text="'回复'" />
+          <Icon name="ri:reply-fill" class="mr-1" />
+          <span>回复 <span v-if="!props.isChild && comment.reply_num">({{ comment.reply_num }})</span></span>
         </a>
         <a v-else href class="reply" @click.stop.prevent="unreplyComment">
-          <Icon name="material-symbols:cancel" />
+          <Icon name="material-symbols:cancel" class=" mr-1" />
           <span v-text="'取消回复'" />
         </a>
         <a
           href
           class="like"
           :class="{
-            liked: getCommentLiked(comment.comment_id),
-            actived: !!comment.likes,
+            liked: comment.liked,
           }"
           @click.stop.prevent="likeComment(comment)"
         >
-          <Icon name="icon-park-solid:good-two" />
-          <span>({{ comment.likes }})</span>
+          <Icon name="icon-park-solid:good-two" class=" mr-1" />
+          <span>({{ comment.likes || 0 }})</span>
         </a>
         <a
           href
           class="like"
           :class="{
-            liked: getCommentLiked(comment.comment_id),
-            actived: !!comment.likes,
+            liked: comment.unliked,
           }"
-          @click.stop.prevent="likeComment(comment)"
+          @click.stop.prevent="unlikeComment(comment)"
         >
-          <Icon name="icon-park-solid:bad-two" />
-          <span>({{ comment.likes }})</span>
+          <Icon name="icon-park-solid:bad-two" class=" mr-1" />
+          <span>({{ comment.dislikes || 0 }})</span>
         </a>
       </div>
       <slot name="pen" />
-      <transition-group
-        name="fade"
-        tag="ul"
-        class="comment-list"
-      >
-        <slot name="replys" />
-      </transition-group>
+      <slot name="replys" />
     </div>
   </li>
 </template>
@@ -249,9 +315,6 @@ const imgError = (e) => {
           font-weight: bold;
         }
 
-        &.actived {
-          font-weight: bold;
-        }
       }
 
       >.reply,
@@ -270,7 +333,7 @@ const imgError = (e) => {
 }
 
 .markdown-html-diy {
-  font-size: 0.5rem;
+  font-size: 0.85rem;
   p {
     text-indent: 0 !important ;
     line-height: 2em;

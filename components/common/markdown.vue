@@ -26,6 +26,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    islozad: { // 是否使用 lozad 懒加载图片
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -35,6 +39,7 @@ export default defineComponent({
       return markdownToHTML(props.html, {
         sanitize: props.sanitize,
         relink: props.relink,
+        islozad: props.islozad,
       })
     })
     return {

@@ -13,11 +13,11 @@ else if (route.params.origin === 'category')
 else
   router.push('/404')
 const pending = ref(true)
-useLazyrequest('/article', 'GET', (ndata) => {
-  articleList.value = ndata.list
-  totalCount.value = ndata.pagination.count
+http.get('/article', params).then(({ data }) => {
+  articleList.value = data.list
+  totalCount.value = data.pagination.count
   pending.value = false
-}, params)
+})
 
 const loadmore = (v) => {
   articleList.value = articleList.value.concat(v)

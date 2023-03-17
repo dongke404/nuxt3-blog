@@ -6,14 +6,6 @@ const props = defineProps({
     type: [Array, Object, Boolean, Number],
     default: undefined,
   },
-  transition: {
-    type: Boolean,
-    default: true,
-  },
-  transitionName: {
-    type: String,
-    default: 'module',
-  },
   placeholder: String,
   loading: Boolean,
 })
@@ -21,10 +13,10 @@ const isEmptyData = computed(() => props.data !== undefined && ((Array.isArray(p
 </script>
 
 <template>
-  <div v-if="loading">
+  <div v-if="props.loading">
     <slot name="loading" />
   </div>
-  <Empty v-else-if="!loading && isEmptyData" :placeholder="props.placeholder" class="empty">
+  <Empty v-else-if="!props.loading && isEmptyData" :placeholder="props.placeholder" class="empty">
     <slot name="empty" />
   </Empty>
   <div v-else>

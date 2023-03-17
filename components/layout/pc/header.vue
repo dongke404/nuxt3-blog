@@ -13,14 +13,14 @@ const search = () => {
 <template>
   <header class="header z-50 bg-white bg-opacity-60 dark:bg-gray-700">
     <div class="header-container  m-auto ">
-      <div class=" w-full header-header ">
-        <div class="ml-4 text-2xl header-logo">
-          Kirk Dong
+      <nuxt-link to="/" class="header-link" :title="$t('slogan')">
+        <div class=" w-full header-header ">
+          <div class="ml-4 text-2xl header-logo">
+            Kirk Dong
+          </div>
+          <span class="header-slogan">{{ $t("slogan") }}</span>
         </div>
-        <span class="header-slogan">{{ $t("slogan") }}</span>
-        <nuxt-link to="/" class="header-link" :title="$t('slogan')" />
-      </div>
-
+      </nuxt-link>
       <div class="flex justify-center items-center">
         <div class="search mr-4" :class="[active ? 'active' : '']">
           <div class="icon" @click="active = !active" />

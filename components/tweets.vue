@@ -83,15 +83,15 @@ const prev = () => {
                   </nuxt-link>
                   <div class=" text-gray-400 mr-6">
                     <Icon class="flex-none  mr-1" name="mdi:comment-processing" size="0.8rem" />
-                    <span class="text-xs mr-1">1</span>
+                    <span class="text-xs mr-1">{{ item.public_metrics.reply_count }}</span>
                   </div>
                   <div class=" text-gray-400 mr-6">
                     <Icon class="flex-none  mr-1" name="icon-park-solid:like" size="0.8rem" />
-                    <span class="text-xs mr-1">1</span>
+                    <span class="text-xs mr-1">{{ item.public_metrics.like_count }}</span>
                   </div>
                   <div class=" text-gray-400 mr-6">
                     <Icon class="flex-none  mr-1" name="ic:baseline-access-time" size="0.9rem" />
-                    <span class="text-xs mr-1">2</span>
+                    <span class="text-xs mr-1">{{ $dayjs(item.created_at).fromNow() }}</span>
                   </div>
                 </div>
               </div>

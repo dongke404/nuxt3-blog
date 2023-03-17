@@ -57,7 +57,7 @@ const loadMore = async () => {
     ...props.params,
   })
   pending.value = false
-  emit('loadart', data.value.list)
+  emit('loadart', data.list)
   currPage.value++
 }
 </script>

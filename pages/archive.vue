@@ -6,8 +6,9 @@ definePageMeta({
 const statistics = useState('statistics')
 const articles = ref([])
 const pending = ref(true)
-useLazyrequest('/timeline', 'GET', (ndata) => {
-  articles.value = ndata
+
+http.get('/timeline').then(({ data }) => {
+  articles.value = data
   pending.value = false
 })
 </script>

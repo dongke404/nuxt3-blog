@@ -5,15 +5,17 @@ const tweets = ref([])
 const totalCount = ref(0)
 const pending = ref(true)
 const tpending = ref(true)
-useLazyrequest('/article', 'GET', (data) => {
+
+http.get('/article').then(({ data }) => {
   articleList.value = data.list
   carrList.value = data.list
   totalCount.value = data.pagination.count
   pending.value = false
 })
-useLazyrequest('/tweet?url=users/1214692705789513728/tweets', 'GET', (ndata) => {
+
+http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
   const reg = /https:\/\/t.co\/[a-zA-Z0-9]+/g
-  tweets.value = ndata.map((item) => {
+  tweets.value = data.map((item) => {
     item.urls = item.text.match(reg)
     return item
   })

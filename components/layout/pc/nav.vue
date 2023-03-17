@@ -26,7 +26,7 @@
         <Icon class="icon-style" name="material-symbols:calendar-month" />
         <span class="text" v-text="$t('nav.timeline')" />
       </nuxt-link>
-      <nuxt-link to="/guestbook" class="item">
+      <nuxt-link to="/guestbook/1" class="item">
         <Icon class="icon-style" name="ri:discuss-line" />
         <span class="text" v-text="$t('nav.guestbook')" />
       </nuxt-link>

@@ -1,13 +1,17 @@
 <!-- eslint-disable no-alert -->
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
+import { useDebounceFn, useStorage } from '@vueuse/core'
 import CommentPen from './pen'
 import getGravatarUrlByEmail from '@/utils/gravatar-url'
-import { COMMENT_NUM, meta } from '@/config/app.config'
-import { getJSONStorageReader } from '@/utils/local-storage'
-import { markdownToHTML } from '@/utils/markdown'
+import { COMMENT_NUM, meta } from '@/config'
+
 const props = defineProps({
-  fetching: {
+  postId: {
+    type: Number,
+    default: 0,
+  },
+  pending: {
     type: Boolean,
     default: false,
   },
@@ -15,47 +19,35 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  postId: {
+  comments: {
+    type: Array,
+    default: () => [],
+  },
+  count: {
     type: Number,
-    required: true,
+    default: 0,
+  },
+  initPage: {
+    type: Number,
+    default: 1,
   },
 })
-
-const { element: markdownInput } = useLozad()
-const pending = ref(false)
-const comments = ref([])
-const count = ref(0)
-const pageNum = ref(1)
+const emit = defineEmits(['flashComments'])
 const click_cid = ref(0)
 const click_rid = ref(0)
 const parent_comment_id = ref(0)
-
-// page=1&page_num=16&sort=1&post_id=0
-useLazyrequest('/comment', 'GET', (ndata) => {
-  comments.value = ndata.comments
-  count.value = ndata.count
-  pending.value = false
-}, {
-  page: pageNum.value,
-  page_num: 16,
-  sort: -1,
-  post_id: 0,
-})
-
+const sort = ref(-1)
+const page = ref(props.initPage)
+const page_num = computed(() => Math.ceil(props.count / COMMENT_NUM))
+const isPosting = ref(false)
 const { isMobile } = useDevice()
-const localUser = getJSONStorageReader('userInfo')
-const localVote = getJSONStorageReader('localVote')
+const localUser = useStorage('userInfo', {})
 const emailRegex = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
 const urlRegex = /^((https|http):\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/
 const blacklist = ref({})
 const defaultgravatar = ref(meta.defaultgravatar)
-const commentNum = ref(COMMENT_NUM)
-const lozadObserver = ref(null)
-const pid = ref(0)
-const sortMode = ref(1)
 const previewMode = ref(false)
 const userCacheMode = ref(false)
-const userCacheEditing = ref(false)
 const user = reactive({
   name: '',
   email: '',
@@ -64,35 +56,15 @@ const user = reactive({
 })
 // 初始化本地用户即本地用户的点赞历史
 const init = () => {
-  const userInfo = localUser.get()
-  const voteInfo = localVote.get()
-  if (userInfo) {
+  const userInfo = localUser.value
+  if (userInfo && userInfo.user_id) {
     user.name = userInfo.name
     user.email = userInfo.email
     user.site = userInfo.site
     user.gravatar = userInfo.gravatar
+    user.user_id = userInfo.user_id
     userCacheMode.value = true
   }
-}
-const listElement = ref(null)
-const observeLozad = () => {
-  const lozadElements = listElement.value && listElement.value.querySelectorAll('.lozad')
-  if (!lozadElements || !lozadElements.length)
-    return false
-
-  lozadObserver.value = window.lozad(lozadElements, {
-    loaded: element => element.classList.add('loaded'),
-  })
-  lozadObserver.value.observe()
-}
-const loadCommentsAnimateDone = () => {
-  observeLozad()
-}
-const addCommentAnimateDone = () => {
-  // observeLozad()
-}
-const marked = (content) => {
-  return markdownToHTML(content)
 }
 
 // 验证数据
@@ -111,7 +83,6 @@ const checkRule = () => {
   }
   if (user.site && !urlRegex.test(user.site))
     alert('网址格式不正确')
-
   else
     return true
 }
@@ -119,17 +90,22 @@ const checkRule = () => {
 const updateUserCache = (event) => {
   event.preventDefault()
   if (checkRule()) {
-    localUser.set(user)
-    userCacheEditing.value = false
+    http.post('/register', {
+      name: user.name,
+      email: user.email,
+      site: user.site,
+      gravatar: user.gravatar,
+    }).then(({ data }) => {
+      userCacheMode.value = true
+      localUser.value = data
+    })
   }
-  localUser.set(user)
 }
 
 // 清空用户数据
 const clearUserCache = () => {
   userCacheMode.value = false
-  userCacheEditing.value = false
-  localUser.remove()
+  localUser.value = {}
   Object.keys(user).forEach((key) => {
     user[key] = ''
   })
@@ -142,73 +118,54 @@ const upadteUserGravatar = () => {
 const handleTogglePreviewMode = () => {
   previewMode.value = !previewMode.value
 }
-// 评论排序(页数回到第一页)
-const sortComemnts = (sort) => {
-}
-
-// 点击用户
-const clickUser = (event, user) => {
-
-}
-// 跳转到某条指定的id位置
-const toSomeAnchorById = (id) => {
-
-}
-// 回复评论
-const replyComment = (comment, parentComment) => {
-  click_cid.value = comment.comment_id
-  parent_comment_id.value = comment.comment_id
-  if (parentComment.comment_id) {
-    click_rid.value = comment.comment_id
-    parent_comment_id.value = parentComment.comment_id
-  }
-
-  // markdownInput.value.focus()
-}
 
 // 取消回复
 const unreplyComment = () => {
   click_cid.value = 0
+  click_rid.value = 0
   parent_comment_id.value = 0
 }
-// 找到回复来源(从全部评论中找父级评论 ,缺点后面的评论显示不了第一页的，建议服务端组合好)
-const findReplyParent = (pid) => {
 
+// 排序
+const sortComemnts = useDebounceFn((v) => {
+  sort.value = v
+  page.value = 1
+  flashComments()
+}, 500)
+//
+const pageComemnts = useDebounceFn((v) => {
+  page.value = v
+  // 滚动到顶端
+  const callback = () => {
+    window.scrollTo(0, 200)
+  }
+  flashComments(callback)
+}, 500)
+function flashComments(callback, show_skeleton = true) {
+  emit('flashComments', { page: page.value, sort: sort.value, callback, show_skeleton })
 }
-// 喜欢当前页面
-const likePage = () => {
+// 回复评论
+const replyComment = (comment, parentComment) => {
+  const userInfo = localUser.value
+  // 滑动到comment-box
+  if (!userInfo.user_id) {
+    const targetDom = document.getElementById('comment-box')
+    if (targetDom) {
+      scrollTo({
+        top: targetDom.offsetTop,
+        behavior: 'smooth',
+      })
+    }
+    alert('江湖有缘，可否知晓阁下尊姓大名？')
+    return
+  }
 
-}
-// 点赞某条评论
-const likeComment = (comment) => {
-
-}
-
-// 获取评论列表
-const loadComemntList = (params = {}) => {
-  // http.get('/comment', {
-
-  //   page: pageNum.value,
-  //   page_num: 16,
-  //   sort: 1,
-  //   post_id: 0,
-
-  // }).then((res) => {
-  //   console.log(res)
-  //   comments.value = res.comments
-  //   count.value = res.count
-  //   pending.value = false
-  // })
-  useLazyrequest('/comment', 'GET', (ndata) => {
-    comments.value = ndata.comments
-    count.value = ndata.count
-    pending.value = false
-  }, {
-    page: pageNum.value,
-    page_num: 16,
-    sort: -1,
-    post_id: 0,
-  })
+  click_cid.value = comment.comment_id
+  parent_comment_id.value = comment.comment_id
+  click_rid.value = comment.comment_id
+  if (parentComment.comment_id)
+    parent_comment_id.value = parentComment.comment_id
+  //
 }
 // 提交评论
 const submitComment = (value, setInputText) => {
@@ -230,7 +187,7 @@ const submitComment = (value, setInputText) => {
   //   return false
   // }
   const params = {
-    post_id: 0,
+    post_id: props.postId,
     author: {
       name: user.name,
       email: user.email,
@@ -245,14 +202,18 @@ const submitComment = (value, setInputText) => {
     params.p_comment_id = parent_comment_id.value
     params.target_comment_id = click_rid.value
   }
-  http.post('/comment', params).then(() => {
-    previewMode.value = false
-    userCacheMode.value = true
-    click_cid.value = 0
-    parent_comment_id.value = 0
+  isPosting.value = true
+  http.post('/comment', params).then(({ data }) => {
     setInputText('')
-    localUser.set(user)
-    loadComemntList()
+    localUser.value = data
+    const callback = () => {
+      previewMode.value = false
+      userCacheMode.value = true
+      click_cid.value = 0
+      parent_comment_id.value = 0
+      isPosting.value = false
+    }
+    flashComments(callback, false)
   }).catch((error) => {
     alert(error.message)
   })
@@ -273,9 +234,12 @@ onMounted(() => {
             <span>条看法</span>
           </div>
         </div>
-        <div class="sort">
-          <a href class="sort-btn">最新</a>
-          <a href class="sort-btn">最热</a>
+        <div class=" font-semibold">
+          <a href :class="[sort === -1 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(-1)">最新</a>
+          <CommonDivider type="vertical" />
+          <a href :class="[sort === 1 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(1)">最后</a>
+          <CommonDivider type="vertical" />
+          <a href :class="[sort === 2 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(2)">最热</a>
         </div>
       </div>
     </transition>
@@ -283,7 +247,7 @@ onMounted(() => {
       <form id="post-box" class="post-box" name="comment">
         <!-- 用户编辑部分 -->
         <transition name="module" mode="out-in">
-          <div v-if="!userCacheMode || userCacheEditing" key="edit" class="user">
+          <div v-if="!userCacheMode" key="edit" class="user">
             <div class="name">
               <input
                 v-model="user.name" required type="text" name="name" autocomplete="on"
@@ -310,14 +274,14 @@ onMounted(() => {
             </div>
           </div>
           <!-- 用户设置部分 -->
-          <div v-else-if="userCacheMode && !userCacheEditing" key="user" class="user">
+          <div v-else-if="userCacheMode" key="user" class="user">
             <div class="edit">
               <strong class="name">{{ user.name }}</strong>
               <a href class="setting" @click.stop.prevent>
                 <Icon name="material-symbols:settings" />
                 <span class="account-setting" v-text="'设置账户信息'" />
                 <ul class="user-tool">
-                  <li @click.stop.prevent="userCacheEditing = true" v-text="'编辑信息'" />
+                  <li @click.stop.prevent="userCacheMode = false" v-text="'编辑信息'" />
                   <li @click.stop.prevent="clearUserCache" v-text="'清空信息'" />
                 </ul>
               </a>
@@ -335,77 +299,110 @@ onMounted(() => {
           </div>
           <div class="editor">
             <CommentPen
-              ref="markdownInput" :enabled-preview-mode="previewMode"
-              @toggle-preview-mode="handleTogglePreviewMode" @submit="submitComment"
+              :is-posting="isPosting"
+              :disabled="isPosting"
+              :enabled-preview-mode="previewMode"
+              @toggle-preview-mode="handleTogglePreviewMode"
+              @submit="submitComment"
             />
           </div>
         </div>
       </form>
     </ClientOnly>
-    <transition name="module" mode="out-in">
-      <div key="list" ref="listElement" class="list-box">
-        <transition-group name="fade" tag="ul" class="comment-list" @after-enter="addCommentAnimateDone">
-          <CommentItem
-            v-for="comment in comments"
-            :id="`comment-item-${comment.comment_id}`"
-            :key="comment.comment_id"
-            :gravatar="user.gravatar || defaultgravatar"
-            :comment="comment"
-            class="comment-item"
-            :pen-show="comment.comment_id === click_cid"
-            @reply-comment="replyComment"
-            @unreply-comment="unreplyComment"
-          >
-            <template v-if="comment.comment_id === click_cid" #pen>
-              <CommentPen
-                ref="markdownInput"
-                :is-reply="true"
-                :gravatar="user.gravatar"
-                :enabled-preview-mode="previewMode"
-                @toggle-preview-mode="handleTogglePreviewMode"
-                @submit="submitComment"
-              />
-            </template>
+    <Placeholder :data=" props.comments.length" :loading="props.pending">
+      <template #loading>
+        <div>
+          <ul key="skeleton" class="comment-list-skeleton ">
+            <li v-for="item in 10" :key="item" class="item bg-main rounded-md">
+              <div class="thumb">
+                <skeleton-base />
+              </div>
+              <div class="content">
+                <div class="title">
+                  <skeleton-line />
+                </div>
+                <div class="description">
+                  <div class="line-item">
+                    <skeleton-line />
+                  </div>
+                </div>
+                <skeleton-line class="meta" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </template>
+      <template #default>
+        <div key="list" ref="listElement" class="list-box">
+          <ul class="comment-list">
+            <CommentItem
+              v-for="comment in props.comments"
+              :id="`comment-item-${comment.comment_id}`"
+              :key="comment.comment_id"
+              :gravatar="user.gravatar || defaultgravatar"
+              :comment="comment"
+              class="comment-item"
+              :pen-show="comment.comment_id === click_cid"
+              @reply-comment="replyComment"
+              @unreply-comment="unreplyComment"
+              @flash-comments="flashComments(() => {}, false) "
+            >
+              <template v-if="comment.comment_id === click_cid" #pen>
+                <CommentPen
+                  :is-reply="true"
+                  :gravatar="user.gravatar || defaultgravatar"
+                  :enabled-preview-mode="previewMode"
+                  :is-posting="isPosting"
+                  :disabled="isPosting"
+                  @toggle-preview-mode="handleTogglePreviewMode"
+                  @submit="submitComment"
+                />
+              </template>
 
-            <template #replys>
-              <CommentItem
-                v-for="reply in comment.replys"
-                :id="`comment-item-${reply.comment_id}`"
-                :key="reply.comment_id"
-                :gravatar="user.gravatar || defaultgravatar"
-                :parent-comment="comment"
-                :comment="reply" :pen-show="reply.comment_id === click_cid"
-                :is-child="true"
-                class="comment-item"
-                @reply-comment="replyComment"
-                @unreply-comment="unreplyComment"
-              >
-                <template v-if="reply.comment_id === click_cid" #pen>
-                  <CommentPen
-                    ref="markdownInput"
-                    :gravatar="user.gravatar"
-                    :is-reply="true"
-                    :enabled-preview-mode="previewMode"
-                    @toggle-preview-mode="handleTogglePreviewMode"
-                    @submit="submitComment"
-                  />
-                </template>
-              </CommentItem>
-            </template>
-          </CommentItem>
-        </transition-group>
-      </div>
-    </transition>
+              <template #replys>
+                <ul class="comment-list">
+                  <CommentItem
+                    v-for="reply in comment.replys"
+                    :id="`comment-item-${reply.comment_id}`"
+                    :key="reply.comment_id"
+                    :gravatar="user.gravatar || defaultgravatar"
+                    :parent-comment="comment"
+                    :comment="reply" :pen-show="reply.comment_id === click_cid"
+                    :is-child="true"
+                    class="comment-item"
+                    @reply-comment="replyComment"
+                    @unreply-comment="unreplyComment"
+                    @flash-comments="flashComments(() => {}, false) "
+                  >
+                    <template v-if="reply.comment_id === click_cid" #pen>
+                      <CommentPen
+                        :gravatar="user.gravatar || defaultgravatar"
+                        :is-reply="true"
+                        :enabled-preview-mode="previewMode"
+                        :is-posting="isPosting"
+                        :disabled="isPosting"
+                        @toggle-preview-mode="handleTogglePreviewMode"
+                        @submit="submitComment"
+                      />
+                    </template>
+                  </CommentItem>
+                </ul>
+              </template>
+            </CommentItem>
+          </ul>
+        </div>
+      </template>
+    </Placeholder>
     <transition name="module">
-      <div v-if="1" class="pagination-box">
+      <div class="pagination-box">
         <ul class="pagination-list">
           <li class="item">
             <a href class="pagination-btn prev disabled">
               <span>—</span>
             </a>
           </li>
-          <li v-for="(item, index) in pageNum" :key="index" class="item">
-            <a href class="pagination-btn">{{ item }}</a>
+          <li v-for="(item, index) in page_num" :key="index" class="item">
+            <a href :class="[page === item ? 'text-blue-500' : '']" class="pagination-btn" @click.stop.prevent="pageComemnts(item)">{{ item }}</a>
           </li>
           <li class="item">
             <a href class="pagination-btn next disabled">
@@ -419,6 +416,51 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
+.comment-list-skeleton {
+  padding: 0;
+  margin-top: $lg-gap;
+  list-style: none;
+  overflow: hidden;
+
+  .item {
+    display: flex;
+    height: 6rem;
+    padding: $gap;
+    margin-bottom: $lg-gap;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .thumb {
+      width: 4rem;
+        height: 4rem;
+    }
+
+    .content {
+      margin-left: $lg-gap;
+      flex-grow: 1;
+
+      .title {
+        height: 1em;
+        width: 36%;
+      }
+
+      .description {
+        .line-item {
+          width: 100%;
+          height: 1em;
+          margin-top: $sm-gap;
+        }
+      }
+
+      .meta {
+        width: 68%;
+        height: 1em;
+        margin-top: $sm-gap;
+      }
+    }
+  }
+}
 #comment-box {
   padding: $gap;
 
@@ -505,16 +547,6 @@ onMounted(() => {
       }
     }
 
-    >.sort {
-      >.sort-btn {
-        margin-left: $gap;
-
-        &.actived {
-          color: $link-hover-color;
-          font-weight: bold;
-        }
-      }
-    }
   }
 
   >.list-skeleton {
@@ -595,7 +627,6 @@ onMounted(() => {
   .post-box {
     display: block;
     padding-top: $gap;
-    border-top: 1px dashed;
 
     >.user {
       width: 100%;

@@ -17,9 +17,8 @@ interface RendererGetterOption {
   headingID: (html: string, level: number, raw: string) => string
 }
 
-const getRenderer = (options?: Partial<RendererGetterOption>) => {
+const getRenderer = (options: Partial<RendererGetterOption>) => {
   const renderer = new Renderer()
-
   // text
   renderer.text = (text) => {
     return options?.text ? options.text(text) : text
@@ -106,7 +105,6 @@ const getRenderer = (options?: Partial<RendererGetterOption>) => {
           onerror="this.parentElement.dataset.status = 'error'"
           onclick="if (window.utils) window.utils.openImgPopup('${src}')"
         />
-        ${altValue ? `<figcaption>${altValue}</figcaption>` : ''}
       </figure>
     </div>
        `)
@@ -118,6 +116,7 @@ const getRenderer = (options?: Partial<RendererGetterOption>) => {
           src="${source}"
           title="${titleValue}"
           alt="${altValue}"
+          onclick="if (window.utils) window.utils.openImgPopup('${src}')"
       />`,
       )
     }
@@ -162,7 +161,6 @@ const getRenderer = (options?: Partial<RendererGetterOption>) => {
         </pre>
       `
   }
-
   return renderer
 }
 
@@ -181,6 +179,7 @@ marked.setOptions({
 })
 
 export interface MarkdownRenderOption {
+  islozad?: boolean
   sanitize?: boolean
   relink?: boolean
   headingIDRenderer?: RendererGetterOption['headingID']
@@ -196,7 +195,9 @@ export const markdownToHTML = (markdown: string, options?: MarkdownRenderOption)
   // sanitize
   if (options?.sanitize)
     renderOptions.sanitize = true
-
-  return marked.parse(markdown, { renderer: getRenderer(renderOptions) })
+  if (options?.islozad)
+    renderOptions.islozad = true
+  const renderer = getRenderer(renderOptions)
+  return marked.parse(markdown, { renderer })
 }
 
