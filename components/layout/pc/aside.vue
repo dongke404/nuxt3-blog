@@ -58,6 +58,7 @@ const statistics = useState('statistics')
     <div class="aside-sticky-box">
       <!-- 这里添加广告栏 -->
       <!-- 标签版块 -->
+      <ArticleAuchor />
       <div class="aside-tag bg-main bg-hover rounded-md ">
         <ul class="aside-tag-list">
           <li v-for="(tag, index) in tags" :key="index" class="item">
@@ -75,6 +76,7 @@ const statistics = useState('statistics')
           </li>
         </ul>
       </div>
+      
       <!-- 友情链接版块 -->
       <!-- <div class="aside-friendlink">
         <span>推荐链接</span>

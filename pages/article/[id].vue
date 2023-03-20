@@ -2,6 +2,9 @@
 import { useStorage } from '@vueuse/core'
 import voteInit from '@/utils/vote-handler'
 import { COMMENT_NUM } from '@/config'
+import { useArticleStore } from '@/store/article'
+
+
 
 const route = useRoute()
 const id = computed(() => Number(route.params.id))
@@ -19,9 +22,15 @@ useHead(
     title: article.value.title,
   }),
 )
-http.get(`/article/${id.value}`).then(({ data }) => {
+// http.get(`/article/${id.value}`).then(({ data }) => {
+//   pending.value = false
+//   article.value = data
+//   articleDetail.value = data
+// })
+const articleStore = useArticleStore()
+articleStore.getArticleDetail(id.value,(data)=>{
   pending.value = false
-  article.value = data
+  article.value =data
 })
 
 http.get('/comment', {
@@ -121,10 +130,10 @@ onUpdated(() => {
     <!-- <div class="bg-main bg-hover rounded mb-3">
         <article-content :data="article" :loading="pending" />
       </div> -->
-    <LazyComment
+    <!-- <LazyComment
       :post-id="Number(id)" :pending="pending_commit" :comments="comments" :count="Number(count)"
       :init-page="Number(1)" @flash-comments="loadComemntList"
-    />
+    /> -->
   </div>
 </template>
 

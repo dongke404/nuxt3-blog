@@ -1,6 +1,8 @@
 <script>
 import { computed, defineComponent } from 'vue'
 import { markdownToHTML } from '@/utils/markdown'
+import * as ANCHORS from '@/constants/anchor'
+import { useArticleStore } from '@/store/article'
 
 export default defineComponent({
   name: 'Markdown',
@@ -30,17 +32,37 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    isArticle: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup(props) {
     // 元素默认为 '.lozad'
     const { element } = useLozad()
+    const options = {
+      sanitize: props.sanitize,
+      relink: props.relink,
+      islozad: props.islozad,
+    }
+    const headings = []
+    let headingIDRenderer
+    if (props.isArticle) {
+      headingIDRenderer = (html, level, raw) => {
+        const id = ANCHORS.getArticleContentHeadingElementID(
+          level,
+          raw.toLowerCase().replace(/[^a-zA-Z0-9\u4E00-\u9FA5]+/g, '-'),
+        )
+        headings.push({ level, id, text: raw })
+        return id
+      }
+      options.headingIDRenderer = headingIDRenderer
+      const articleStore = useArticleStore()
+      articleStore.headings = headings
+    }
     const markdownHTML = computed(() => {
-      return markdownToHTML(props.html, {
-        sanitize: props.sanitize,
-        relink: props.relink,
-        islozad: props.islozad,
-      })
+      return markdownToHTML(props.html, options)
     })
     return {
       element,

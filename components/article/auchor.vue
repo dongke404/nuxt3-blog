@@ -1,63 +1,33 @@
-<script lang="ts">
+<script setup>
 import * as ANCHORS from '@/constants/anchor'
 import { scrollToAnchor } from '@/utils/scroller'
+import { numberSplit } from '@/utils/transforms/text'
+import { useArticleStore } from '@/store/article'
 
-export default defineComponent({
-  name: 'DesktopAsideAnchor',
-  setup() {
-    const articleDetailStore = useArticleDetailStore()
-    const article = computed(() => articleDetailStore.article)
+const articleStore = useArticleStore()
+const article =computed(()=>articleStore.articleDetail)
+const headings =computed(()=>articleStore.headings)
 
-    const headings = computed(() => {
-      const result = [...(articleDetailStore.defaultContent?.headings || [])]
-      if (articleDetailStore.isLongContent && articleDetailStore.renderedFullContent)
-        result.push(...(articleDetailStore.moreContent?.headings || []))
-
-      return result
-    })
-
-    const minHeadingLevel = computed(() => {
-      return Math.min(...headings.value.map(heading => heading.level))
-    })
-
-    const handleAnchor = (elementID: string) => {
-      scrollToAnchor(elementID)
-    }
-
-    return {
-      ANCHORS,
-      LanguageKey,
-      article,
-      store: articleDetailStore,
-      headings,
-      minHeadingLevel,
-      numberSplit,
-      handleAnchor,
-    }
-  },
+const minHeadingLevel = computed(() => {
+  return Math.min(...headings.value.map(heading => heading.level))
 })
+const handleAnchor = (elementID) => {
+  scrollToAnchor(elementID)
+}
 </script>
 
 <template>
-  <div v-if="article" class="anchor">
-    <button class="header" :title="article.title" @click="handleAnchor('A_article_content')">
+  <div v-if="article" class="anchor bg-main bg-hover mb-3 rounded">
+    <button class="header" :title="article.title" @click="handleAnchor(ANCHORS.ARTICLE_CONTENT_ELEMENT_ID)">
       <div class="title">
         {{ article.title }}
       </div>
       <div class="read">
-        <i18n>
-          <template #zh>
-            共 {{ numberSplit(store.contentLength) }} 字，需阅读
-            {{ store.readMinutes }} 分钟
-          </template>
-          <template #en>
-            {{ numberSplit(store.contentLength) }} words, {{ store.readMinutes }} min
-            read
-          </template>
-        </i18n>
+        共 1000字，需阅读
+        1 分钟
       </div>
     </button>
-    <div v-if="headings.length" class="catalogue">
+    <div v-if="headings && headings.length" class="catalogue">
       <ul class="list" :class="`indent-${minHeadingLevel}`">
         <li
           v-for="(heading, index) in headings" :key="index" class="item" :title="heading.text"
@@ -66,41 +36,33 @@ export default defineComponent({
           <i class="level iconfont" :class="`icon-h-${heading.level}`" />
           <span class="text">{{ heading.text }}</span>
         </li>
-        <li
-          v-if="store.isLongContent && !store.renderedFullContent" key="readmore" class="item readmore"
-          :class="`level-${minHeadingLevel}`" @click="handleAnchor(ANCHORS.ARTICLE_READMORE_ELEMENT_ID)"
-        >
-          <i class="level iconfont icon-loadmore" />
-          <span class="text">
-          </span>
-        </li>
       </ul>
     </div>
     <button class="link" @click="handleAnchor(ANCHORS.ARTICLE_META_ELEMENT_ID)">
       <i class="iconfont icon-heart" />
-      <i18n zh="摁赞" en="Meta" />
-      <divider type="vertical" />
+
+      <CommonDivider type="vertical" />
       <span class="meta">
         <i class="iconfont icon-like" />
-        <span class="count">{{ article.meta.likes }}</span>
+        <span class="count">{{ 222 }}</span>
       </span>
-      <divider type="vertical" />
+      <CommonDivider type="vertical" />
       <span class="meta">
         <i class="iconfont icon-eye" />
-        <span class="count">{{ numberSplit(article.meta.views) }}</span>
+        <span class="count">{{ numberSplit(article.view_num) }}</span>
       </span>
     </button>
     <button class="link" @click="handleAnchor(ANCHORS.ARTICLE_RELATED_ELEMENT_ID)">
       <i class="iconfont icon-category" />
-      <i18n zh="相关" en="Related" />
-      <divider type="vertical" />
-      <span class="count">{{ store.relatedArticles.length }}</span>
+
+      <CommonDivider type="vertical" />
+      <span class="count">{{ 6 }}</span>
     </button>
     <button class="link" @click="handleAnchor(ANCHORS.COMMENT_ELEMENT_ID)">
       <i class="iconfont icon-comment" />
-      <i18n zh="评论" en="Comments" />
-      <divider type="vertical" />
-      <span class="count">{{ article.meta.comments }}</span>
+
+      <CommonDivider type="vertical" />
+      <span class="count">{{ 111 }}</span>
     </button>
   </div>
 </template>
@@ -116,8 +78,8 @@ export default defineComponent({
     .link {
         display: block;
         width: 100%;
-        border: 1px dashed $module-bg-hover;
-        border-radius: $sm-radius;
+        border: 1px dashed black;
+        border-radius: 0.5rem;
         margin-bottom: $gap;
         text-align: left;
     }
@@ -126,7 +88,7 @@ export default defineComponent({
     .link,
     .catalogue {
         &:hover {
-            border-color: $primary;
+            border-color: blue;
         }
     }
 
@@ -142,7 +104,7 @@ export default defineComponent({
         }
 
         &:hover {
-            color: $primary;
+            color: blue;
         }
 
         .count {
@@ -159,8 +121,8 @@ export default defineComponent({
         flex-direction: column;
         justify-content: space-evenly;
         flex-shrink: 0;
-        padding: $xs-gap $gap;
-        height: 6rem;
+        padding:0 $gap;
+        height: 4rem;
 
         .title {
             display: block;
@@ -178,10 +140,10 @@ export default defineComponent({
         max-height: 36rem;
         padding: $sm-gap $gap;
         overflow-y: auto;
-        @include scroll-snap-y();
+        // @include scroll-snap-y();
 
         &:hover {
-            border-color: $primary;
+            border-color: blue;
         }
 
         .list {
@@ -213,14 +175,14 @@ export default defineComponent({
             .item {
                 cursor: pointer;
                 line-height: 2.4em;
-                @include scroll-snap-item();
+                // @include scroll-snap-item();
                 @include text-overflow();
 
                 &:hover {
-                    color: $primary;
+                    color: blue;
 
                     .iconfont {
-                        color: $primary;
+                        color: blue;
                     }
 
                     .text {

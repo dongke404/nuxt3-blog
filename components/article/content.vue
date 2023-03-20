@@ -1,6 +1,7 @@
 <script setup>
 import { originClassMap, originTextMap } from '@/config/maps'
 import { numberSplit } from '@/utils/transforms/text'
+import * as ANCHORS from '@/constants/anchor'
 
 const props = defineProps({
   data: {
@@ -32,7 +33,7 @@ onMounted(() => {
       </div>
     </client-only>
     <div key="knowledge" class="knowledge">
-      <div class="title ">
+      <div :id="ANCHORS.ARTICLE_CONTENT_ELEMENT_ID" class="title ">
         <h1 class="text">
           {{ props.data.title }}
         </h1>

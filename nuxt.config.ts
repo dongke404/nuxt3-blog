@@ -20,8 +20,12 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     // https://vuestic.dev/zh-cn/getting-started/nuxt
     'nuxt-lodash',
-  ],
+    '@pinia/nuxt',
 
+  ],
+  alias: {
+    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+  },
   app: {
     head: {
       title: 'Kirk Dong 的博客',
