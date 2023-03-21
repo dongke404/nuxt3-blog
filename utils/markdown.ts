@@ -183,6 +183,7 @@ export interface MarkdownRenderOption {
   sanitize?: boolean
   relink?: boolean
   headingIDRenderer?: RendererGetterOption['headingID']
+  textRenderer?: (text: string) => string
 }
 export const markdownToHTML = (markdown: string, options?: MarkdownRenderOption) => {
   if (!markdown || typeof markdown !== 'string')
@@ -190,6 +191,7 @@ export const markdownToHTML = (markdown: string, options?: MarkdownRenderOption)
 
   const renderOptions: Partial<RendererGetterOption> = {
     headingID: options?.headingIDRenderer,
+    text: options?.textRenderer,
   }
 
   // sanitize

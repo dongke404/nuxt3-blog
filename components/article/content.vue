@@ -2,6 +2,7 @@
 import { originClassMap, originTextMap } from '@/config/maps'
 import { numberSplit } from '@/utils/transforms/text'
 import * as ANCHORS from '@/constants/anchor'
+import { useArticleStore } from '@/store/article'
 
 const props = defineProps({
   data: {
@@ -9,17 +10,8 @@ const props = defineProps({
     required: true,
   },
 })
-
-const element = ref(null)
-const totalWords = ref('')
-onMounted(() => {
-  // 获取html字数
-  totalWords.value = element.value.innerText.replace(/\s+/g, '').length
-})
-// onUpdated(() => {
-//   // 获取html字数
-//   totalWords.value = element.value.innerText.replace(/\s+/g, '').length
-// })
+const articleStore = useArticleStore()
+const wordNum = computed(() => articleStore.wordNum)
 </script>
 
 <template>
@@ -40,7 +32,7 @@ onMounted(() => {
         <client-only>
           <div class="meta">
             <Icon name="ph:text-t-fill" />
-            共{{ numberSplit(totalWords) }}字，阅读时长约{{ Math.ceil(totalWords / 400) }}分钟
+            共{{ numberSplit(wordNum) }}字，阅读时长约{{ Math.ceil(wordNum / 400) }}分钟
             <common-divider type="vertical" class="vertical" />
             <Icon name="material-symbols:nest-clock-farsight-analog-outline" />
             {{ props.data.date }}&nbsp;
@@ -50,7 +42,7 @@ onMounted(() => {
           </div>
         </client-only>
       </div>
-      <CommonMarkdown :html="props.data.content" :show-word-count="true" :islozad="true" />
+      <CommonMarkdown :html="props.data.content" :show-word-count="true" :islozad="true" :is-article="true" />
       <div class=" text-center mb-2 mt-2">
         （完）
       </div>

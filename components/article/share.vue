@@ -106,16 +106,16 @@ const socials = [
 </script>
 
 <template>
-  <div class="share-box rounded flex justify-around p-2  text-gray-500">
+  <div class="share-box rounded flex justify-around p-2  text-gray-500 ">
     <a
-      v-for="(social, index) in socials" :key="index" rel="nofollow noopener" class="share-ejector flex-1 mr-2 bg-gray-100"
+      v-for="(social, index) in socials" :key="index" rel="nofollow noopener" class="share-ejector flex-1 mr-2 bg-gray-200 dark:bg-gray-700 "
       :title="`Share to: ${social.name}`" :class="social.class || social.name"
       @click.prevent="shareWindow(social, social.url)"
     >
-      <Icon :name="social.Icon" class="p-1 text-xl" />
+      <Icon :name="social.Icon" class="p-1 text-xl dark:text-gray-100" />
     </a>
-    <span title="复制文章链接" class="share-ejector link  flex-1  bg-gray-100" @click="copy()">
-      <Icon name="ph:link-bold" class="p-1 text-xl" />
+    <span title="复制文章链接" class="share-ejector link  flex-1 bg-gray-200 dark:bg-gray-700 " @click="copy()">
+      <Icon name="ph:link-bold" class="p-1 text-xl dark:text-gray-100" />
     </span>
   </div>
 </template>

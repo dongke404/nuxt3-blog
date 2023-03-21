@@ -34,7 +34,7 @@ export default defineComponent({
     },
     isArticle: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 
@@ -46,10 +46,10 @@ export default defineComponent({
       relink: props.relink,
       islozad: props.islozad,
     }
-    const headings = []
-    let headingIDRenderer
     if (props.isArticle) {
-      headingIDRenderer = (html, level, raw) => {
+      const headings = []
+      let wordNum = 0
+      const headingIDRenderer = (html, level, raw) => {
         const id = ANCHORS.getArticleContentHeadingElementID(
           level,
           raw.toLowerCase().replace(/[^a-zA-Z0-9\u4E00-\u9FA5]+/g, '-'),
@@ -57,9 +57,16 @@ export default defineComponent({
         headings.push({ level, id, text: raw })
         return id
       }
-      options.headingIDRenderer = headingIDRenderer
       const articleStore = useArticleStore()
+      const textRenderer = (txt) => {
+        wordNum += txt.length
+        articleStore.wordNum = wordNum
+        return txt
+      }
+      options.textRenderer = textRenderer
+      options.headingIDRenderer = headingIDRenderer
       articleStore.headings = headings
+      articleStore.wordNum = wordNum
     }
     const markdownHTML = computed(() => {
       return markdownToHTML(props.html, options)

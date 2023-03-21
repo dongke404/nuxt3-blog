@@ -5,9 +5,9 @@ import { numberSplit } from '@/utils/transforms/text'
 import { useArticleStore } from '@/store/article'
 
 const articleStore = useArticleStore()
-const article =computed(()=>articleStore.articleDetail)
-const headings =computed(()=>articleStore.headings)
-
+const article = computed(() => articleStore.articleDetail)
+const headings = computed(() => articleStore.headings)
+const wordNum = computed(() => articleStore.wordNum)
 const minHeadingLevel = computed(() => {
   return Math.min(...headings.value.map(heading => heading.level))
 })
@@ -17,14 +17,13 @@ const handleAnchor = (elementID) => {
 </script>
 
 <template>
-  <div v-if="article" class="anchor bg-main bg-hover mb-3 rounded">
-    <button class="header" :title="article.title" @click="handleAnchor(ANCHORS.ARTICLE_CONTENT_ELEMENT_ID)">
+  <div v-if="article" class="anchor bg-main bg-hover mb-3 rounded text-gray-700 dark:text-gray-200">
+    <button class="header" :title="article.title " @click="handleAnchor(ANCHORS.ARTICLE_CONTENT_ELEMENT_ID)">
       <div class="title">
         {{ article.title }}
       </div>
       <div class="read">
-        共 1000字，需阅读
-        1 分钟
+        共{{ numberSplit(wordNum) }}字，阅读时长约{{ Math.ceil(wordNum / 400) }}分钟
       </div>
     </button>
     <div v-if="headings && headings.length" class="catalogue">
@@ -38,31 +37,19 @@ const handleAnchor = (elementID) => {
         </li>
       </ul>
     </div>
-    <button class="link" @click="handleAnchor(ANCHORS.ARTICLE_META_ELEMENT_ID)">
-      <i class="iconfont icon-heart" />
-
-      <CommonDivider type="vertical" />
-      <span class="meta">
-        <i class="iconfont icon-like" />
-        <span class="count">{{ 222 }}</span>
-      </span>
-      <CommonDivider type="vertical" />
-      <span class="meta">
-        <i class="iconfont icon-eye" />
-        <span class="count">{{ numberSplit(article.view_num) }}</span>
-      </span>
-    </button>
-    <button class="link" @click="handleAnchor(ANCHORS.ARTICLE_RELATED_ELEMENT_ID)">
-      <i class="iconfont icon-category" />
-
-      <CommonDivider type="vertical" />
-      <span class="count">{{ 6 }}</span>
-    </button>
     <button class="link" @click="handleAnchor(ANCHORS.COMMENT_ELEMENT_ID)">
-      <i class="iconfont icon-comment" />
-
+      <Icon name="ri:discuss-line" />
+      <span class="count ml-2">{{ article.cmt_num }}</span>
       <CommonDivider type="vertical" />
-      <span class="count">{{ 111 }}</span>
+      <span>
+        <Icon name="mdi:cards-heart" />
+        <span class="count ml-2">{{ article.likes }}</span>
+      </span>
+      <CommonDivider type="vertical" />
+      <span>
+        <Icon name="ic:baseline-remove-red-eye" />
+        <span class="count ml-2">{{ numberSplit(article?.view_num) }}</span>
+      </span>
     </button>
   </div>
 </template>
@@ -78,7 +65,7 @@ const handleAnchor = (elementID) => {
     .link {
         display: block;
         width: 100%;
-        border: 1px dashed black;
+        border: 1px dashed rgb(176, 176, 176);
         border-radius: 0.5rem;
         margin-bottom: $gap;
         text-align: left;
@@ -111,9 +98,6 @@ const handleAnchor = (elementID) => {
             font-weight: bold;
         }
 
-        .iconfont {
-            margin-right: $sm-gap;
-        }
     }
 
     .header {
@@ -175,7 +159,6 @@ const handleAnchor = (elementID) => {
             .item {
                 cursor: pointer;
                 line-height: 2.4em;
-                // @include scroll-snap-item();
                 @include text-overflow();
 
                 &:hover {
@@ -220,13 +203,6 @@ const handleAnchor = (elementID) => {
                     padding-left: $font-size-h4 * 5;
                 }
 
-                &.readmore {
-                    margin-top: $xs-gap;
-
-                    .text {
-                        font-weight: bold;
-                    }
-                }
             }
         }
     }

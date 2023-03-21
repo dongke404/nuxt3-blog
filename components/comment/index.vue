@@ -225,7 +225,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="comment-box" class="comment-box bg-main bg-hover rounded" :class="{ mobile: false }">
+  <div class="comment-box bg-main bg-hover rounded" :class="{ mobile: false }">
     <transition name="module" mode="out-in">
       <div key="tools" class="tools border-b-2 border-gray-300">
         <div class="total">
@@ -310,6 +310,9 @@ onMounted(() => {
       </form>
     </ClientOnly>
     <Placeholder :data=" props.comments.length" :loading="props.pending">
+      <template #empty>
+        等待你的评论
+      </template>
       <template #loading>
         <div>
           <ul key="skeleton" class="comment-list-skeleton ">
@@ -394,7 +397,7 @@ onMounted(() => {
       </template>
     </Placeholder>
     <transition name="module">
-      <div class="pagination-box">
+      <div v-if="props.count > 0" class="pagination-box">
         <ul class="pagination-list">
           <li class="item">
             <a href class="pagination-btn prev disabled">
@@ -461,7 +464,7 @@ onMounted(() => {
     }
   }
 }
-#comment-box {
+.comment-box {
   padding: $gap;
 
   &.mobile {
