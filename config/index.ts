@@ -27,3 +27,10 @@ export const personInfo = {
   address: '浙江 , 杭州',
   email: 'dongkirk1992@gmail.com',
 }
+
+export const VALUABLE_LINKS = Object.freeze({
+  RSS: '/rss.xml',
+  SITE_MAP: '/sitemap.xml',
+  MUSIC163: 'https://music.163.com/#/playlist?id=4992612670',
+  MUSIC163Detail: 'https://music.kedong.me/playlist/detail?id=4992612670',
+})

@@ -2,6 +2,16 @@
 const rankArticle = useState('rankArticle')
 const tags = useState('tags')
 const statistics = useState('statistics')
+const showAuchor = ref(false)
+const router = useRoute()
+watch(router, (to) => {
+  // to.fullPath 正则 包含 /article/
+  const regex = /\/article\//
+  if (to.fullPath.match(regex))
+    showAuchor.value = true
+  else
+    showAuchor.value = false
+}, { immediate: true })
 </script>
 
 <template>
@@ -58,14 +68,14 @@ const statistics = useState('statistics')
     <div class="aside-sticky-box">
       <!-- 这里添加广告栏 -->
       <!-- 标签版块 -->
-      <ArticleAuchor />
+      <ArticleAuchor v-if="showAuchor" />
       <div class="aside-tag bg-main bg-hover rounded-md ">
         <ul class="aside-tag-list">
           <li v-for="(tag, index) in tags" :key="index" class="item">
             <nuxt-link :to="`/tag/${tag.name}`">
               <div class="flex  w-full h-full" :title="tag.description">
                 <div class="bg-gray-300 p-1">
-                <!-- <img :src="`https://kedong.me${tag.icon}`" class=" h-5 w-5"> -->
+                  <img :src="`https://kedong.me${tag.icon}`" class=" h-5 w-5">
                 </div>
                 <span class=" pl-2 pr-2 pt-1 " style="background-color: rgba(129,129,129, 0.5);">
                   <span>{{ tag.name }}</span>

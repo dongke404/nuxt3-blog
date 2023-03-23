@@ -14,6 +14,10 @@ else
         <div class="background-image dark:opacity-10" :style="{ backgroundImage: `url(${backgroundIMG})`, backgroundSize: 'cover' }" />
       </client-only>
     </div>
+    <client-only>
+      <WidgetToolbox />
+    </client-only>
+    <WidgetMusicPlayer />
     <LayoutPcHeader />
     <main id="main" class="main-container mx-auto min-h-screen">
       <LayoutPcNav />

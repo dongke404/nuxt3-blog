@@ -1,19 +1,17 @@
 import { API_BASEURL, CREDENTIALS } from '~~/config'
 interface Http {
-  baseUrl: string
   credentials: string
   [key: string]: any
 }
 
 class Http {
-  constructor(baseUrl: any, credentials: any) {
-    this.baseUrl = baseUrl
+  constructor(credentials: any) {
     this.credentials = credentials
   }
 
   request(url: string, method: string, options?: any) {
     return new Promise((resolve, reject) => {
-      useFetch(this.baseUrl + url, { method, ...options }).then(({ data, pending, error }: any) => {
+      useFetch(url, { method, baseURL: API_BASEURL, ...options }).then(({ data, pending, error }: any) => {
         if (error.value) {
           // 此处根据状态码进行处理
           reject(error.value)
@@ -57,5 +55,5 @@ class Http {
     return this.request(url, 'DELETE', { body, ...options })
   }
 }
-const http = new Http(API_BASEURL, CREDENTIALS)
+const http = new Http(CREDENTIALS)
 export default http
