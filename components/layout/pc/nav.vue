@@ -30,10 +30,10 @@
         <Icon class="icon-style" name="ri:discuss-line" />
         <span class="text" v-text="$t('nav.guestbook')" />
       </nuxt-link>
-      <!-- <nuxt-link to="/about" class="item">
+      <nuxt-link to="/about" class="item">
         <Icon class="icon-style" name="material-symbols:person-pin" />
         <span class="text" v-text="$t('nav.about')" />
-      </nuxt-link> -->
+      </nuxt-link>
     </nav>
   </div>
 </template>

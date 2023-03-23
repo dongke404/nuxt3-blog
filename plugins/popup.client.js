@@ -3,7 +3,6 @@
  * @module plugins/popup
  */
 import { defineNuxtPlugin } from '#app'
-
 export default defineNuxtPlugin(() => {
   // 销毁弹窗
   const closePopup = (documentID) => {

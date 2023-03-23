@@ -14,17 +14,6 @@ export const meta = {
   description: '',
   url: 'kedong.me',
   author: 'Kirk Dong',
-  defaultgravatar: 'https://kedong.me/static/images/app/defaultgravatar.png',
-  errorGravatar: 'https://kedong.me/static/images/app/errorAvatar.jpg',
-  email: 'dongkirk1992@gmail.com',
-}
-
-// 个人信息
-export const personInfo = {
-  hobby: '武侠古风，二次元，数码，跑步,游戏',
-  aboutmeImg: '/static/images/app/aboutme.jpg',
-  mobileAvatar: '/static/images/app/mobileAvatar.png',
-  address: '浙江 , 杭州',
   email: 'dongkirk1992@gmail.com',
 }
 
@@ -33,4 +22,30 @@ export const VALUABLE_LINKS = Object.freeze({
   SITE_MAP: '/sitemap.xml',
   MUSIC163: 'https://music.163.com/#/playlist?id=4992612670',
   MUSIC163Detail: 'https://music.kedong.me/playlist/detail?id=4992612670',
+  GITHUB: 'https://github.com/dongke404',
+  TWITTER: 'https://twitter.com/DongKirk11',
+  INSTAGRAM: 'https://www.instagram.com/dongkirk1992/?hl=en',
+  YOUTUBE_CHANNEL: 'https://www.youtube.com/channel/UCs_FcUK3n1dZcfVu7NvO7dw',
 })
+
+export const APP_IMAGES = Object.freeze({
+  defaultgravatar: 'https://kedong.me/static/images/app/defaultgravatar.png',
+  errorGravatar: 'https://kedong.me/static/images/app/errorAvatar.jpg',
+  backgroundVideo: 'https://kedong.me/static/video/backgroundVideo.mp4',
+  backgroundImg: 'https://kedong.me/static/images/app/background.jpg',
+  myAvatar: 'https://kedong.me/static/images/app/defaultgravatar.png',
+  backgroundImgAbout: 'https://kedong.me/static/images/app/background-about.png',
+  wechat: 'https://kedong.me/static/images/app/addwechat.jpg',
+})
+
+export const APP_ICON = Object.freeze({
+  github: 'mdi:github',
+  twitter: 'mdi:twitter',
+  instagram: 'mdi:instagram',
+  youtube: 'mdi:youtube',
+  wechat: 'mdi:wechat',
+  rss: 'mdi:rss',
+  sitemap: 'mdi:sitemap',
+  email: 'mdi:email',
+})
+

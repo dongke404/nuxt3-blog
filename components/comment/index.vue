@@ -4,7 +4,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useDebounceFn, useStorage } from '@vueuse/core'
 import CommentPen from './pen'
 import getGravatarUrlByEmail from '@/utils/gravatar-url'
-import { COMMENT_NUM, meta } from '@/config'
+import { APP_IMAGES, COMMENT_NUM } from '@/config'
 
 const props = defineProps({
   postId: {
@@ -45,7 +45,7 @@ const localUser = useStorage('userInfo', {})
 const emailRegex = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
 const urlRegex = /^((https|http):\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/
 const blacklist = ref({})
-const defaultgravatar = ref(meta.defaultgravatar)
+const defaultgravatar = ref(APP_IMAGES.defaultgravatar)
 const previewMode = ref(false)
 const userCacheMode = ref(false)
 const user = reactive({
@@ -293,7 +293,7 @@ onMounted(() => {
             <div v-if="!isMobile" class="gravatar">
               <img
                 alt="头像" :src="user.gravatar || defaultgravatar" draggable="false"
-                @error="$event.target.src = meta.errorGravatar"
+                @error="$event.target.src = APP_IMAGES.errorGravatar"
               >
             </div>
           </div>

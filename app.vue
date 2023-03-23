@@ -18,6 +18,7 @@ http.get('/statistics').then(({ data }) => {
 </script>
 
 <template>
+  <WidgetMusicPlayer />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

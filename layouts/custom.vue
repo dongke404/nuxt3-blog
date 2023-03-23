@@ -1,10 +1,11 @@
 <script setup>
+import { APP_IMAGES } from '@/config'
 const colorMode = useColorMode()
 const backgroundIMG = useChangebg()
 if (colorMode.preference === 'dark')
-  backgroundIMG.value = 'https://kedong.me/static/images/app/background.jpg'
+  backgroundIMG.value = APP_IMAGES.backgroundImg
 else
-  backgroundIMG.value = 'https://kedong.me/static/images/app/background.jpg'
+  backgroundIMG.value = APP_IMAGES.backgroundImg
 </script>
 
 <template>

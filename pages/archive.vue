@@ -1,5 +1,4 @@
 <script setup>
-// import { numberSplit } from '@/utils/transforms/text'
 definePageMeta({
   layout: 'custom',
 })

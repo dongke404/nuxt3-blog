@@ -17,7 +17,7 @@ else
     <client-only>
       <WidgetToolbox />
     </client-only>
-    <WidgetMusicPlayer />
+
     <LayoutPcHeader />
     <main id="main" class="main-container mx-auto min-h-screen">
       <LayoutPcNav />
