@@ -1,6 +1,7 @@
 // 本地开发Url
 // export const API_BASEURL = 'http://127.0.0.1:5000/api'
 export const API_BASEURL = 'https://kedong.me/api_test' // 测试环境
+// export const API_BASEURL = 'https://kedong.me/api' // 生产环境
 // 使用 cookie
 export const CREDENTIALS = 'include'
 // 网址

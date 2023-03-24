@@ -75,7 +75,7 @@ watch(router, (to) => {
             <nuxt-link :to="`/tag/${tag.name}`">
               <div class="flex  w-full h-full" :title="tag.description">
                 <div class="bg-gray-300 p-1">
-                  <img :src="`https://kedong.me${tag.icon}`" class=" h-5 w-5">
+                  <img :src="`https://kedong.me/${tag.icon}`" class=" h-5 w-5">
                 </div>
                 <span class=" pl-2 pr-2 pt-1 " style="background-color: rgba(129,129,129, 0.5);">
                   <span>{{ tag.name }}</span>

@@ -24,6 +24,6 @@ http.get('/statistics').then(({ data }) => {
   </NuxtLayout>
 </template>
 
-<style>
+<style lang="scss">
 @import "assets/styles/tailwind.css";
 </style>

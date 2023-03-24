@@ -24,14 +24,23 @@ export default defineNuxtConfig({
 
   ],
   alias: {
-    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+    pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
+  },
+  devServer: {
+    port: 4000,
   },
   app: {
     head: {
       title: 'Kirk Dong 的博客',
       meta: [
+        { charset: 'utf-8' },
         // <meta name="viewport" content="width=device-width, initial-scale=1">
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        // 谷歌爬虫
+        {
+          name: 'google-site-verification',
+          content: '7wzBsyvulUETi8pO6N7wo7mZvkmdmhRFH6hcP0yBts4',
+        },
       ],
       script: [],
       link: [],

@@ -4,7 +4,8 @@ definePageMeta({
   layout: 'custom',
 })
 const showWechat = () => {
-  window.utils.openImgPopup(APP_IMAGES.wechat)
+  if (window.utils)
+    window.utils.openImgPopup(APP_IMAGES.wechat)
 }
 </script>
 
@@ -18,14 +19,14 @@ const showWechat = () => {
       </div>
       <div class="content bg-main">
         <NuxtImg class="avatar z-20" :src="APP_IMAGES.myAvatar" />
-        <h1 class="name">
+        <h1 class="name text-color-main">
           {{ 'Kirk Dong' || '-' }}
         </h1>
-        <p class="slogan">
-          {{ '碍事大师多' || '-' }}
+        <p class="slogan text-color-main">
+          {{ '前端工程师/python菜鸟/游戏控/JKlover/浅二次元' }}
         </p>
         <p class="biography">
-          {{ 'asdasddad' }}
+          {{ '要做舞动的精灵，自由自在，无羁无绊，飞翔在自己人生的航道上。' }}
         </p>
         <div class="socials">
           <span class="normal">
@@ -47,8 +48,8 @@ const showWechat = () => {
             </NuxtLink>
           </span>
           <client-only>
-            <span class="mini " @click="showWechat">
-              <button class="item wechat">
+            <span class="mini ">
+              <button class="item wechat" @click="showWechat">
                 <Icon :name="APP_ICON.wechat" />
               </button>
             </span>
@@ -56,10 +57,39 @@ const showWechat = () => {
         </div>
       </div>
     </div>
+    <div class="bg-main mt-3 w-2/3 ml-auto mr-auto p-5 rounded">
+      <h2 class=" font-semibold">
+        关于博主
+      </h2>
+      <p class="mt-3">
+        90后，爱玩游戏，深度熬夜狗，巴塞罗纳球迷，热爱自由，喜欢边听音乐边跑步。内心有股骚气，但不外露。
+      </p>
+    </div>
+    <div class="bg-main mt-3 w-2/3 ml-auto mr-auto p-5 rounded">
+      <h2 class=" font-semibold mb-1">
+        关于本站历史
+      </h2>
+      <h4 class="mt-2">
+        2023年3月
+      </h4>
+      <p class="mt-2">
+        使用Nuxt3重新开发,利用tailwindcss,pinia重新开发。添加评论的邮件回复等功能。
+      </p>
+      <h4 class="mt-2">
+        2020年5月
+      </h4>
+      <p class="mt-2">
+        依照https://surmon.me/网站Ui,code,使用Nuxt框架开发,后端自行设计用Python Flask,数据库用MongoDB。
+      </p>
+    </div>
+    <div class="bg-main mt-3 w-2/3 ml-auto mr-auto p-5 rounded">
+      <iframe src="https://www.google.com/maps/d/embed?mid=1g0GM_6pQldNo9dDEaX59-PEbz30euSs&ehbc=2E312F&z=5" width="100%" height="360" />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@import url("https://fonts.font.im/css?family=Hanalei+Fill");
   .about-page {
     width: 100%;
     overflow: hidden;
@@ -71,8 +101,8 @@ const showWechat = () => {
         display: block;
         position: absolute;
         width: 100%;
-        height: $banner-height;
-        top: $header-height;
+        height: $banner-height+$header-height;
+        top: 0;
         left: 0;
         overflow: hidden;
         &::before {
@@ -129,6 +159,7 @@ const showWechat = () => {
         .name,
         .slogan {
           text-align: center;
+          margin-bottom: $gap;
         }
 
         .name {
@@ -139,10 +170,11 @@ const showWechat = () => {
         .biography {
           margin-bottom: $gap * 2;
           font-size: $font-size-h3;
+          font-family: "Hanalei Fill", cursive;
         }
 
         .socials {
-          $button-size: 2.25rem;
+          $button-size: 2rem;
           display: flex;
           justify-content: center;
           height: $button-size;

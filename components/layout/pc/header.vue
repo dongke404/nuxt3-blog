@@ -1,4 +1,4 @@
-<script setup name="header">
+<script setup>
 import themeSwitch from '@/components/widget/themeSwitch.vue'
 import languageSwitchVue from '@/components/widget/languageSwitch.vue'
 const active = ref(false)

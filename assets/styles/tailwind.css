@@ -253,6 +253,10 @@
   .color-gray {
     @apply text-gray-500  dark:text-gray-200;
   }
+  /* nav */
+  .text-color-main {
+    @apply text-slate-600 dark:text-slate-200;
+  }
 
 }
 
