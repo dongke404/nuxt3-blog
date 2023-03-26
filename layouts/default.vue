@@ -9,15 +9,12 @@ else
 
 <template>
   <div id="app-main" class="h-full w-full dark:text-gray-300 dark:bg-gray-800 ">
-    <div id="background" class="-z-10">
-      <client-only>
-        <div class="background-image dark:opacity-10" :style="{ backgroundImage: `url(${backgroundIMG})`, backgroundSize: 'cover' }" />
-      </client-only>
-    </div>
     <client-only>
+      <div id="background" class="z-0">
+        <div class="background-image dark:opacity-10" :style="{ backgroundImage: `url(${backgroundIMG})`, backgroundSize: 'cover' }" />
+      </div>
       <WidgetToolbox />
     </client-only>
-
     <LayoutPcHeader />
     <main id="main" class="main-container mx-auto min-h-screen">
       <LayoutPcNav />

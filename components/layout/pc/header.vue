@@ -1,6 +1,6 @@
 <script setup>
 import themeSwitch from '@/components/widget/themeSwitch.vue'
-import languageSwitchVue from '@/components/widget/languageSwitch.vue'
+import languageSwitch from '@/components/widget/languageSwitch.vue'
 const active = ref(false)
 const keyword = ref('')
 const router = useRouter()
@@ -11,7 +11,7 @@ const search = () => {
 </script>
 
 <template>
-  <header class="header z-50 bg-white bg-opacity-60 dark:bg-gray-700">
+  <div class="header-box z-50 bg-white bg-opacity-60 dark:bg-gray-700">
     <div class="header-container  m-auto ">
       <nuxt-link to="/" class="header-link" :title="$t('slogan')">
         <div class=" w-full header-header ">
@@ -21,26 +21,26 @@ const search = () => {
           <span class="header-slogan">{{ $t("slogan") }}</span>
         </div>
       </nuxt-link>
-      <div class="flex justify-center items-center">
-        <div class="search mr-4" :class="[active ? 'active' : '']">
-          <div class="icon" @click="active = !active" />
-          <div class="input">
-            <input v-model="keyword" type="text" placeholder="search" @keyup.enter="search">
+      <client-only>
+        <div class="flex justify-center items-center">
+          <div class="search mr-4" :class="[active ? 'active' : '']">
+            <div class="icon" @click="active = !active" />
+            <div class="input">
+              <input v-model="keyword" type="text" placeholder="search" @keyup.enter="search">
+            </div>
+            <span v-if="active" class="clear" @click="keyword = ''" />
           </div>
-          <span v-if="active" class="clear" @click="keyword = ''" />
-        </div>
-        <ClientOnly>
           <themeSwitch />
-          <languageSwitchVue />
-        </ClientOnly>
-      </div>
+          <languageSwitch />
+        </div>
+      </client-only>
     </div>
-  </header>
+  </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url("https://fonts.font.im/css?family=Hanalei+Fill");
-.header {
+.header-box {
   height: $header-height;
   position: fixed;
   top: 0;

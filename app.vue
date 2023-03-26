@@ -18,10 +18,12 @@ http.get('/statistics').then(({ data }) => {
 </script>
 
 <template>
-  <WidgetMusicPlayer />
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <div>
+    <WidgetMusicPlayer />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>
 
 <style lang="scss">
