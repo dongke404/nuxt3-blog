@@ -1,9 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue'
 import { useStorage, useThrottleFn } from '@vueuse/core'
 import getGravatarUrlByEmail from '@/utils/gravatar-url'
-import { meta } from '@/config'
-
+import { APP_IMAGES } from '@/config'
 const props = defineProps({
   penShow: {
     type: Boolean,
@@ -66,7 +64,7 @@ const likeComment = useThrottleFn((comment) => {
   }
   if (props.isChild)
     data.isReply = true
-  if (userInfo)
+  if (userInfo.user_id)
     data.user_id = userInfo.user_id
   voteHander(comment.comment_id, true)
   http.post('/likeComment', data).then(({ data }) => {
@@ -133,7 +131,7 @@ function voteHander(comment_id, isVote) {
           :alt="comment.author.name "
           :src="getGravatarUrlByEmail(comment.author.email)"
           draggable="false"
-          @error="$event.target.src = meta.errorGravatar"
+          @error="$event.target.src = APP_IMAGES.errorGravatar"
         >
       </a>
     </div>

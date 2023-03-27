@@ -5,7 +5,6 @@
 //   setPageLayout(isMobile ? 'mobile' : 'default')
 
 // setPageLayout(isMobile ? 'mobile' : 'default')
-
 http.get('/article', { sort: 1, limit: 10 }).then(({ data }) => {
   useState('rankArticle', () => data.list)
 })

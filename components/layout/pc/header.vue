@@ -38,7 +38,7 @@ const search = () => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url("https://fonts.font.im/css?family=Hanalei+Fill");
 .header-box {
   height: $header-height;

@@ -24,7 +24,7 @@ else {
 
 <template>
   <div
-    class="header-box h-48"
+    class="header-box h-48 rounded overflow-hidden"
     :class="{ mobile: isMobile }"
     :style="{
       'background-image': `url(https://kedong.me/${backgroundImg})`,

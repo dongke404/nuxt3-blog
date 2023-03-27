@@ -1,13 +1,13 @@
 // 本地开发Url
 // export const API_BASEURL = 'http://127.0.0.1:5000/api'
-// export const API_BASEURL = 'https://kedong.me/api_test' // 测试环境
-export const API_BASEURL = 'https://kedong.me/api' // 生产环境
+
+export const API_BASEURL = import.meta.env.DEV ? 'https://kedong.me/api_test' : 'https://kedong.me/api'
 // 使用 cookie
 export const CREDENTIALS = 'include'
 // 网址
 export const SITE_URL = 'https://kedong.me'
 // 单页显示评论条数
-export const COMMENT_NUM = 10
+export const COMMENT_NUM = 20
 
 export const meta = {
   title: 'Kirk Dong 的博客',

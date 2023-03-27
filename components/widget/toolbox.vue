@@ -62,7 +62,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div id="toolbox">
+  <div id="toolbox" class=" z-10">
     <div class="container ">
       <div class="tools flex flex-col bg-main w-9 justify-center items-center">
         <nuxt-link
@@ -97,17 +97,15 @@ export default defineComponent({
   <style lang="scss" scoped>
     #toolbox {
       position: fixed;
-      z-index: $z-index-toolbox;
-      width: 100%;
+      width: 100vw;
       bottom: 21rem;
 
       .container {
-        position: relative;
-
         .tools {
           position: absolute;
-          right: -8rem;
-          overflow: hidden;
+          right: 0;
+          margin-right: 8rem;
+          // overflow: hidden;
 
           &:first-child {
             border-top-left-radius: $xs-radius;

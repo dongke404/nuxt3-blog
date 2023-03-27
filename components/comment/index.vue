@@ -42,6 +42,9 @@ const page_num = computed(() => Math.ceil(props.count / COMMENT_NUM))
 const isPosting = ref(false)
 const { isMobile } = useDevice()
 const localUser = useStorage('userInfo', {})
+const localVote = useStorage('localVote', [])
+const localUnvote = useStorage('localUnvote', [])
+const user_blog_likes = useStorage('user_blog_likes', [])
 const emailRegex = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
 const urlRegex = /^((https|http):\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/
 const blacklist = ref({})
@@ -97,7 +100,17 @@ const updateUserCache = (event) => {
       gravatar: user.gravatar,
     }).then(({ data }) => {
       userCacheMode.value = true
-      localUser.value = data
+      localUser.value.name = data.name
+      localUser.value.site = data.site
+      localUser.value.gravatar = data.gravatar
+      localUser.value.user_id = data.user_id
+      localUser.value.email = data.email
+      if (data.like_comments)
+        localVote.value = data.like_comments
+      if (data.dislike_comments)
+        localUnvote.value = data.dislike_comments
+      if (data.like_articles)
+        user_blog_likes.value = data.like_articles
     })
   }
 }
