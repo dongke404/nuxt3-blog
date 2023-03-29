@@ -1,6 +1,7 @@
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
+import { Autoplay } from 'swiper'
 const props = defineProps({
   data: {
     type: Array,
@@ -11,7 +12,7 @@ const props = defineProps({
     default: false,
   },
 })
-
+const modules = [Autoplay]
 const tweets = computed(() => props.data)
 const pending = computed(() => props.loading)
 
@@ -64,17 +65,30 @@ const prev = () => {
         </div>
 
         <div class="bg-main bg-hover mr-2 ">
-          <Swiper id="swiper1" class="h-full swiper-container" direction="vertical" :slides-per-view="1" :space-between="50" @swiper="onSwiper">
+          <Swiper
+            id="swiper1"
+            :modules="modules"
+            class="h-full swiper-container"
+            direction="vertical"
+            :autoplay="{
+              delay: 3000,
+              disableOnInteraction: false,
+            }"
+            :space-between="50"
+            @swiper="onSwiper"
+          >
             <SwiperSlide v-for="item in tweets" :key="item">
               <div class="h-full text-sm pl-3 pr-3 ">
                 <div class=" text-sm pt-3 flex mb-1">
                   <div class="font-semibold truncate flex-grow-0 cursor-default" :title="item.text">
                     {{ item.text }}
                   </div>
-                  <Icon name="heroicons:photo-solid" class=" flex-none ml-1" size="1rem" />
+                  <nuxt-link v-if="item.urls" :to="item.urls[0]" target="_blank" rel="external nofollow noopener">
+                    <Icon v-if="item.urls" name="heroicons:photo-solid" class=" flex-none ml-1" size="1rem" />
+                  </nuxt-link>
                 </div>
                 <div class="flex ">
-                  <nuxt-link :to="`https://twitter.com/DongKirk11/status/${item.id}`" target="_blank">
+                  <nuxt-link :to="`https://twitter.com/DongKirk11/status/${item.id}`" target="_blank" rel="noopener noreferrer">
                     <div class=" text-gray-400 hover:text-black cursor-pointer mr-6">
                       <Icon class="flex-none  mr-1" name="teenyicons:twitter-solid" size="0.8rem" />
                       <span class="text-xs mr-1">Tweet</span>

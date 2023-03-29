@@ -5,6 +5,7 @@ const tweets = ref([])
 const totalCount = ref(0)
 const pending = ref(true)
 const tpending = ref(true)
+const { isMobile } = useDevice()
 
 http.get('/article').then(({ data }) => {
   articleList.value = data.list
@@ -35,7 +36,10 @@ const loadmore = (v) => {
 </script>
 
 <template>
-  <div>
+  <div v-if="isMobile">
+    <LazyMobileArticleList :data="articleList" :loading="pending" :total-count="totalCount" @loadart="loadmore" />
+  </div>
+  <div v-else>
     <LazyCarrousel :data="carrList" :loading="pending" />
     <LazyTweets :data="tweets" :loading="tpending" />
     <LazyArticleList :data="articleList" :loading="pending" :total-count="totalCount" @loadart="loadmore" />

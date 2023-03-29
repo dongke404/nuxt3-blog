@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { APP_ICON } from '~~/config'
 // .link-active nuxt配置文件里设置
 </script>
 
@@ -6,32 +7,31 @@
   <div id="nav" class="aside-nav">
     <nav class="nav-list">
       <nuxt-link to="/" class="item">
-        <Icon class="icon-style" name="ic:round-home" />
+        <Icon class="icon-style" :name="APP_ICON.home" />
         <span class="text" v-text="$t('nav.home')" />
       </nuxt-link>
       <nuxt-link to="/category/code" class="item">
-        <Icon class="icon-style" name="material-symbols:code" />
-        <i class="iconfont" />
+        <Icon class="icon-style" :name="APP_ICON.code" />
         <span class="text" v-text="$t('nav.code')" />
       </nuxt-link>
       <nuxt-link to="/category/think" class="item">
-        <Icon class="icon-style" name="mdi:head-lightbulb" />
+        <Icon class="icon-style" :name="APP_ICON.think" />
         <span class="text" v-text="$t('nav.think')" />
       </nuxt-link>
       <nuxt-link to="/category/life" class="item">
-        <Icon class="icon-style" name="uil:diary" />
+        <Icon class="icon-style" :name="APP_ICON.life" />
         <span class="text" v-text="$t('nav.life')" />
       </nuxt-link>
       <nuxt-link to="/archive" class="item">
-        <Icon class="icon-style" name="material-symbols:calendar-month" />
+        <Icon class="icon-style" :name="APP_ICON.calendar" />
         <span class="text" v-text="$t('nav.timeline')" />
       </nuxt-link>
       <nuxt-link to="/guestbook/1" class="item">
-        <Icon class="icon-style" name="ri:discuss-line" />
+        <Icon class="icon-style" :name="APP_ICON.discuss" />
         <span class="text" v-text="$t('nav.guestbook')" />
       </nuxt-link>
       <nuxt-link to="/about" class="item">
-        <Icon class="icon-style" name="material-symbols:person-pin" />
+        <Icon class="icon-style" :name="APP_ICON.person" />
         <span class="text" v-text="$t('nav.about')" />
       </nuxt-link>
     </nav>

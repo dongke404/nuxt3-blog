@@ -34,8 +34,9 @@ export default defineNuxtConfig({
       title: 'Kirk Dong 的博客',
       meta: [
         { charset: 'utf-8' },
+        // <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
         // <meta name="viewport" content="width=device-width, initial-scale=1">
-        // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
         // 谷歌爬虫
         {
           name: 'google-site-verification',

@@ -263,21 +263,7 @@ const showWechat = () => {
               &.telegram {
                 background-color: $telegram-primary;
               }
-              &.douban {
-                background-color: $douban-primary;
-              }
-              &.stackoverflow {
-                background-color: $stackoverflow-primary;
-              }
-              &.algorithm {
-                background-color: $leetcode-primary;
-              }
-              &.quora {
-                background-color: $quora-primary;
-              }
-              &.linkedin {
-                background-color: $linkedin-primary;
-              }
+
             }
           }
         }

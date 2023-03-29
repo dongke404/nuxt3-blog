@@ -1,4 +1,5 @@
 <script setup>
+import { APP_ICON } from '@/config'
 import {
   categoryMap,
   originClassMap,
@@ -23,7 +24,6 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['loadart'])
-const { isMobile } = useDevice()
 const articleList = computed(() => props.data)
 const loading = computed(() => props.loading)
 const totalCount = computed(() => props.totalCount)
@@ -91,10 +91,9 @@ const loadMore = async () => {
         <div class="article-list">
           <div
             v-for="article in articleList" :key="article.article_id" class="article-list-item"
-            :class="{ mobile: isMobile }"
           >
             <div class="item-content bg-main p-2 rounded-md bg-hover">
-              <div v-if="!isMobile" class="item-thumb">
+              <div class="item-thumb">
                 <nuxt-link :to="`/article/${article.article_id}`">
                   <span class="item-oirigin" :class="originClassMap[article.origin]">
                     {{ originTextMap[article.origin] }}
@@ -112,29 +111,29 @@ const loadMore = async () => {
                 <p class="item-description" style="-webkit-box-orient: vertical" v-html="article.description" />
                 <div class="item-meta">
                   <span class="date">
-                    <Icon name="material-symbols:nest-clock-farsight-analog-outline" class="color-gray" />
-                    <span class="ml-2">{{ article.date }}</span>
+                    <Icon :name="APP_ICON.clock" class="color-gray" />
+                    <span class="ml-2">{{ $dayjs(article.date).fromNow() }}</span>
                   </span>
                   <span class="views">
-                    <Icon name="ic:baseline-remove-red-eye" class="color-gray" />
+                    <Icon :name="APP_ICON.eye" class="color-gray" />
                     <span class="ml-2">{{ article.view_num || 0 }}</span>
                   </span>
                   <span class="comments">
-                    <Icon name="ri:discuss-line" class="color-gray" />
+                    <Icon :name="APP_ICON.discuss" class="color-gray" />
                     <span class="ml-2">{{ article.cmt_num || 0 }}</span>
                   </span>
                   <span class="likes">
-                    <Icon v-if="article.isLiked" name="mdi:cards-heart" class="text-red-600" />
-                    <Icon v-else name="mdi:cards-heart" class="color-gray" />
+                    <Icon v-if="article.isLiked" :name="APP_ICON.heart" class="text-red-600" />
+                    <Icon v-else :name="APP_ICON.heart" class="color-gray" />
                     <span class="ml-2">{{ article.likes || 0 }}</span>
                   </span>
-                  <span v-if="!isMobile" class="categories">
-                    <Icon name="tabler:category" class="color-gray" />
-                    <!-- <nuxt-link :to="`/category/${article.category}`"> -->
-                    <span class="ml-2">{{
-                      categoryMap[article.category]
-                    }}</span>
-                    <!-- </nuxt-link> -->
+                  <span class="categories">
+                    <Icon :name="APP_ICON.category" class="color-gray" />
+                    <nuxt-link :to="`/category/${article.category}`">
+                      <span class="ml-2">{{
+                        categoryMap[article.category]
+                      }}</span>
+                    </nuxt-link>
                   </span>
                 </div>
               </div>
@@ -217,19 +216,6 @@ const loadMore = async () => {
 }
 
 .articles {
-  &.mobile {
-
-    >.article-list,
-    >.article-list-mammon,
-    >.article-list-header {
-      margin-bottom: $gap;
-    }
-
-    >.article-list-mammon {
-      padding: $gap;
-    }
-  }
-
   .article-list {
     margin-bottom: $lg-gap;
     min-height: $lg-gap;
@@ -352,41 +338,6 @@ const loadMore = async () => {
           text-overflow: ellipsis;
           word-wrap: normal;
           font-size: 0.8rem;
-        }
-      }
-    }
-
-    &.mobile {
-      margin-bottom: $gap;
-
-      &:last-child {
-        margin: 0;
-      }
-
-      >.item-content {
-        height: auto;
-        padding: $sm-gap $gap;
-
-        >.item-body {
-          width: 100%;
-          height: auto;
-
-          >.item-description {
-            height: auto;
-            margin-bottom: 0.5em;
-          }
-
-          >.item-meta {
-
-            >.date,
-            >.views,
-            >.comments,
-            >.likes,
-            >.tags,
-            >.categories {
-              margin: 0;
-            }
-          }
         }
       }
     }

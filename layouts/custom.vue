@@ -1,9 +1,10 @@
 <script setup>
 import { APP_IMAGES } from '@/config'
+
 const colorMode = useColorMode()
 const backgroundIMG = useChangebg()
 if (colorMode.preference === 'dark')
-  backgroundIMG.value = APP_IMAGES.backgroundImg
+  backgroundIMG.value = APP_IMAGES.backgroundImgDark
 else
   backgroundIMG.value = APP_IMAGES.backgroundImg
 </script>

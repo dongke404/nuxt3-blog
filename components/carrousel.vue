@@ -1,6 +1,8 @@
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
+import 'swiper/css/pagination'
+import { Autoplay, Pagination } from 'swiper'
 const props = defineProps({
   data: {
     type: Array,
@@ -11,12 +13,13 @@ const props = defineProps({
     default: false,
   },
 })
+const modules = [Pagination, Autoplay]
 const onSwiper = (swiper) => {
   // console.log(swiper);
 }
 const onSlideChange = () => {
 }
-const articleList = computed(() => props.data.slice(0, 5))
+const articleList = computed(() => props.data.slice(0, 10))
 const loading = computed(() => props.loading)
 </script>
 
@@ -39,15 +42,24 @@ const loading = computed(() => props.loading)
     </template>
     <div>
       <Swiper
-        class="h-48 rounded-md overflow-hidden" :slides-per-view="1"
-        :space-between="50"
+        class="h-48 rounded-md overflow-hidden"
+        :autoplay="{
+          delay: 3000,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        :modules="modules"
         @swiper="onSwiper"
         @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="item in articleList" :key="item">
-          <div class="h-48 rounded-md overflow-hidden">
-            <nuxt-img :src="item.src" :alt="item.src" fit="fill" class=" h-full w-full rounded-md" />
-          </div>
+          <NuxtLink :to="`/article/${item.article_id}`">
+            <div class="h-48 rounded-md overflow-hidden">
+              <nuxt-img :src="item.src" :alt="item.src" fit="fill" class=" h-full w-full rounded-md" />
+            </div>
+          </NuxtLink>
         </SwiperSlide>
       </Swiper>
     </div>

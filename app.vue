@@ -1,6 +1,6 @@
 <script setup>
-// const { isMobile } = useDevice()
-// const layout = isMobile ? 'mobile' : ''
+const { isMobile } = useDevice()
+const layout = isMobile ? 'mobile' : 'default'
 // if (isMobile)
 //   setPageLayout(isMobile ? 'mobile' : 'default')
 
@@ -18,8 +18,8 @@ http.get('/statistics').then(({ data }) => {
 
 <template>
   <div>
-    <WidgetMusicPlayer />
-    <NuxtLayout>
+    <WidgetMusicPlayer v-if="!isMobile" />
+    <NuxtLayout :name="layout">
       <NuxtPage />
     </NuxtLayout>
   </div>

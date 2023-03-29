@@ -16,6 +16,7 @@ export const meta = {
   url: 'kedong.me',
   author: 'Kirk Dong',
   email: 'dongkirk1992@gmail.com',
+  slogan: '热爱生活，无拘无束',
 }
 
 export const VALUABLE_LINKS = Object.freeze({
@@ -33,13 +34,24 @@ export const APP_IMAGES = Object.freeze({
   defaultgravatar: 'https://kedong.me/static/images/app/defaultgravatar.png',
   errorGravatar: 'https://kedong.me/static/images/app/errorAvatar.jpg',
   backgroundVideo: 'https://kedong.me/static/video/backgroundVideo.mp4',
-  backgroundImg: 'https://kedong.me/static/images/app/background.jpg',
-  myAvatar: 'https://kedong.me/static/images/app/defaultgravatar.png',
+  backgroundImg: 'https://kedong.me/static/images/app/background.png',
+  backgroundImgDark: 'https://kedong.me/static/images/app/backgroundDark.png',
+  myAvatar: 'https://kedong.me/static/images/app/mobileAvatar.png',
   backgroundImgAbout: 'https://kedong.me/static/images/app/background-about.png',
   wechat: 'https://kedong.me/static/images/app/addwechat.jpg',
 })
 
 export const APP_ICON = Object.freeze({
+  home: 'mdi:home',
+  code: 'mdi:code-tags',
+  think1: 'mdi:head-lightbulb',
+  think: 'mdi:thought-bubble',
+  life: 'uil:diary',
+  calendar: 'mdi:calendar',
+  discuss: 'mdi:comment-text-multiple',
+  person: 'mdi:account',
+  sun: 'line-md:moon-alt-to-sunny-outline-loop-transition',
+  moon: 'line-md:moon',
   github: 'mdi:github',
   twitter: 'mdi:twitter',
   instagram: 'mdi:instagram',
@@ -48,5 +60,12 @@ export const APP_ICON = Object.freeze({
   rss: 'mdi:rss',
   sitemap: 'mdi:sitemap',
   email: 'mdi:email',
+  menu: 'mdi:menu',
+  search: 'mdi:magnify',
+  clock: 'mdi:clock',
+  eye: 'mdi:eye',
+  heart: 'mdi:heart',
+  category: 'tabler:category',
+
 })
 
