@@ -1,18 +1,28 @@
 <script setup>
-const articleList = ref([])
-const carrList = ref([])
+import { useArticleListStore } from '@/store/articleList'
+const { isMobile } = useDevice()
+definePageMeta({
+  middleware: ['un-flash-page'],
+  // or middleware: 'auth'
+})
+
+const articleListStore = useArticleListStore()
 const tweets = ref([])
-const totalCount = ref(0)
 const pending = ref(true)
 const tpending = ref(true)
-const { isMobile } = useDevice()
 
-http.get('/article').then(({ data }) => {
-  articleList.value = data.list
-  carrList.value = data.list
-  totalCount.value = data.pagination.count
+const carrList = computed(() => articleListStore.articleList)
+const articleList = computed(() => articleListStore.articleList)
+const isflash = useState('isflash')
+if (isflash.value || articleList.value.length === 0) {
+  articleListStore.$reset()
+  articleListStore.getArticleList({}, () => {
+    pending.value = false
+  })
+}
+else {
   pending.value = false
-})
+}
 
 http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
   const reg = /https:\/\/t.co\/[a-zA-Z0-9]+/g
@@ -22,27 +32,16 @@ http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
   })
   tpending.value = false
 })
-
-const loadmore = (v) => {
-  articleList.value = articleList.value.concat(v)
-  const old_scrollHeight = document.body.scrollHeight
-  nextTick(() => {
-    scrollTo({
-      top: old_scrollHeight - 200,
-      behavior: 'smooth',
-    })
-  })
-}
 </script>
 
 <template>
   <div v-if="isMobile">
-    <LazyMobileArticleList :data="articleList" :loading="pending" :total-count="totalCount" @loadart="loadmore" />
+    <LazyMobileArticleList :data="articleList" :loading="false" :total-count="totalCount" @loadart="loadmore" />
   </div>
   <div v-else>
     <LazyCarrousel :data="carrList" :loading="pending" />
     <LazyTweets :data="tweets" :loading="tpending" />
-    <LazyArticleList :data="articleList" :loading="pending" :total-count="totalCount" @loadart="loadmore" />
+    <LazyArticleList :data="articleList" :loading="pending" />
   </div>
 </template>
 

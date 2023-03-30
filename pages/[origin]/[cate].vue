@@ -1,6 +1,9 @@
 <script setup>
-const articleList = ref([])
-const totalCount = ref(0)
+import { useArticleListStore } from '@/store/articleList'
+definePageMeta({
+  middleware: ['un-flash-page'],
+})
+const articleListStore = useArticleListStore()
 const route = useRoute()
 const router = useRouter()
 const params = {}
@@ -13,21 +16,16 @@ else if (route.params.origin === 'category')
 else
   router.push('/404')
 const pending = ref(true)
-http.get('/article', params).then(({ data }) => {
-  articleList.value = data.list
-  totalCount.value = data.pagination.count
-  pending.value = false
-})
-
-const loadmore = (v) => {
-  articleList.value = articleList.value.concat(v)
-  const old_scrollHeight = document.body.scrollHeight
-  nextTick(() => {
-    scrollTo({
-      top: old_scrollHeight - 200,
-      behavior: 'smooth',
-    })
+const articleList = computed(() => articleListStore.articleList)
+const isflash = useState('isflash')
+if (isflash.value || articleList.value.length === 0) {
+  articleListStore.$reset()
+  articleListStore.getArticleList(params, () => {
+    pending.value = false
   })
+}
+else {
+  pending.value = false
 }
 </script>
 
@@ -38,8 +36,6 @@ const loadmore = (v) => {
       :data="articleList"
       :loading="pending"
       :params="params"
-      :total-count="totalCount"
-      @loadart="loadmore"
     />
   </div>
 </template>

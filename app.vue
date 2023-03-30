@@ -1,25 +1,20 @@
 <script setup>
 const { isMobile } = useDevice()
-const layout = isMobile ? 'mobile' : 'default'
+
+// const { isMobile } = useDevice()
 // if (isMobile)
 //   setPageLayout(isMobile ? 'mobile' : 'default')
-
-// setPageLayout(isMobile ? 'mobile' : 'default')
-http.get('/article', { sort: 1, limit: 10 }).then(({ data }) => {
-  useState('rankArticle', () => data.list)
-})
-http.get('/tag').then(({ data }) => {
-  useState('tags', () => data)
-})
-http.get('/statistics').then(({ data }) => {
-  useState('statistics', () => data)
-})
+// const layout = isMobile ? 'mobile' : 'default'
+useState('isflash', () => false)
 </script>
 
 <template>
   <div>
     <WidgetMusicPlayer v-if="!isMobile" />
-    <NuxtLayout :name="layout">
+    <NuxtLayout v-if="isMobile" name="mobile">
+      <NuxtPage />
+    </NuxtLayout>
+    <NuxtLayout v-else>
       <NuxtPage />
     </NuxtLayout>
   </div>

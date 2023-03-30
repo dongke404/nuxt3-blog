@@ -1,8 +1,11 @@
 <script setup>
+import { useAppStore } from '@/store'
 definePageMeta({
   layout: 'custom',
 })
-const statistics = useState('statistics')
+const appStore = useAppStore()
+appStore.getStatistics()
+const statistics = appStore.statistics
 const articles = ref([])
 const pending = ref(true)
 

@@ -73,7 +73,7 @@ const loadMore = async () => {
       </template>
       <template #default>
         <div>
-          <div v-for="article in articleList" :key="article.article_id" class=" mb-2">
+          <div v-for="article in articleList" :key="article.article_id" class="mb-4">
             <div class=" bg-main rounded-md  overflow-hidden">
               <div class="item-thumb w-full">
                 <nuxt-link :to="`/article/${article.article_id}`">

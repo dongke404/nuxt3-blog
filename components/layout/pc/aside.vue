@@ -1,7 +1,14 @@
 <script setup>
-const rankArticle = useState('rankArticle')
-const tags = useState('tags')
-const statistics = useState('statistics')
+import { useArticleListStore } from '@/store/articleList'
+import { useAppStore } from '@/store'
+const articleListStore = useArticleListStore()
+const appStore = useAppStore()
+articleListStore.getRankArticleList()
+appStore.getTags()
+appStore.getStatistics()
+const rankArticle = computed(() => articleListStore.rankArticleList)
+const tags = appStore.tags
+const statistics = appStore.statistics
 const showAuchor = ref(false)
 const router = useRoute()
 watch(router, (to) => {
@@ -39,7 +46,7 @@ watch(router, (to) => {
         <div class="border-r-2 h-5 bg-slate-400 flex-none" />
         <div>
           <div class=" text-xl font-semibold">
-            {{ statistics.comment_num }}
+            {{ statistics?.comment_num }}
           </div>
           <div class=" font-bold text-xs">
             全站评论

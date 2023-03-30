@@ -5,6 +5,7 @@ import {
   originClassMap,
   originTextMap,
 } from '@/config/maps/index'
+import { useArticleListStore } from '@/store/articleList'
 const props = defineProps({
   data: {
     type: Array,
@@ -14,24 +15,20 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  totalCount: {
-    type: Number,
-    default: 0,
-  },
   params: {
     type: Object,
     default: () => ({}),
   },
 })
-const emit = defineEmits(['loadart'])
+const articleListStore = useArticleListStore()
 const articleList = computed(() => props.data)
-const loading = computed(() => props.loading)
-const totalCount = computed(() => props.totalCount)
-const limit = 16
-const currPage = ref(1)
+// const loading = computed(() => props.loading)
+const totalCount = computed(() => articleListStore.totalCount)
+const limit = computed(() => articleListStore.limit)
+const currPage = computed(() => articleListStore.currPage)
 const pending = ref(false)
 const isLastPage = computed(() => {
-  return currPage.value * limit > totalCount.value
+  return currPage.value * limit.value > totalCount.value
 })
 // onMounted(() => {
 //   // 点赞
@@ -49,16 +46,18 @@ const isLastPage = computed(() => {
 //     }
 //   })
 // })
-const loadMore = async () => {
+const loadMore = () => {
   pending.value = true
-  const { data } = await http.get('/article', {
-    page: currPage.value + 1,
-    limit,
-    ...props.params,
+  articleListStore.loadmore(props.params, () => {
+    pending.value = false
+    const old_scrollHeight = document.body.scrollHeight
+    nextTick(() => {
+      scrollTo({
+        top: old_scrollHeight - 200,
+        behavior: 'smooth',
+      })
+    })
   })
-  pending.value = false
-  emit('loadart', data.list)
-  currPage.value++
 }
 </script>
 
@@ -90,7 +89,7 @@ const loadMore = async () => {
       <template #default>
         <div class="article-list">
           <div
-            v-for="article in articleList" :key="article.article_id" class="article-list-item"
+            v-for="(article, index) in articleList" :key="index" class="article-list-item"
           >
             <div class="item-content bg-main p-2 rounded-md bg-hover">
               <div class="item-thumb">
