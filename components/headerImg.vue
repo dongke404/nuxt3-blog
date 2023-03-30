@@ -1,7 +1,9 @@
 <script setup>
 import { routerMap } from '@/config/maps'
+import { useAppStore } from '@/store'
+const appStore = useAppStore()
 const route = useRoute()
-const tags = useState('tags')
+const tags = computed(() => appStore.tags)
 const { isMobile } = useDevice()
 const origin = route.params.origin
 const cate = route.params.cate

@@ -1,14 +1,14 @@
 <script setup>
 import { APP_ICON, APP_IMAGES } from '@/config'
 const colorMode = useColorMode()
-const background = useChangebg()
+const backgroundImg = useState('backgroundImg')
 const dark = () => {
   colorMode.preference = 'dark'
-  background.value = APP_IMAGES.backgroundImgDark
+  backgroundImg.value = APP_IMAGES.backgroundImgDark
 }
 const light = () => {
   colorMode.preference = 'light'
-  background.value = APP_IMAGES.backgroundImg
+  backgroundImg.value = APP_IMAGES.backgroundImg
 }
 </script>
 

@@ -7,6 +7,7 @@ export const useAppStore = defineStore('appStore', {
     return {
       tags: [],
       statistics: {},
+      rankArticleList: [],
     }
   },
 
@@ -20,6 +21,14 @@ export const useAppStore = defineStore('appStore', {
     async getStatistics() {
       const { data } = await http.get('/statistics')
       this.statistics = data
+    },
+    // 获取排行文章
+    async getRankArticleList() {
+      const { data } = await http.get('/article', {
+        sort: 1,
+        limit: 10,
+      })
+      this.rankArticleList = data.list
     },
   },
 })

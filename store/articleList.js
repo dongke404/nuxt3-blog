@@ -9,8 +9,6 @@ export const useArticleListStore = defineStore('articleList', {
       totalCount: 0,
       currPage: 1,
       limit: 16,
-      rankArticleList: [],
-      sort: 1,
     }
   },
 
@@ -37,14 +35,6 @@ export const useArticleListStore = defineStore('articleList', {
       this.articleList = [...this.articleList, ...data.list]
       this.totalCount = data.pagination.count
       callback && callback()
-    },
-    // 获取排行文章
-    async getRankArticleList() {
-      const { data } = await http.get('/article', {
-        sort: this.sort,
-        limit: 10,
-      })
-      this.rankArticleList = data.list
     },
   },
 })

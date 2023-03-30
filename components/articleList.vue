@@ -22,7 +22,6 @@ const props = defineProps({
 })
 const articleListStore = useArticleListStore()
 const articleList = computed(() => props.data)
-// const loading = computed(() => props.loading)
 const totalCount = computed(() => articleListStore.totalCount)
 const limit = computed(() => articleListStore.limit)
 const currPage = computed(() => articleListStore.currPage)
@@ -63,7 +62,7 @@ const loadMore = () => {
 
 <template>
   <div class="articles">
-    <Placeholder :data="articleList.length" :loading="loading">
+    <Placeholder :data="articleList.length" :loading="props.loading">
       <template #loading>
         <div>
           <ul key="skeleton" class="article-list-skeleton ">

@@ -1,14 +1,11 @@
 <script setup>
-import { useArticleListStore } from '@/store/articleList'
 import { useAppStore } from '@/store'
-const articleListStore = useArticleListStore()
 const appStore = useAppStore()
-articleListStore.getRankArticleList()
-appStore.getTags()
+appStore.getRankArticleList()
 appStore.getStatistics()
-const rankArticle = computed(() => articleListStore.rankArticleList)
-const tags = appStore.tags
-const statistics = appStore.statistics
+const rankArticle = computed(() => appStore.rankArticleList)
+const tags = computed(() => appStore.tags)
+const statistics = computed(() => appStore.statistics)
 const showAuchor = ref(false)
 const router = useRoute()
 watch(router, (to) => {

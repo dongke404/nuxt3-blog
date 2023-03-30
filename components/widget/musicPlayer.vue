@@ -41,13 +41,6 @@ if (data.value && data.value.code === 200) {
 const ismuted = ref(true)
 const ispaused = ref(true)
 
-const playPre = () => {
-  if (currIndex.value === 0)
-    currIndex.value = mLength.value - 1
-
-  else
-    currIndex.value -= 1
-}
 const playOrpluse = () => {
   if (audio.value.paused) {
     audio.value.play()
@@ -58,11 +51,26 @@ const playOrpluse = () => {
     ispaused.value = true
   }
 }
+const playPre = () => {
+  if (currIndex.value === 0)
+    currIndex.value = mLength.value - 1
+
+  else
+    currIndex.value -= 1
+  ispaused.value = false
+  setTimeout(() => {
+    audio.value.play()
+  }, 1000)
+}
 const playNext = () => {
   if (currIndex.value === mLength.value - 1)
     currIndex.value = 0
   else
     currIndex.value += 1
+  ispaused.value = false
+  setTimeout(() => {
+    audio.value.play()
+  }, 1000)
 }
 const muted = () => {
   audio.value.muted = !audio.value.muted
@@ -88,7 +96,6 @@ const error = (e) => {
           ref="audio"
           :key="currentSong.url"
           :src="currentSong.url"
-          autoplay
           name="media"
           @ended="playNext"
           @error="error"
