@@ -5,9 +5,9 @@ const openAside = () => isOpenedAside.value = true
 </script>
 
 <template>
-  <div class="mobile-main module-bg-darker-2 dark:module-bg-darker-2 ">
+  <div class="mobile-main bg-white dark:bg-gray-800">
     <div class="asider" :class="{ opened: isOpenedAside }">
-      <LayoutMobileAside class="aside" />
+      <LayoutMobileAside class="aside" @close="closeAside" />
     </div>
     <div class="main" :class="{ opened: isOpenedAside }">
       <div v-if="isOpenedAside" class="close-mask" @click="closeAside" />
@@ -80,7 +80,6 @@ const openAside = () => isOpenedAside.value = true
       padding: $lg-gap $gap;
       padding-top: $mobile-header-height + $lg-gap;
       transition: width 0.35s;
-      display: flex;
 
       .fallback {
         width: 100%;

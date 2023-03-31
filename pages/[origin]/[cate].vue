@@ -3,6 +3,7 @@ import { useArticleListStore } from '@/store/articleList'
 definePageMeta({
   middleware: ['un-flash-page'],
 })
+const { isMobile } = useDevice()
 const articleListStore = useArticleListStore()
 const route = useRoute()
 const router = useRouter()
@@ -30,7 +31,10 @@ else {
 </script>
 
 <template>
-  <div>
+  <div v-if="isMobile">
+    <MobileArticleList :data="articleList" :loading="pending" :params="params" />
+  </div>
+  <div v-else>
     <HeaderImg />
     <LazyArticleList
       :data="articleList"

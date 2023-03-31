@@ -11,7 +11,11 @@ export const useArticleListStore = defineStore('articleList', {
       limit: 16,
     }
   },
-
+  getters: {
+    isfinished() {
+      return this.articleList.length >= this.totalCount
+    },
+  },
   actions: {
     // 获取文章列表
     async getArticleList(params, callback) {

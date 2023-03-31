@@ -39,6 +39,7 @@ export const APP_IMAGES = Object.freeze({
   myAvatar: 'https://kedong.me/static/images/app/mobileAvatar.png',
   backgroundImgAbout: 'https://kedong.me/static/images/app/background-about.png',
   wechat: 'https://kedong.me/static/images/app/addwechat.jpg',
+  archiveBanner: 'https://kedong.me/static/images/app/archive.jpg',
 })
 
 export const APP_ICON = Object.freeze({
@@ -66,6 +67,7 @@ export const APP_ICON = Object.freeze({
   eye: 'mdi:eye',
   heart: 'mdi:heart',
   category: 'tabler:category',
+  cancel: 'mdi:close',
 
 })
 

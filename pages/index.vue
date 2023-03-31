@@ -36,7 +36,7 @@ http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
 
 <template>
   <div v-if="isMobile">
-    <LazyMobileArticleList :data="articleList" :loading="false" :total-count="totalCount" @loadart="loadmore" />
+    <MobileArticleList :data="articleList" :loading="pending" />
   </div>
   <div v-else>
     <LazyCarrousel :data="carrList" :loading="pending" />

@@ -14,41 +14,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  totalCount: {
-    type: Number,
-    default: 0,
-  },
   params: {
     type: Object,
     default: () => ({}),
   },
 })
-const emit = defineEmits(['loadart'])
-const articleList = computed(() => props.data)
-const loading = computed(() => props.loading)
-const totalCount = computed(() => props.totalCount)
-const limit = 16
-const currPage = ref(1)
-const pending = ref(false)
-const isLastPage = computed(() => {
-  return currPage.value * limit > totalCount.value
-})
-const loadMore = async () => {
-  pending.value = true
-  const { data } = await http.get('/article', {
-    page: currPage.value + 1,
-    limit,
-    ...props.params,
-  })
-  pending.value = false
-  emit('loadart', data.list)
-  currPage.value++
-}
 </script>
 
 <template>
   <div>
-    <Placeholder :data="articleList.length" :loading="loading">
+    <Placeholder :data="props.data.length" :loading="props.loading">
       <template #loading>
         <div>
           <ul key="skeleton" class="article-list-skeleton ">
@@ -56,12 +31,12 @@ const loadMore = async () => {
               <div class="thumb">
                 <skeleton-base />
               </div>
-              <div class="content">
+              <div class="content mt-2">
                 <div class="title">
                   <skeleton-line />
                 </div>
                 <div class="description">
-                  <div v-for="line in 2" :key="line" class="line-item">
+                  <div v-for="line in 1" :key="line" class="line-item">
                     <skeleton-line />
                   </div>
                 </div>
@@ -73,7 +48,7 @@ const loadMore = async () => {
       </template>
       <template #default>
         <div>
-          <div v-for="article in articleList" :key="article.article_id" class="mb-4">
+          <div v-for="article in props.data" :key="article.article_id" class="mb-4">
             <div class=" bg-main rounded-md  overflow-hidden">
               <div class="item-thumb w-full">
                 <nuxt-link :to="`/article/${article.article_id}`">
@@ -126,26 +101,7 @@ const loadMore = async () => {
     </Placeholder>
     <!-- 加载更多 -->
     <ClientOnly>
-      <div class="article-load w-full relative h-10 mt-4 rounded-md overflow-hidden">
-        <div class="background z-0">
-          <span class="left bg-main " />
-          <span v-if="isLastPage" class="right bg-main cursor-not-allowed" />
-          <span v-else class="right bg-main" @click="loadMore" />
-        </div>
-        <div class="flex flex-row justify-between h-full w-full items-center z-10 font-black">
-          <div class="ml-5">
-            {{ isLastPage ? totalCount : currPage * limit }}/{{ totalCount }}
-          </div>
-          <div v-show="!pending" class="w-24 text-right mr-3 ">
-            <span v-if="isLastPage"> 到底了</span>
-            <span v-else>加载更多</span>
-            <Icon name="material-symbols:double-arrow" class="color-gray mb-1" rotate="90deg" />
-          </div>
-          <div v-show="pending" class="w-24 text-center mr-3 ">
-            <Icon name="eos-icons:bubble-loading" class="color-gray mb-1" />
-          </div>
-        </div>
-      </div>
+      <MobileLoadmore />
     </ClientOnly>
   </div>
 </template>
@@ -158,29 +114,23 @@ const loadMore = async () => {
   overflow: hidden;
 
   .item {
-    display: flex;
-    height: 8.5rem;
     padding: $gap;
     margin-bottom: $lg-gap;
-
+    width: 100%;
     &:last-child {
       margin-bottom: 0;
     }
 
     .thumb {
-      height: 100%;
-
+      height: 8rem;
+      width: 100%;
     }
-
     .content {
-      margin-left: $lg-gap;
       flex-grow: 1;
-
       .title {
         height: 1.5em;
-        width: 36%;
+        width: 50%;
       }
-
       .description {
         .line-item {
           width: 100%;

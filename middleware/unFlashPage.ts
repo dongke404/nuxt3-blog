@@ -4,7 +4,6 @@
 //   // or middleware: 'auth'
 // })
 export default defineNuxtRouteMiddleware((to, from) => {
-  console.log('unFlashPage', to, from)
   if (from.name === 'article-id')
     useState('isflash').value = false
 

@@ -99,7 +99,6 @@ const wordNum = computed(() => articleStore.wordNum)
 
         .meta {
           display: inline-block;
-          color: $text-disabled;
           font-size: $font-size-small;
           user-select: none;
           line-height: 2;

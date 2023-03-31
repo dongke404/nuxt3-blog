@@ -1,5 +1,22 @@
 <script setup>
 import { APP_ICON, APP_IMAGES, meta } from '@/config'
+const emit = defineEmits(['close'])
+const colorMode = useColorMode()
+const close = () => {
+  emit('close')
+}
+const { locale, setLocaleCookie } = useI18n()
+const changeLanguage = (localeCode) => {
+  locale.value = localeCode
+  setLocaleCookie(localeCode)
+}
+
+const dark = () => {
+  colorMode.preference = 'dark'
+}
+const light = () => {
+  colorMode.preference = 'light'
+}
 </script>
 
 <template>
@@ -19,39 +36,45 @@ import { APP_ICON, APP_IMAGES, meta } from '@/config'
     </div>
     <div class="aside-tool">
       <div class="item">
-        <Icon :name="APP_ICON.sun" />
+        <Icon v-show="$colorMode.value === 'dark'" :name="APP_ICON.sun" @click="light" />
+        <Icon v-show="$colorMode.value === 'light'" :name="APP_ICON.moon" @click="dark" />
       </div>
       <div class="item">
-        zh
+        <div v-if="locale === 'en'" @click="changeLanguage('zh')">
+          zh
+        </div>
+        <div v-if="locale === 'zh'" @click="changeLanguage('en')">
+          en
+        </div>
       </div>
     </div>
     <div class="aside-nav">
       <nav class="nav-list text-sm">
-        <nuxt-link to="/" class="item">
+        <nuxt-link to="/" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.home" />
           <span class="ml-3" v-text="$t('nav.home')" />
         </nuxt-link>
-        <nuxt-link to="/category/code" class="item">
+        <nuxt-link to="/category/code" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.code" />
           <span class="ml-3" v-text="$t('nav.code')" />
         </nuxt-link>
-        <nuxt-link to="/category/think" class="item">
+        <nuxt-link to="/category/think" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.think" />
           <span class="ml-3" v-text="$t('nav.think')" />
         </nuxt-link>
-        <nuxt-link to="/category/life" class="item">
+        <nuxt-link to="/category/life" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.life" />
           <span class="ml-3" v-text="$t('nav.life')" />
         </nuxt-link>
-        <nuxt-link to="/archive" class="item">
+        <nuxt-link to="/archive" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.calendar" />
           <span class="ml-3" v-text="$t('nav.timeline')" />
         </nuxt-link>
-        <nuxt-link to="/guestbook/1" class="item">
+        <nuxt-link to="/guestbook/1" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.discuss" />
           <span class="ml-3" v-text="$t('nav.guestbook')" />
         </nuxt-link>
-        <nuxt-link to="/about" class="item">
+        <nuxt-link to="/about" class="item" @click="close">
           <Icon class="ml-1" :name="APP_ICON.person" />
           <span class="ml-3" v-text="$t('nav.about')" />
         </nuxt-link>
