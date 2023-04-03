@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import en from './config/i18nConfig/en'
 import zh from './config/i18nConfig/zh'
+
 export default defineNuxtConfig({
   // ssr: process.env.NODE_ENV !== "development",
   modules: [
@@ -26,9 +27,6 @@ export default defineNuxtConfig({
   alias: {
     pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
   },
-  devServer: {
-    port: 4000,
-  },
   app: {
     head: {
       title: 'Kirk Dong 的博客',
@@ -43,7 +41,10 @@ export default defineNuxtConfig({
           content: '7wzBsyvulUETi8pO6N7wo7mZvkmdmhRFH6hcP0yBts4',
         },
       ],
-      script: [],
+      script: [{
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6099675086497793',
+        crossorigin: 'anonymous',
+      }],
       link: [],
       style: [],
       noscript: [],

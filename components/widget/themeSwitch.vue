@@ -18,3 +18,4 @@ const light = () => {
     <Icon v-if="$colorMode.value === 'light'" :name="APP_ICON.moon" @click="dark" />
   </div>
 </template>
+

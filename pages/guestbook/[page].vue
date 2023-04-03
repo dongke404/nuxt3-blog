@@ -43,9 +43,9 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div class="guestbook-page" :class="{ mobile: isMobile }">
-    <div class="detail">
-      <div class="banner rounded h-48">
+  <div class="guestbook-page">
+    <div v-if="!isMobile" class="detail">
+      <div v-if="!isMobile" class="banner rounded h-48">
         <img class="image" draggable="false" :src="routerMap.guestbook.backgroundImg">
         <span class="solgan" v-text="'不忘初心,方得始终'" />
       </div>
@@ -62,13 +62,6 @@ onUpdated(() => {
 
 <style lang="scss" scoped>
 .guestbook-page {
-  &.mobile {
-    > .detail {
-      > .banner {
-        height: 12rem;
-      }
-    }
-  }
 
   .detail {
     margin-bottom: $lg-gap;

@@ -1,12 +1,13 @@
 <script setup>
 import { uaParser } from '@/utils/ua-handler'
-
 const props = defineProps({
   ua: {
     type: String,
     default: '',
   },
 })
+
+const { isMobile } = useDevice()
 
 // https://github.com/faisalman/ua-parser-js#methods
 const osIconsNameMap = {
@@ -51,16 +52,16 @@ const browserIconName = computed(() => {
         :name="osIconName || ''"
         class="mr-1 pb-1"
       />
-      <span>{{ uaResult.result.os.name }}</span>
-      <span>{{ uaResult.result.os.version }}</span>
+      <span v-if="!isMobile">{{ uaResult.result.os.name }}</span>
+      <span v-if="!isMobile">{{ uaResult.result.os.version }}</span>
     </span>
     <span class="browser">
       <Icon
         :name="browserIconName || ''"
         class="mr-1 pb-1"
       />
-      <span>{{ uaResult.result.browser.name }}</span>
-      <span>{{ uaResult.result.browser.major }}</span>
+      <span v-if="!isMobile">{{ uaResult.result.browser.name }}</span>
+      <span v-if="!isMobile">{{ uaResult.result.browser.major }}</span>
     </span>
   </span>
 </template>

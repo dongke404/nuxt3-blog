@@ -146,7 +146,7 @@ function voteHander(comment_id, isVote) {
           @click.stop="clickUser($event, comment.author)"
         >{{ comment.author.name }}</a>
         <comment-ua v-if="comment.agent" :ua="comment.agent" />
-        <span v-if="comment.ipInfo && !isMobile" class="location">
+        <span v-if="comment.ipInfo" class="location">
           <span>{{ comment.ipInfo.country }}</span>
           <span v-if="comment.ipInfo.country && comment.ipInfo.city">&nbsp;-&nbsp;</span>
           <span>{{ comment.ipInfo.city }}</span>
@@ -205,7 +205,7 @@ function voteHander(comment_id, isVote) {
 </template>
 
 <style lang="scss">
-#comment-box.mobile {
+.comment-box.mobile {
   .comment-item {
     padding: 0;
     margin-top: $gap;

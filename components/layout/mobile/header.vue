@@ -30,13 +30,13 @@ const cancelSearch = () => {
 </script>
 
 <template>
-  <header class="header bg-main z-10">
+  <header class="header bg-main z-50">
     <div class="search z-50" :class="{ actived: searchState.open }">
       <input
-        ref="inputElement" v-model.trim="searchState.keyword" class="input " autocomplete="off" type="text"
+        ref="inputElement" v-model.trim="searchState.keyword" class="input bg-white dark:bg-black" autocomplete="off" type="text"
         maxlength="16" required placeholder="关键字搜索" @keyup.enter.stop.prevent="submitSearch"
       >
-      <span v-if="searchState.open" class="close" @click.stop.prevent="cancelSearch">
+      <span v-if="searchState.open" class="close bg-white dark:bg-black" @click.stop.prevent="cancelSearch">
         <Icon :name="APP_ICON.cancel" />
       </span>
     </div>
@@ -134,12 +134,10 @@ const cancelSearch = () => {
     left: 0;
     opacity: 0;
     transform: translateY(-100%);
-    background-color:rgba(255, 255, 255, .9);
     >.input {
       width: 80%;
       height: 100%;
       padding: 1em;
-      background-color:rgba(255, 255, 255, .6);
       border: none;
       outline:none;
     }
@@ -176,7 +174,6 @@ const cancelSearch = () => {
     .navbar-logo {
       width: 40%;
 
-      .image {}
     }
   }
 }

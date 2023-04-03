@@ -20,7 +20,7 @@ const light = () => {
 </script>
 
 <template>
-  <aside class="aside">
+  <aside class="aside z-50">
     <div class="aside-user">
       <div class="avatar">
         <NuxtImg :src="APP_IMAGES.myAvatar" :alt="APP_IMAGES.myAvatar" />

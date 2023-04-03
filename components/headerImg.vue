@@ -18,15 +18,19 @@ else if (origin === 'tag') {
   backgroundImg = tag.img
   text = tag.description
 }
-else {
+else if (origin === 'category') {
   backgroundImg = routerMap[origin][cate].backgroundImg
   text = routerMap[origin][cate].text
+}
+else {
+  // 404
+
 }
 </script>
 
 <template>
   <div
-    class="header-box h-48 rounded overflow-hidden"
+    class="header-Imgbox h-48 rounded overflow-hidden"
     :class="{ mobile: isMobile }"
     :style="{
       'background-image': `url(https://kedong.me/${backgroundImg})`,
@@ -45,7 +49,7 @@ else {
 </template>
 
 <style lang="scss" scoped>
-.header-box {
+.header-Imgbox {
   position: relative;
   display: flex;
   flex-direction: column;

@@ -38,7 +38,7 @@ const search = () => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url("https://fonts.font.im/css?family=Hanalei+Fill");
 
 .header-box {

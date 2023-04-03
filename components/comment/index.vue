@@ -238,69 +238,66 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="comment-box bg-main bg-hover rounded" :class="{ mobile: false }">
-    <transition name="module" mode="out-in">
-      <div key="tools" class="tools border-b-2 border-gray-300">
-        <div class="total">
-          <div class="count rounded-sm bg-gray-300 dark:bg-gray-600">
-            <strong class="count">{{ count }}</strong>
-            <span>条看法</span>
-          </div>
-        </div>
-        <div class=" font-semibold">
-          <a href :class="[sort === -1 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(-1)">最新</a>
-          <CommonDivider type="vertical" />
-          <a href :class="[sort === 1 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(1)">最后</a>
-          <CommonDivider type="vertical" />
-          <a href :class="[sort === 2 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(2)">最热</a>
+  <div class="comment-box bg-main bg-hover rounded" :class="{ mobile: isMobile }">
+    <div key="tools" class="tools border-b-2 border-gray-300">
+      <div class="total">
+        <div class="count rounded-sm bg-gray-300 dark:bg-gray-600">
+          <strong class="count">{{ count }}</strong>
+          <span>条看法</span>
         </div>
       </div>
-    </transition>
+      <div class=" font-semibold">
+        <a href :class="[sort === -1 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(-1)">最新</a>
+        <CommonDivider type="vertical" />
+        <a href :class="[sort === 1 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(1)">最后</a>
+        <CommonDivider type="vertical" />
+        <a href :class="[sort === 2 ? 'text-purple-500' : '']" @click.stop.prevent="sortComemnts(2)">最热</a>
+      </div>
+    </div>
     <ClientOnly>
       <form id="post-box" class="post-box" name="comment">
         <!-- 用户编辑部分 -->
-        <transition name="module" mode="out-in">
-          <div v-if="!userCacheMode" key="edit" class="user">
-            <div class="name">
-              <input
-                v-model="user.name" required type="text" name="name" autocomplete="on"
-                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="name"
-              >
-            </div>
-            <div class="email">
-              <input
-                v-model="user.email" required type="email" name="email" autocomplete="on"
-                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="email"
-                @blur="upadteUserGravatar"
-              >
-            </div>
-            <div class="site">
-              <input
-                v-model="user.site" type="url" name="url" autocomplete="on"
-                class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="site"
-              >
-            </div>
-            <div class="save  bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 dark:bg-gray-600 ">
-              <button type="submit" @click="$event => updateUserCache($event)">
-                <Icon name="material-symbols:check" />
-              </button>
-            </div>
+
+        <div v-if="!userCacheMode" key="edit" class="user">
+          <div class="name">
+            <input
+              v-model="user.name" required type="text" name="name" autocomplete="on"
+              class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="name"
+            >
           </div>
-          <!-- 用户设置部分 -->
-          <div v-else-if="userCacheMode" key="user" class="user">
-            <div class="edit">
-              <strong class="name">{{ user.name }}</strong>
-              <a href class="setting" @click.stop.prevent>
-                <Icon name="material-symbols:settings" />
-                <span class="account-setting" v-text="'设置账户信息'" />
-                <ul class="user-tool">
-                  <li @click.stop.prevent="userCacheMode = false" v-text="'编辑信息'" />
-                  <li @click.stop.prevent="clearUserCache" v-text="'清空信息'" />
-                </ul>
-              </a>
-            </div>
+          <div class="email">
+            <input
+              v-model="user.email" required type="email" name="email" autocomplete="on"
+              class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="email"
+              @blur="upadteUserGravatar"
+            >
           </div>
-        </transition>
+          <div class="site">
+            <input
+              v-model="user.site" type="url" name="url" autocomplete="on"
+              class=" bg-gray-300 hover:bg-gray-200 focus:bg-gray-200 dark:bg-gray-600" placeholder="site"
+            >
+          </div>
+          <div class="save  bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 dark:bg-gray-600 ">
+            <button type="submit" @click="$event => updateUserCache($event)">
+              <Icon name="material-symbols:check" />
+            </button>
+          </div>
+        </div>
+        <!-- 用户设置部分 -->
+        <div v-else-if="userCacheMode" key="user" class="user">
+          <div class="edit">
+            <strong class="name">{{ user.name }}</strong>
+            <a href class="setting" @click.stop.prevent>
+              <Icon name="material-symbols:settings" />
+              <span class="account-setting" v-text="'设置账户信息'" />
+              <ul class="user-tool">
+                <li @click.stop.prevent="userCacheMode = false" v-text="'编辑信息'" />
+                <li @click.stop.prevent="clearUserCache" v-text="'清空信息'" />
+              </ul>
+            </a>
+          </div>
+        </div>
         <div class="postbox">
           <div class="user">
             <div v-if="!isMobile" class="gravatar">

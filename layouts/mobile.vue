@@ -5,7 +5,7 @@ const openAside = () => isOpenedAside.value = true
 </script>
 
 <template>
-  <div class="mobile-main bg-white dark:bg-gray-800">
+  <div class="mobile-main bg-gray-200 dark:bg-gray-800">
     <div class="asider" :class="{ opened: isOpenedAside }">
       <LayoutMobileAside class="aside" @close="closeAside" />
     </div>
