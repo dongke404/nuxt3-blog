@@ -25,6 +25,7 @@ const props = defineProps(
   },
 )
 const emit = defineEmits(['togglePreviewMode', 'submit'])
+const isMobile = useDevice().isMobile
 const input = ref(null)
 const getInputText = () => {
   return input.value.innerText
@@ -107,7 +108,8 @@ const handleSubmit = (event) => {
   })
 }
 onMounted(() => {
-  input.value.focus()
+  if (!isMobile)
+    input.value.focus()
 })
 </script>
 

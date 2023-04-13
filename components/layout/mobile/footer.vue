@@ -6,7 +6,7 @@ const year = ref(new Date().getFullYear())
 <template>
   <footer class="footer module-bg dark:dark-module-bg">
     <div class="footer-content">
-      ©{{ year }}&nbsp;&nbsp;{{ title }}
+      NUXT3框架开发 ©{{ year }}&nbsp;&nbsp;{{ title }}
     </div>
   </footer>
 </template>

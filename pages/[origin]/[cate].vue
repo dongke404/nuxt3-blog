@@ -14,8 +14,6 @@ else if (route.params.origin === 'tag')
   params.tag = route.params.cate
 else if (route.params.origin === 'category')
   params[route.params.origin] = route.params.cate
-else
-  router.push('/404')
 const pending = ref(true)
 const articleList = computed(() => articleListStore.articleList)
 const isflash = useState('isflash')

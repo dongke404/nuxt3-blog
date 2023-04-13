@@ -77,7 +77,7 @@ const muted = () => {
   ismuted.value = !ismuted.value
 }
 const error = (e) => {
-  if (errMusic.value === 100) {
+  if (errMusic.value === 10) {
     ispaused.value = true
     errMusic.value = 0
   }

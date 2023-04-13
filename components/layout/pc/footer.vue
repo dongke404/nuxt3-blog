@@ -1,10 +1,10 @@
-<script  setup name="footer">
+<script  setup>
 const year = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="footer bg-white bg-opacity-60 dark:bg-gray-700  ">
-    ©{{ year }}&nbsp;&nbsp;
+  <footer class="footer bg-main dark:bg-gray-700  ">
+    ©{{ year }}&nbsp;&nbsp;|&nbsp;&nbsp;Powered by NUXT3
   </footer>
 </template>
 
