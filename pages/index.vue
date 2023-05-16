@@ -1,11 +1,29 @@
 <script setup>
+import { meta } from '@/config'
 import { useArticleListStore } from '@/store/articleList'
 const { isMobile } = useDevice()
+
 definePageMeta({
   middleware: ['un-flash-page'],
   // or middleware: 'auth'
 })
-
+useHead(
+  () => ({
+    title: meta.title,
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: meta.description,
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: meta.keywords,
+      },
+    ],
+  }),
+)
 const articleListStore = useArticleListStore()
 const tweets = ref([])
 const pending = ref(true)

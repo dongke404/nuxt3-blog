@@ -1,10 +1,28 @@
 <script setup>
+import { APP_IMAGES, meta } from '@/config'
 import { useAppStore } from '@/store'
-import { APP_IMAGES } from '@/config'
+
 const { isMobile } = useDevice()
 definePageMeta({
   layout: 'custom',
 })
+useHead(
+  () => ({
+    title: `归档|${meta.title}`,
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'kirkdong博客归档',
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: 'kirkdong,归档,archive',
+      },
+    ],
+  }),
+)
 const appStore = useAppStore()
 appStore.getStatistics()
 const statistics = computed(() => appStore.statistics)

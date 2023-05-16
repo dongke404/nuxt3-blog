@@ -19,9 +19,9 @@ const originTextMap: OriginClass = {
 }
 
 const categoryMap: CategoryClass = {
-  code: '醉花阴',
-  think: '无妄海',
-  life: '清平乐',
+  code: '无妄海',
+  think: '清平乐',
+  life: '如梦令',
 }
 
 const routerMap = {

@@ -48,13 +48,6 @@ const getRenderer = (options: Partial<RendererGetterOption>) => {
     return isBlockChild ? text : `<p>${text}</p>`
   }
 
-  // checkbox
-  renderer.checkbox = (checked) => {
-    return checked
-      ? '<i class="checkbox checked iconfont icon-checkbox-selected"></i>'
-      : '<i class="checkbox iconfont icon-checkbox-unselected"></i>'
-  }
-
   // link: sanitize
   renderer.link = (href, title, text) => {
     const isSelf = href

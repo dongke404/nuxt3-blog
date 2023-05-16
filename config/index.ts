@@ -11,8 +11,8 @@ export const COMMENT_NUM = 20
 
 export const meta = {
   title: 'Kirk Dong 的博客',
-  keywords: 'Kirk Dong,vue,react,董柯,前端技术开发,javascript技术,blog',
-  description: '',
+  keywords: 'Kirk Dong,vue,react,董柯,前端技术开发,javascript技术,blog,kedong.me',
+  description: 'Kirk Dong 的博客,分析技术与生活',
   url: 'kedong.me',
   author: 'Kirk Dong',
   email: 'dongkirk1992@gmail.com',

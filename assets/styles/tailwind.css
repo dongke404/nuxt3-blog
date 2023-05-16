@@ -290,6 +290,10 @@
     pre .code-lines {
       background-color: #141414;
     }
+    blockquote {
+      background-color: #2d2d2d;
+      border-left: 0.5em solid #232323;
+    }
     pre::before {
       background-color: #2d2d2d;
     }
@@ -297,7 +301,7 @@
       background-color: #141414;
     }
     ul>li:hover {
-      background-color: #141414;
+      background-color: #141414 !important;
     }
   }
   .highlight-white {

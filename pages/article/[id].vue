@@ -19,6 +19,18 @@ const user_blog_likes = useStorage('user_blog_likes', [])
 useHead(
   () => ({
     title: article.value.title,
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: article.value.description,
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: article.value.keywords || article.value.title,
+      },
+    ],
   }),
 )
 // http.get(`/article/${id.value}`).then(({ data }) => {

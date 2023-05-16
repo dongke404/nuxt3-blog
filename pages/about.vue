@@ -1,8 +1,25 @@
 <script setup>
-import { APP_ICON, APP_IMAGES, VALUABLE_LINKS } from '@/config'
+import { APP_ICON, APP_IMAGES, VALUABLE_LINKS, meta } from '@/config'
 definePageMeta({
   layout: 'custom',
 })
+useHead(
+  () => ({
+    title: ` about|${meta.title}`,
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'kirkdong个人信息',
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: 'kirkdong,about,dongke',
+      },
+    ],
+  }),
+)
 const { isMobile } = useDevice()
 const showWechat = () => {
   if (window.utils)

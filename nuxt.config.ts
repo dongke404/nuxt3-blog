@@ -40,6 +40,11 @@ export default defineNuxtConfig({
           name: 'google-site-verification',
           content: '7wzBsyvulUETi8pO6N7wo7mZvkmdmhRFH6hcP0yBts4',
         },
+        // 百度抓取验证
+        {
+          name: 'baidu-site-verification',
+          content: 'codeva-MOOjhJKsk1',
+        },
       ],
       script: [{
         // async

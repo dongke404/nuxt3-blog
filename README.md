@@ -39,4 +39,12 @@ Locally preview production build:
 npm run preview
 ```
 
+## server
+ecosystem.config.js 放到服务器上
+```bash
+npm install -g pm2
+pm2 start ecosystem.config.js
+```
+
+
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

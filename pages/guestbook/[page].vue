@@ -1,7 +1,25 @@
 <script setup>
 import voteInit from '@/utils/vote-handler'
+import { COMMENT_NUM, meta } from '@/config'
 import { routerMap } from '@/config/maps'
-import { COMMENT_NUM } from '@/config'
+
+useHead(
+  () => ({
+    title: `留言板|${meta.title}`,
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'kirkdong留言板',
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: 'kirkdong,留言板',
+      },
+    ],
+  }),
+)
 const route = useRoute()
 const page = computed(() => route.params.page)
 const { isMobile } = useDevice()

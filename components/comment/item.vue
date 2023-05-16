@@ -1,6 +1,7 @@
 <script setup>
 import { useStorage, useThrottleFn } from '@vueuse/core'
-import getGravatarUrlByEmail from '@/utils/gravatar-url'
+import { gravatarProxy } from '@/utils/gravatar-url'
+
 import { APP_IMAGES } from '@/config'
 const props = defineProps({
   penShow: {
@@ -10,10 +11,6 @@ const props = defineProps({
   isChild: {
     type: Boolean,
     default: false,
-  },
-  gravatar: {
-    type: String,
-    default: '',
   },
   comment: {
     type: Object,
@@ -129,7 +126,7 @@ function voteHander(comment_id, isVote) {
       >
         <img
           :alt="comment.author.name "
-          :src="getGravatarUrlByEmail(comment.author.email)"
+          :src="gravatarProxy(comment.author.gravatar)"
           draggable="false"
           @error="$event.target.src = APP_IMAGES.errorGravatar"
         >

@@ -3,7 +3,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useDebounceFn, useStorage } from '@vueuse/core'
 import CommentPen from './pen'
-import getGravatarUrlByEmail from '@/utils/gravatar-url'
+import getGravatarUrlByEmail, { gravatarProxy } from '@/utils/gravatar-url'
 import { APP_IMAGES, COMMENT_NUM } from '@/config'
 
 const props = defineProps({
@@ -302,7 +302,7 @@ onMounted(() => {
           <div class="user">
             <div v-if="!isMobile" class="gravatar">
               <img
-                alt="头像" :src="user.gravatar || defaultgravatar" draggable="false"
+                alt="头像" :src="gravatarProxy(user.gravatar) || defaultgravatar" draggable="false"
                 @error="$event.target.src = APP_IMAGES.errorGravatar"
               >
             </div>
@@ -352,7 +352,6 @@ onMounted(() => {
               v-for="comment in props.comments"
               :id="`comment-item-${comment.comment_id}`"
               :key="comment.comment_id"
-              :gravatar="user.gravatar || defaultgravatar"
               :comment="comment"
               class="comment-item"
               :pen-show="comment.comment_id === click_cid"
@@ -363,7 +362,7 @@ onMounted(() => {
               <template v-if="comment.comment_id === click_cid" #pen>
                 <CommentPen
                   :is-reply="true"
-                  :gravatar="user.gravatar || defaultgravatar"
+                  :gravatar="gravatarProxy(user.gravatar) || defaultgravatar"
                   :enabled-preview-mode="previewMode"
                   :is-posting="isPosting"
                   :disabled="isPosting"
@@ -389,7 +388,6 @@ onMounted(() => {
                   >
                     <template v-if="reply.comment_id === click_cid" #pen>
                       <CommentPen
-                        :gravatar="user.gravatar || defaultgravatar"
                         :is-reply="true"
                         :enabled-preview-mode="previewMode"
                         :is-posting="isPosting"

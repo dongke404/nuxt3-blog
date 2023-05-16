@@ -24,10 +24,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    compact: {
-      type: Boolean,
-      default: false,
-    },
     islozad: { // 是否使用 lozad 懒加载图片
       type: Boolean,
       default: false,
@@ -85,7 +81,6 @@ export default defineComponent({
     class="highlight-white dark:highlight-dark"
     :class="[
       plain ? 'global-markdown-plain ' : 'global-markdown-html dark:global-markdown-html-dark',
-      { compact },
     ]"
     v-html="markdownHTML"
   />
@@ -144,6 +139,12 @@ export default defineComponent({
   }
 
   blockquote {
+    margin: 1em 0;
+    text-indent: 0em;
+    background-color: $module-bg-darker-1;
+    border-left: 0.5em solid $module-bg-darker-2;
+    padding: 0.5em 1em;
+    padding-left: 1.5em;
     border-radius: $xs-radius;
 
     p {
@@ -154,7 +155,11 @@ export default defineComponent({
   }
 
   ul {
-    list-style-type: square;
+    list-style-type: disc;
+    padding-left: 3em;
+  }
+  ol {
+    list-style-type: decimal;
     padding-left: 3em;
   }
 
@@ -441,72 +446,6 @@ export default defineComponent({
       cursor: text;
     }
   }
-
-  &.compact {
-    line-height: 2em;
-    word-wrap: break-word;
-    font-size: $font-size-base;
-
-    p,
-    pre {
-      margin-bottom: $gap;
-    }
-
-    p {
-      text-indent: 0;
-      line-height: 2em;
-
-      &:last-child {
-        margin: 0;
-      }
-    }
-
-    a {
-      @include text-underline();
-    }
-
-    .figure-wrapper {
-      margin: 0.5rem 0;
-      justify-content: initial;
-    }
-
-    figure.image {
-      border-color: $module-bg-darker-2;
-
-      figcaption {
-        border-color: $module-bg-darker-2;
-      }
-    }
-
-    ul,
-    ol {
-      padding-left: 2em;
-
-      >li {
-        padding: 0.2em 0.5em;
-      }
-    }
-
-    pre {
-      $code-header-height: 2.5rem;
-      margin-top: 1rem;
-      padding-left: 0;
-      padding-top: $code-header-height;
-
-      &::before {
-        height: $code-header-height;
-        line-height: $code-header-height;
-      }
-
-      .code-lines {
-        display: none;
-      }
-
-      code {
-        line-height: 1.8;
-      }
-    }
-  }
 }
 
 .global-markdown-html {
@@ -533,26 +472,6 @@ export default defineComponent({
       border-width: 0 1px 1px 0;
       border-color: $module-bg-darker-1;
       background-color: transparent !important;
-    }
-  }
-
-  &.compact {
-    blockquote {
-      border-color: $module-bg-darker-3;
-      background-color: $module-bg-darker-2;
-    }
-
-    code {
-      border-color: $module-bg-darker-3;
-      background-color: $module-bg-darker-2;
-    }
-
-    pre {
-      border: 1px solid $module-bg-darker-3;
-      code {
-        border-color: transparent;
-        background-color: transparent;
-      }
     }
   }
 }
