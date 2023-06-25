@@ -58,7 +58,7 @@ http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
   </div>
   <div v-else>
     <LazyCarrousel :data="carrList" :loading="pending" />
-    <LazyTweets :data="tweets" :loading="tpending" />
+    <!-- <LazyTweets :data="tweets" :loading="tpending" /> -->
     <ArticleList :data="articleList" :loading="pending" />
   </div>
 </template>
