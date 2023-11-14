@@ -12,7 +12,7 @@ const props = defineProps({
   <div class="recommend-box rounded flex mb-3 w-full flex-wrap justify-between">
     <div v-for="(item, index) in props.data" :key="index" class="recommend-item bg-main bg-hover rounded overflow-hidden h-[8.5rem]  w-[32.5%]  mb-2">
       <NuxtLink :to="`/article/${item.article_id}`">
-        <nuxt-img fit="fill" class="w-full h-[5.5rem]" :src="SITE_URL + item.imgUrl" />
+        <img fit="fill" class="w-full h-[5.5rem]" :src="SITE_URL + item.imgUrl">
       </NuxtLink>
 
       <div>

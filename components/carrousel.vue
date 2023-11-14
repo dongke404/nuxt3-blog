@@ -57,7 +57,7 @@ const loading = computed(() => props.loading)
         <SwiperSlide v-for="item in articleList" :key="item">
           <NuxtLink :to="`/article/${item.article_id}`">
             <div class="h-48 rounded-md overflow-hidden">
-              <nuxt-img :src="item.src" :alt="item.src" fit="fill" class=" h-full w-full rounded-md" />
+              <img :src="item.src" :alt="item.src" class=" h-full w-full rounded-md">
             </div>
           </NuxtLink>
         </SwiperSlide>
