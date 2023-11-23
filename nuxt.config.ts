@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import en from './config/i18nConfig/en'
-import zh from './config/i18nConfig/zh'
 
+// eslint-disable-next-line no-undef
 export default defineNuxtConfig({
   // ssr: process.env.NODE_ENV !== "development",
   modules: [
@@ -13,8 +12,6 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     // npm install -D @nuxt/image-edge
     '@nuxt/image-edge',
-    // npm install @nuxtjs/i18n@next --save
-    '@nuxtjs/i18n',
     // https://github.com/nuxt-modules/icon
     'nuxt-icon',
     // https://github.com/nuxt-community/device-module
@@ -25,7 +22,7 @@ export default defineNuxtConfig({
 
   ],
   alias: {
-    pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
+    // pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
   },
   app: {
     head: {
@@ -97,21 +94,6 @@ export default defineNuxtConfig({
   colorMode: {
     // remove -mode suffix for Tailwind Dark mode support
     classSuffix: '',
-  },
-  i18n: {
-    /* module options */
-    // add `vueI18n` option to `@nuxtjs/i18n` module options
-    defaultLocale: 'zh',
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-    },
-    locales: ['zh', 'en'],
-    strategy: 'no_prefix',
-    vueI18n: {
-      fallbackLocale: 'zh',
-      messages: { en, zh },
-    },
   },
   lodash: {
     prefix: '_',

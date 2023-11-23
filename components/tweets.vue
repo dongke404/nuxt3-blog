@@ -47,7 +47,7 @@ const prev = () => {
         <div class="flex-none bg-main bg-hover w-32 mr-2 rounded-tl-md rounded-bl-md ">
           <div class="flex flex-row items-center h-full ml-3">
             <div class="flex-none relative h-12 w-12 ">
-              <nuxt-img src="https://kedong.me/static/images/app/twitter_head.jpeg" class="h-12 w-12" />
+              <img src="https://kedong.me/static/images/app/twitter_head.jpeg" class="h-12 w-12">
               <Icon name="skill-icons:twitter" class="text-blue-500 absolute bottom-0 right-0" size="1.3rem" />
             </div>
             <Icon class="flex-none text-gray-300 " name="fluent-mdl2:status-triangle" size="1rem" rotate="270deg" />

@@ -25,9 +25,9 @@ useHead(
   }),
 )
 const articleListStore = useArticleListStore()
-const tweets = ref([])
+// const tweets = ref([])
+// const tpending = ref(true)
 const pending = ref(true)
-const tpending = ref(true)
 
 const carrList = computed(() => articleListStore.articleList)
 const articleList = computed(() => articleListStore.articleList)
@@ -42,14 +42,14 @@ else {
   pending.value = false
 }
 
-http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
-  const reg = /https:\/\/t.co\/[a-zA-Z0-9]+/g
-  tweets.value = data.map((item) => {
-    item.urls = item.text.match(reg)
-    return item
-  })
-  tpending.value = false
-})
+// http.get('/tweet?url=users/1214692705789513728/tweets').then(({ data }) => {
+//   const reg = /https:\/\/t.co\/[a-zA-Z0-9]+/g
+//   tweets.value = data.map((item) => {
+//     item.urls = item.text.match(reg)
+//     return item
+//   })
+//   tpending.value = false
+// })
 </script>
 
 <template>
