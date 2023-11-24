@@ -30,6 +30,11 @@ class Http {
             else {
               // 错误显示, 此处自定义请求出错
               reject(data.value.msg)
+              switch (data.value.code) {
+                case 404:
+                  navigateTo('/404')
+                  break
+              }
             }
           }
         }

@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-// eslint-disable-next-line no-undef
 export default defineNuxtConfig({
   // ssr: process.env.NODE_ENV !== "development",
   modules: [
@@ -11,7 +10,7 @@ export default defineNuxtConfig({
     // npm install --save-dev @nuxtjs/color-mode
     '@nuxtjs/color-mode',
     // npm install -D @nuxt/image-edge
-    '@nuxt/image-edge',
+    // '@nuxt/image-edge',
     // https://github.com/nuxt-modules/icon
     'nuxt-icon',
     // https://github.com/nuxt-community/device-module
@@ -49,7 +48,13 @@ export default defineNuxtConfig({
         src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6099675086497793',
         crossorigin: 'anonymous',
       }],
-      link: [],
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon.ico',
+        },
+      ],
       style: [],
       noscript: [],
     },
@@ -73,9 +78,6 @@ export default defineNuxtConfig({
       linkActiveClass: 'link-active',
     },
 
-  },
-  image: {
-    // Options
   },
   css: [],
   tailwindcss: {

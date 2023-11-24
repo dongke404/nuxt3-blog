@@ -5,11 +5,6 @@ const colorMode = useColorMode()
 const close = () => {
   emit('close')
 }
-const { locale, setLocaleCookie } = useI18n()
-const changeLanguage = (localeCode) => {
-  locale.value = localeCode
-  setLocaleCookie(localeCode)
-}
 
 const dark = () => {
   colorMode.preference = 'dark'
@@ -40,10 +35,10 @@ const light = () => {
         <Icon v-show="$colorMode.value === 'light'" :name="APP_ICON.moon" @click="dark" />
       </div>
       <div class="item">
-        <div v-if="locale === 'en'" @click="changeLanguage('zh')">
+        <div v-if="$i18n.locale === 'en'" @click="$i18n.locale = 'zh'">
           zh
         </div>
-        <div v-if="locale === 'zh'" @click="changeLanguage('en')">
+        <div v-if="$i18n.locale === 'zh'" @click="$i18n.locale = 'en'">
           en
         </div>
       </div>
