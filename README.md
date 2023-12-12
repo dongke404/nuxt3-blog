@@ -45,6 +45,6 @@ ecosystem.config.js 放到服务器上
 npm install -g pm2
 pm2 start ecosystem.config.js
 ```
-
+pm2 kill # 杀掉 pm2 管理的所有进程
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

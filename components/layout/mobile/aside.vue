@@ -18,7 +18,7 @@ const light = () => {
   <aside class="aside z-50">
     <div class="aside-user">
       <div class="avatar">
-        <NuxtImg :src="APP_IMAGES.myAvatar" :alt="APP_IMAGES.myAvatar" />
+        <img :src="APP_IMAGES.myAvatar" :alt="APP_IMAGES.myAvatar">
       </div>
       <div class="profile">
         <h3 class="name">

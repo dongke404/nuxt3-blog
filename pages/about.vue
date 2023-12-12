@@ -36,7 +36,7 @@ const showWechat = () => {
         </video>
       </div>
       <div class="content bg-main">
-        <NuxtImg class="avatar z-20" :src="APP_IMAGES.myAvatar" />
+        <img class="avatar z-20" :src="APP_IMAGES.myAvatar">
         <h1 class="name text-color-main">
           {{ 'Kirk Dong' || '-' }}
         </h1>
